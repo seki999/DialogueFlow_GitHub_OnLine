@@ -40,6 +40,7 @@ const state = {
   volume: 1,
   pitch: 1,
   captionSize: 28,
+  showCaptions: true,
 }
 
 marked.use({ gfm: true, breaks: false })
@@ -131,11 +132,18 @@ function renderShell() {
           <p class="hint">声音来自当前浏览器和操作系统，可在这里分别更换。</p>
         </fieldset>
 
+        <label class="field">字幕显示
+          <select id="captionVisibility" aria-label="字幕显示">
+            <option value="show" selected>显示字幕</option>
+            <option value="hide">不显示字幕</option>
+          </select>
+        </label>
+
         <div class="range-grid">
           ${rangeControl('rate', '语速', 0.5, 2, 0.1, '1.0×')}
           ${rangeControl('pitch', '音高', 0.5, 2, 0.1, '1.0')}
           ${rangeControl('volume', '音量', 0, 1, 0.1, '100%')}
-          ${rangeControl('captionSize', '字幕', 16, 56, 1, '28px')}
+          ${rangeControl('captionSize', '字幕大小', 16, 56, 1, '28px')}
         </div>
 
         <div class="chapter-range">
@@ -153,26 +161,30 @@ function renderShell() {
       </aside>
 
       <section class="lesson-area">
-        <div class="lesson-toolbar">
-          <div>
-            <p class="eyebrow">当前章节</p>
-            <h2 id="lessonTitle">正在载入课程…</h2>
-          </div>
-          <div class="chapter-nav">
-            <button id="previousSlide" aria-label="上一章">←</button>
-            <span id="slideCounter">— / —</span>
-            <button id="nextSlide" aria-label="下一章">→</button>
-          </div>
+        <div class="lesson-columns">
+          <section class="chapter-pane" aria-labelledby="lessonTitle">
+            <div class="lesson-toolbar">
+              <div>
+                <p class="eyebrow">当前章节</p>
+                <h2 id="lessonTitle">正在载入课程…</h2>
+              </div>
+              <div class="chapter-nav">
+                <button id="previousSlide" aria-label="上一章">←</button>
+                <span id="slideCounter">— / —</span>
+                <button id="nextSlide" aria-label="下一章">→</button>
+              </div>
+            </div>
+            <div class="progress-track" aria-hidden="true"><span id="progressBar"></span></div>
+            <article id="slideContent" class="markdown-body"></article>
+          </section>
+          <section class="dialogue-card" aria-labelledby="dialogueTitle">
+            <div class="dialogue-heading">
+              <div><p class="eyebrow">本章对话</p><h2 id="dialogueTitle">Speaker 1 × Speaker 2</h2></div>
+              <button id="playChapter" class="secondary-button">▶ 播放本章</button>
+            </div>
+            <div id="dialogueList"></div>
+          </section>
         </div>
-        <div class="progress-track" aria-hidden="true"><span id="progressBar"></span></div>
-        <article id="slideContent" class="markdown-body"></article>
-        <section class="dialogue-card" aria-labelledby="dialogueTitle">
-          <div class="dialogue-heading">
-            <div><p class="eyebrow">本章对话</p><h2 id="dialogueTitle">Speaker 1 × Speaker 2</h2></div>
-            <button id="playChapter" class="secondary-button">▶ 播放本章</button>
-          </div>
-          <div id="dialogueList"></div>
-        </section>
       </section>
     </main>`
 
@@ -196,6 +208,10 @@ function bindEvents() {
   })
   document.querySelector('#speaker1Voice').addEventListener('change', (event) => { state.speakerVoices[1] = event.target.value })
   document.querySelector('#speaker2Voice').addEventListener('change', (event) => { state.speakerVoices[2] = event.target.value })
+  document.querySelector('#captionVisibility').addEventListener('change', (event) => {
+    state.showCaptions = event.target.value === 'show'
+    updateCaptionVisibility()
+  })
   bindRange('rate', (value) => `${value.toFixed(1)}×`)
   bindRange('pitch', (value) => value.toFixed(1))
   bindRange('volume', (value) => `${Math.round(value * 100)}%`)
@@ -208,6 +224,13 @@ function bindEvents() {
   document.querySelector('#stopButton').addEventListener('click', stopPlayback)
   document.querySelector('#previousSlide').addEventListener('click', () => moveSlide(-1))
   document.querySelector('#nextSlide').addEventListener('click', () => moveSlide(1))
+}
+
+function updateCaptionVisibility() {
+  const lessonArea = document.querySelector('.lesson-area')
+  const dialogueCard = document.querySelector('.dialogue-card')
+  lessonArea.classList.toggle('captions-hidden', !state.showCaptions)
+  dialogueCard.setAttribute('aria-hidden', String(!state.showCaptions))
 }
 
 function bindRange(id, formatter) {
@@ -285,7 +308,8 @@ async function renderSlide() {
     console.warn('Mermaid 图表渲染失败', error)
   }
   renderDialogue()
-  window.scrollTo({ top: 0, behavior: 'smooth' })
+  document.querySelector('.chapter-pane').scrollTo({ top: 0, behavior: 'smooth' })
+  document.querySelector('.dialogue-card').scrollTo({ top: 0, behavior: 'smooth' })
 }
 
 function renderDialogue() {
@@ -437,7 +461,13 @@ function setPlayingUi(playing) {
 function highlightSegment(position) {
   document.querySelectorAll('.dialogue-line').forEach((line, index) => line.classList.toggle('is-speaking', index === position))
   const active = document.querySelector('.dialogue-line.is-speaking')
-  active?.scrollIntoView({ behavior: 'smooth', block: 'center' })
+  const dialogueCard = document.querySelector('.dialogue-card')
+  if (active && state.showCaptions) {
+    dialogueCard.scrollTo({
+      top: active.offsetTop - (dialogueCard.clientHeight - active.clientHeight) / 2,
+      behavior: 'smooth',
+    })
+  }
 }
 
 function loadVoices() {

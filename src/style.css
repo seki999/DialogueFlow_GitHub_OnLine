@@ -88,7 +88,12 @@ input[type='range'] { width: 100%; accent-color: var(--orange); }
 .icon-button { color: #fff; background: #31415f; }
 .status-text { min-height: 20px; margin: 12px 0 0; text-align: center; color: #9eabc1; font-size: 12px; }
 
-.lesson-area { width: min(100%, 1160px); padding: 40px clamp(24px, 5vw, 76px) 80px; margin: 0 auto; }
+.lesson-area { width: min(100%, 1800px); height: calc(100vh - 78px); padding: 28px clamp(20px, 2.4vw, 44px); margin: 0 auto; overflow: hidden; }
+.lesson-columns { height: 100%; display: grid; grid-template-columns: minmax(0, 3fr) minmax(0, 2fr); gap: 24px; }
+.chapter-pane, .dialogue-card { height: 100%; overflow-y: auto; overscroll-behavior: contain; scrollbar-gutter: stable; }
+.chapter-pane { padding-right: 5px; }
+.lesson-area.captions-hidden .lesson-columns { grid-template-columns: minmax(0, 60%); justify-content: center; }
+.lesson-area.captions-hidden .dialogue-card { display: none; }
 .lesson-toolbar { display: flex; justify-content: space-between; align-items: end; gap: 20px; }
 .lesson-toolbar h2 { margin: 7px 0 0; color: var(--ink); font-size: clamp(21px, 3vw, 31px); letter-spacing: -.035em; }
 .chapter-nav { display: flex; align-items: center; gap: 9px; flex-shrink: 0; }
@@ -113,7 +118,7 @@ input[type='range'] { width: 100%; accent-color: var(--orange); }
 .markdown-body summary { cursor: pointer; font-weight: 700; }
 .markdown-body .mermaid { overflow-x: auto; padding: 22px 8px; text-align: center; }
 
-.dialogue-card { margin-top: 28px; }
+.dialogue-card { position: relative; }
 .dialogue-heading { display: flex; align-items: center; justify-content: space-between; gap: 18px; margin-bottom: 22px; }
 .dialogue-heading h2 { margin: 5px 0 0; color: var(--ink); font-size: 23px; }
 .dialogue-line { width: 100%; display: grid; grid-template-columns: 38px 1fr 32px; gap: 13px; align-items: start; padding: 16px; margin: 9px 0; border: 1px solid transparent; border-radius: 11px; background: #f5f4ef; text-align: left; color: inherit; transition: .2s ease; }
@@ -127,7 +132,7 @@ input[type='range'] { width: 100%; accent-color: var(--orange); }
 .line-play { align-self: center; color: #777c86; font-size: 12px; }
 .empty-message { padding: 30px; text-align: center; color: #777c86; }
 
-@media (max-width: 920px) {
+@media (max-width: 1200px) {
   .workspace { grid-template-columns: 1fr; }
   .control-panel {
     position: static;
@@ -136,6 +141,12 @@ input[type='range'] { width: 100%; accent-color: var(--orange); }
     scrollbar-gutter: auto;
   }
   .lesson-area { padding-top: 30px; }
+}
+@media (max-width: 920px) {
+  .lesson-area { height: auto; overflow: visible; }
+  .lesson-columns, .lesson-area.captions-hidden .lesson-columns { height: auto; grid-template-columns: 1fr; }
+  .chapter-pane, .dialogue-card { height: auto; overflow: visible; }
+  .dialogue-card { margin-top: 24px; }
 }
 @media (max-width: 600px) {
   .site-header { height: 68px; padding: 0 17px; }
