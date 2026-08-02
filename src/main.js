@@ -296,6 +296,10 @@ async function renderSlide() {
 
   const content = document.querySelector('#slideContent')
   content.innerHTML = marked.parse(slide.markdown)
+  content.querySelectorAll('input[type="checkbox"]').forEach((checkbox) => {
+    checkbox.disabled = false
+    checkbox.setAttribute('aria-label', checkbox.closest('li')?.textContent.trim() || '习题选项')
+  })
   content.querySelectorAll('pre code.language-mermaid').forEach((code) => {
     const diagram = document.createElement('div')
     diagram.className = 'mermaid'
