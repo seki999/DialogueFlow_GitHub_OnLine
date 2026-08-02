@@ -1,0 +1,20 @@
+speaker 1: 这一章叫“统一入口 IngestRequest”。它要帮我们解决什么问题？
+speaker 2: 理解多协议输入怎样被标准化为同一个核心业务契约。
+speaker 1: 图从“Syslog”开始，我应该先抓住哪条主线？
+speaker 2: 沿着箭头依次看：Syslog、Trap、SNMP GET、TCP 检查、IngestRequest、核心服务。这就是本章的因果或调用顺序。
+speaker 1: 第一项核心信息为什么重要？
+speaker 2: 四类协议适配器都会转换为统一的 IngestRequest。
+speaker 1: 那第二个要点补充了什么？
+speaker 2: 记录包含 source、host、eventKey、消息、严重度、状态、指标和时间等字段。
+speaker 1: 组件职责最容易在哪里混淆？
+speaker 2: Jakarta Validation 用 @NotNull、@NotBlank、@Size 等约束入口数据。
+speaker 1: 如果把它放进实际运行流程，还要注意什么？
+speaker 2: 协议层负责接收、解析和转换，核心层负责事件与告警业务。
+speaker 1: 有没有一个必须明确写出来的现实边界？
+speaker 2: 新增协议只需完成标准化适配，后续核心流程原则上可以复用。
+speaker 1: 所以不能只看到图上有节点，就断言所有能力都已经生产化，对吗？
+speaker 2: 对。统一模型不代表所有协议字段完全相同，原始报文仍可保留。 同时，通过校验只证明输入结构合规，不证明来源可信。
+speaker 1: 我来复述一下：先按图理解顺序，再区分职责，最后核对实现边界。
+speaker 2: 这个复述很准确。课程始终把已实现内容、模拟内容和生产建议分开。
+speaker 1: 这一章的主要内容已经讲完了吗？
+speaker 2: 已经讲完了。接下来可以完成本章末尾的五道单项选择题，检查自己是否真正理解了这些内容。

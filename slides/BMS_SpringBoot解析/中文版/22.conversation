@@ -1,0 +1,20 @@
+speaker 1: 这一章叫“通知、幂等记录与事务风险”。它要帮我们解决什么问题？
+speaker 2: 理解告警通知的筛选、幂等键、失败记录及生产改进方向。
+speaker 1: 图从“Alert 变化”开始，我应该先抓住哪条主线？
+speaker 2: 沿着箭头依次看：Alert 变化、目标与级别检查、幂等键、JavaMailSender、SENT FAILED 或 MOCKED。这就是本章的因果或调用顺序。
+speaker 1: 第一项核心信息为什么重要？
+speaker 2: 通知先检查目标启用状态、最低级别和是否已有相同发送记录。
+speaker 1: 那第二个要点补充了什么？
+speaker 2: 幂等键由 alertId、eventCount、targetId 组成。
+speaker 1: 组件职责最容易在哪里混淆？
+speaker 2: 本地默认可发往 MailHog，关闭真实通知时记录 MOCKED Delivery。
+speaker 1: 如果把它放进实际运行流程，还要注意什么？
+speaker 2: 发送失败会记录 FAILED 和异常类型，不应破坏已经形成的告警事实。
+speaker 1: 有没有一个必须明确写出来的现实边界？
+speaker 2: 当前同步邮件位于数据库事务路径中，生产可采用 Outbox 或 AFTER_COMMIT 异步发送。
+speaker 1: 所以不能只看到图上有节点，就断言所有能力都已经生产化，对吗？
+speaker 2: 对。先查后发后存的应用级幂等在多实例并发下仍可能竞争。 同时，异步化必须保留可追踪的投递状态与重试策略。
+speaker 1: 我来复述一下：先按图理解顺序，再区分职责，最后核对实现边界。
+speaker 2: 这个复述很准确。课程始终把已实现内容、模拟内容和生产建议分开。
+speaker 1: 这一章的主要内容已经讲完了吗？
+speaker 2: 已经讲完了。接下来可以完成本章末尾的五道单项选择题，检查自己是否真正理解了这些内容。

@@ -1,0 +1,20 @@
+speaker 1: 这一章叫“Docker、Kubernetes 端口与运行角色”。它要帮我们解决什么问题？
+speaker 2: 理解镜像构建、非 root 运行、健康检查和协议端口映射。
+speaker 1: 图从“Maven JDK 25”开始，我应该先抓住哪条主线？
+speaker 2: 沿着箭头依次看：Maven JDK 25、Fat JAR、Java 25 JRE、非 root 10001、容器端口、Kubernetes 角色。这就是本章的因果或调用顺序。
+speaker 1: 第一项核心信息为什么重要？
+speaker 2: Dockerfile 使用 Maven 加 JDK 25 构建，再用 Java 25 JRE Alpine 运行。
+speaker 1: 那第二个要点补充了什么？
+speaker 2: 运行镜像不包含 Maven，并使用非 root 用户 10001。
+speaker 1: 组件职责最容易在哪里混淆？
+speaker 2: 容器暴露 Web 8080、Syslog TCP/UDP 5514 与 Trap UDP 1162。
+speaker 1: 如果把它放进实际运行流程，还要注意什么？
+speaker 2: Docker Healthcheck 使用 Actuator readiness。
+speaker 1: 有没有一个必须明确写出来的现实边界？
+speaker 2: 同一应用镜像可通过运行参数承担 Web、接收器或 Worker 等逻辑角色。
+speaker 1: 所以不能只看到图上有节点，就断言所有能力都已经生产化，对吗？
+speaker 2: 对。镜像和 YAML 存在不证明真实集群已经成功部署。 同时，生产外部 514、162、443 需通过合适的负载均衡与服务映射。
+speaker 1: 我来复述一下：先按图理解顺序，再区分职责，最后核对实现边界。
+speaker 2: 这个复述很准确。课程始终把已实现内容、模拟内容和生产建议分开。
+speaker 1: 这一章的主要内容已经讲完了吗？
+speaker 2: 已经讲完了。接下来可以完成本章末尾的五道单项选择题，检查自己是否真正理解了这些内容。

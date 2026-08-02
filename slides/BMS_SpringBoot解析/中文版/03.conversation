@@ -1,0 +1,20 @@
+speaker 1: 这一章叫“服务器端页面请求全链路”。它要帮我们解决什么问题？
+speaker 2: 理解浏览器访问页面后，数据如何经过安全、业务和模板层返回 HTML。
+speaker 1: 图从“浏览器 URL”开始，我应该先抓住哪条主线？
+speaker 2: 沿着箭头依次看：浏览器 URL、Security Filter、MVC Controller、Service、Repository、Model、Thymeleaf HTML。这就是本章的因果或调用顺序。
+speaker 1: 第一项核心信息为什么重要？
+speaker 2: 页面请求先经过 Spring Security Filter，再进入 Spring MVC Controller。
+speaker 1: 那第二个要点补充了什么？
+speaker 2: Service 承担业务与事务边界，Repository 负责数据库访问。
+speaker 1: 组件职责最容易在哪里混淆？
+speaker 2: Controller 把页面数据放进 Model，并返回模板逻辑名。
+speaker 1: 如果把它放进实际运行流程，还要注意什么？
+speaker 2: Thymeleaf 在服务器端把 Model 数据合成完整 HTML。
+speaker 1: 有没有一个必须明确写出来的现实边界？
+speaker 2: 浏览器收到的是已生成的页面，而不是必须再组装页面的 Vue 或 React 数据包。
+speaker 1: 所以不能只看到图上有节点，就断言所有能力都已经生产化，对吗？
+speaker 2: 对。返回字符串 dashboard 表示模板名，不是直接响应正文。 同时，SSR 不意味着页面完全不能使用 JavaScript。
+speaker 1: 我来复述一下：先按图理解顺序，再区分职责，最后核对实现边界。
+speaker 2: 这个复述很准确。课程始终把已实现内容、模拟内容和生产建议分开。
+speaker 1: 这一章的主要内容已经讲完了吗？
+speaker 2: 已经讲完了。接下来可以完成本章末尾的五道单项选择题，检查自己是否真正理解了这些内容。

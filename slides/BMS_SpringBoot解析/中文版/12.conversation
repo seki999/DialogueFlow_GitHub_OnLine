@@ -1,0 +1,20 @@
+speaker 1: 这一章叫“应用入口与经典分层”。它要帮我们解决什么问题？
+speaker 2: 理解 Spring Boot 如何启动，以及 Controller、Service、Repository、Entity、DTO 如何协作。
+speaker 1: 图从“SpringApplication”开始，我应该先抓住哪条主线？
+speaker 2: 沿着箭头依次看：SpringApplication、组件扫描、Controller、Service 事务、Repository、Entity 数据。这就是本章的因果或调用顺序。
+speaker 1: 第一项核心信息为什么重要？
+speaker 2: @SpringBootApplication 组合自动配置、组件扫描和配置入口。
+speaker 1: 那第二个要点补充了什么？
+speaker 2: @EnableScheduling 启用项目中的定时任务能力。
+speaker 1: 组件职责最容易在哪里混淆？
+speaker 2: Controller 处理 HTTP 与页面跳转，Service 处理业务和事务。
+speaker 1: 如果把它放进实际运行流程，还要注意什么？
+speaker 2: Repository 负责持久化，Entity 表达领域数据，Form 或 DTO 接收外部输入。
+speaker 1: 有没有一个必须明确写出来的现实边界？
+speaker 2: 分层避免 Controller 直接操纵 Repository 和 JPA Entity 的全部字段。
+speaker 1: 所以不能只看到图上有节点，就断言所有能力都已经生产化，对吗？
+speaker 2: 对。分层是职责边界，不要求为每个方法建立新模块。 同时，定时能力启用不等于所有任务都应在每个实例同时运行。
+speaker 1: 我来复述一下：先按图理解顺序，再区分职责，最后核对实现边界。
+speaker 2: 这个复述很准确。课程始终把已实现内容、模拟内容和生产建议分开。
+speaker 1: 这一章的主要内容已经讲完了吗？
+speaker 2: 已经讲完了。接下来可以完成本章末尾的五道单项选择题，检查自己是否真正理解了这些内容。

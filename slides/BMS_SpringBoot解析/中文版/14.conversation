@@ -1,0 +1,20 @@
+speaker 1: 这一章叫“EventProcessingService 十步主流程”。它要帮我们解决什么问题？
+speaker 2: 沿着一次输入追踪状态判定、去重、持久化、告警和通知。
+speaker 1: 图从“确定时间”开始，我应该先抓住哪条主线？
+speaker 2: 沿着箭头依次看：确定时间、匹配设备目标规则、判定状态、计算指纹、保存 Event、更新 Alert、历史与通知。这就是本章的因果或调用顺序。
+speaker 1: 第一项核心信息为什么重要？
+speaker 2: 事务方法 process 先确定发生时间，再匹配设备、目标和规则。
+speaker 1: 那第二个要点补充了什么？
+speaker 2: 状态优先考虑显式 status、主动检查失败、指标阈值和 severity。
+speaker 1: 组件职责最容易在哪里混淆？
+speaker 2: source、host、eventKey 和 message 参与 SHA-256 fingerprint 计算。
+speaker 1: 如果把它放进实际运行流程，还要注意什么？
+speaker 2: 重复事件仍保存为 MonitoringEvent，但在抑制窗口内不重复通知。
+speaker 1: 有没有一个必须明确写出来的现实边界？
+speaker 2: 同一事务更新 Alert、AlertHistory、设备状态并记录通知处理。
+speaker 1: 所以不能只看到图上有节点，就断言所有能力都已经生产化，对吗？
+speaker 2: 对。重复抑制不是丢弃事实，Event 仍需保存。 同时，事务内同步发邮件会延长事务，是后续改进点。
+speaker 1: 我来复述一下：先按图理解顺序，再区分职责，最后核对实现边界。
+speaker 2: 这个复述很准确。课程始终把已实现内容、模拟内容和生产建议分开。
+speaker 1: 这一章的主要内容已经讲完了吗？
+speaker 2: 已经讲完了。接下来可以完成本章末尾的五道单项选择题，检查自己是否真正理解了这些内容。

@@ -1,0 +1,20 @@
+speaker 1: 这一章叫“JPA、事务边界与 Flyway”。它要帮我们解决什么问题？
+speaker 2: 理解实体持久化、延迟加载、模式校验和数据库迁移的职责分工。
+speaker 1: 图从“Service 事务”开始，我应该先抓住哪条主线？
+speaker 2: 沿着箭头依次看：Service 事务、Repository、EntityGraph 或 LAZY、Hibernate validate、Flyway migration、数据库。这就是本章的因果或调用顺序。
+speaker 1: 第一项核心信息为什么重要？
+speaker 2: Spring Data JPA Repository 提供持久化访问，关联通常使用 LAZY。
+speaker 1: 那第二个要点补充了什么？
+speaker 2: 需要列表关联时可用 EntityGraph 明确加载，减少 N+1 查询。
+speaker 1: 组件职责最容易在哪里混淆？
+speaker 2: open-in-view=false 禁止模板渲染阶段依赖仍打开的数据库 Session。
+speaker 1: 如果把它放进实际运行流程，还要注意什么？
+speaker 2: ddl-auto=validate 只校验 Entity 与表结构，不自动修改数据库。
+speaker 1: 有没有一个必须明确写出来的现实边界？
+speaker 2: 真正的结构变更由 Flyway 迁移负责。
+speaker 1: 所以不能只看到图上有节点，就断言所有能力都已经生产化，对吗？
+speaker 2: 对。关闭 open-in-view 后，页面所需数据必须在 Service 事务内准备。 同时，validate 通过不等于迁移脚本已经在所有环境执行。
+speaker 1: 我来复述一下：先按图理解顺序，再区分职责，最后核对实现边界。
+speaker 2: 这个复述很准确。课程始终把已实现内容、模拟内容和生产建议分开。
+speaker 1: 这一章的主要内容已经讲完了吗？
+speaker 2: 已经讲完了。接下来可以完成本章末尾的五道单项选择题，检查自己是否真正理解了这些内容。

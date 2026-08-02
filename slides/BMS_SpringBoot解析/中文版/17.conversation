@@ -1,0 +1,20 @@
+speaker 1: 这一章叫“SNMP Trap 被动接收”。它要帮我们解决什么问题？
+speaker 2: 掌握 SNMP v2c Trap 从监听端口进入统一业务的路径。
+speaker 1: 图从“设备 Trap”开始，我应该先抓住哪条主线？
+speaker 2: 沿着箭头依次看：设备 Trap、UDP 1162、SNMP4J、SnmpTrapParser、Parsed Trap、IngestRequest。这就是本章的因果或调用顺序。
+speaker 1: 第一项核心信息为什么重要？
+speaker 2: SNMP Trap 使用 SNMP4J，并由 SmartLifecycle 组件管理启动停止。
+speaker 1: 那第二个要点补充了什么？
+speaker 2: 默认监听 0.0.0.0:1162 UDP，生产可将标准 162 映射到容器端口。
+speaker 1: 组件职责最容易在哪里混淆？
+speaker 2: CommandResponderEvent 经解析后转换为 IngestRequest。
+speaker 1: 如果把它放进实际运行流程，还要注意什么？
+speaker 2: 当前实现明确支持 SNMP v2c Trap。
+speaker 1: 有没有一个必须明确写出来的现实边界？
+speaker 2: Trap 是设备主动推送的被动监控输入，与 SNMP GET 主动查询不同。
+speaker 1: 所以不能只看到图上有节点，就断言所有能力都已经生产化，对吗？
+speaker 2: 对。监听 1162 是非特权本地或容器端口，不是生产外部端口规范本身。 同时，v2c community 缺少 SNMPv3 authPriv 的认证与加密强度。
+speaker 1: 我来复述一下：先按图理解顺序，再区分职责，最后核对实现边界。
+speaker 2: 这个复述很准确。课程始终把已实现内容、模拟内容和生产建议分开。
+speaker 1: 这一章的主要内容已经讲完了吗？
+speaker 2: 已经讲完了。接下来可以完成本章末尾的五道单项选择题，检查自己是否真正理解了这些内容。

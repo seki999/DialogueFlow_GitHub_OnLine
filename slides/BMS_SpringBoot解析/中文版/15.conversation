@@ -1,0 +1,20 @@
+speaker 1: 这一章叫“Event、Alert 与生命周期”。它要帮我们解决什么问题？
+speaker 2: 区分不可变事实与持续故障，并理解确认、恢复和关闭的不同含义。
+speaker 1: 图从“多次 MonitoringEvent”开始，我应该先抓住哪条主线？
+speaker 2: 沿着箭头依次看：多次 MonitoringEvent、按设备与 alertKey 聚合、活动 Alert、ACKNOWLEDGED、RECOVERED、CLOSED。这就是本章的因果或调用顺序。
+speaker 1: 第一项核心信息为什么重要？
+speaker 2: MonitoringEvent 表示一次发生的事实，保留原始报文、状态和时间。
+speaker 1: 那第二个要点补充了什么？
+speaker 2: Alert 表示一段持续故障，可由多个相同设备与 alertKey 的 Event 聚合。
+speaker 1: 组件职责最容易在哪里混淆？
+speaker 2: ACKNOWLEDGED 表示操作员已接管，不表示设备恢复。
+speaker 1: 如果把它放进实际运行流程，还要注意什么？
+speaker 2: RECOVERED 表示监控恢复，但业务流程不一定已经正式结束。
+speaker 1: 有没有一个必须明确写出来的现实边界？
+speaker 2: CLOSED 是人工确认后的正式关闭，服务会阻止关闭状态倒退到确认。
+speaker 1: 所以不能只看到图上有节点，就断言所有能力都已经生产化，对吗？
+speaker 2: 对。确认、恢复和关闭是三个不同语义。 同时，告警状态变化不应改写已经发生的 Event 事实。
+speaker 1: 我来复述一下：先按图理解顺序，再区分职责，最后核对实现边界。
+speaker 2: 这个复述很准确。课程始终把已实现内容、模拟内容和生产建议分开。
+speaker 1: 这一章的主要内容已经讲完了吗？
+speaker 2: 已经讲完了。接下来可以完成本章末尾的五道单项选择题，检查自己是否真正理解了这些内容。

@@ -1,0 +1,20 @@
+speaker 1: 这一章叫“PostgreSQL 与 Oracle Profile”。它要帮我们解决什么问题？
+speaker 2: 理解双数据库支持是运行时择一，而不是同一事务同时写入两库。
+speaker 1: 图从“启动 Profile”开始，我应该先抓住哪条主线？
+speaker 2: 沿着箭头依次看：启动 Profile、PostgreSQL 配置、或 Oracle 配置、单一 DataSource、JPA 运行。这就是本章的因果或调用顺序。
+speaker 1: 第一项核心信息为什么重要？
+speaker 2: 默认 Profile 使用 PostgreSQL、HikariCP 和 PostgreSQLDialect。
+speaker 1: 那第二个要点补充了什么？
+speaker 2: 连接用户名与密码通过环境变量注入。
+speaker 1: 组件职责最容易在哪里混淆？
+speaker 2: Oracle Profile 切换到 OracleDriver 与 OracleDialect，可面向 Oracle ADB。
+speaker 1: 如果把它放进实际运行流程，还要注意什么？
+speaker 2: Oracle 模式下素材说明 Flyway 当前关闭，连接参数必须外部提供。
+speaker 1: 有没有一个必须明确写出来的现实边界？
+speaker 2: 两个 Profile 是择一运行，不是同时连接两个数据库。
+speaker 1: 所以不能只看到图上有节点，就断言所有能力都已经生产化，对吗？
+speaker 2: 对。支持 Oracle Profile 不等于已验证所有迁移在 Oracle 自动执行。 同时，环境变量注入仍需由 Secrets 管理方案妥善提供。
+speaker 1: 我来复述一下：先按图理解顺序，再区分职责，最后核对实现边界。
+speaker 2: 这个复述很准确。课程始终把已实现内容、模拟内容和生产建议分开。
+speaker 1: 这一章的主要内容已经讲完了吗？
+speaker 2: 已经讲完了。接下来可以完成本章末尾的五道单项选择题，检查自己是否真正理解了这些内容。

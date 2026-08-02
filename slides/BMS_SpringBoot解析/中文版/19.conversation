@@ -1,0 +1,20 @@
+speaker 1: 这一章叫“TCP Ping 其实是端口连接检查”。它要帮我们解决什么问题？
+speaker 2: 区分 ICMP 可达性和应用端口可连接性。
+speaker 1: 图从“主机与端口”开始，我应该先抓住哪条主线？
+speaker 2: 沿着箭头依次看：主机与端口、DNS 解析、Socket connect、超时或响应、结果持久化、事件处理。这就是本章的因果或调用顺序。
+speaker 1: 第一项核心信息为什么重要？
+speaker 2: 项目中的 TCP Ping 调用 socket.connect 检查指定主机和端口。
+speaker 1: 那第二个要点补充了什么？
+speaker 2: 它不发送 ICMP Echo Request，因此不是传统网络 Ping。
+speaker 1: 组件职责最容易在哪里混淆？
+speaker 2: 错误分类包括 DNS_ERROR、TIMEOUT、CONNECTION_REFUSED 和 IO_ERROR。
+speaker 1: 如果把它放进实际运行流程，还要注意什么？
+speaker 2: 检查支持有限重试，并把结果保存到 tcp_ping_results。
+speaker 1: 有没有一个必须明确写出来的现实边界？
+speaker 2: 主机能响应 ICMP 不代表 PostgreSQL 5432、HTTPS 443 或 SSH 22 可连接。
+speaker 1: 所以不能只看到图上有节点，就断言所有能力都已经生产化，对吗？
+speaker 2: 对。TCP connect 成功只证明端口可建立连接，不证明完整业务协议健康。 同时，重试应受次数和超时约束。
+speaker 1: 我来复述一下：先按图理解顺序，再区分职责，最后核对实现边界。
+speaker 2: 这个复述很准确。课程始终把已实现内容、模拟内容和生产建议分开。
+speaker 1: 这一章的主要内容已经讲完了吗？
+speaker 2: 已经讲完了。接下来可以完成本章末尾的五道单项选择题，检查自己是否真正理解了这些内容。

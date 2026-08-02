@@ -1,0 +1,20 @@
+speaker 1: 这一章叫“Thymeleaf 数据绑定与模板目录”。它要帮我们解决什么问题？
+speaker 2: 掌握模板引擎怎样读取 Model，以及页面文件如何组织。
+speaker 1: 图从“Java 对象”开始，我应该先抓住哪条主线？
+speaker 2: 沿着箭头依次看：Java 对象、Model 属性、Thymeleaf 表达式、模板文件、HTML 值。这就是本章的因果或调用顺序。
+speaker 1: 第一项核心信息为什么重要？
+speaker 2: Thymeleaf 使用 th:text 等属性把 Java 对象值写入 HTML。
+speaker 1: 那第二个要点补充了什么？
+speaker 2: 表达式如 ${dashboard.totalDevices} 在服务端渲染时求值。
+speaker 1: 组件职责最容易在哪里混淆？
+speaker 2: 页面模板位于 resources/templates，静态资源通常位于 resources/static。
+speaker 1: 如果把它放进实际运行流程，还要注意什么？
+speaker 2: th:each 用于集合迭代，th:if 用于条件显示。
+speaker 1: 有没有一个必须明确写出来的现实边界？
+speaker 2: 模板中的占位文本有利于直接查看 HTML，但运行时会被真实值替换。
+speaker 1: 所以不能只看到图上有节点，就断言所有能力都已经生产化，对吗？
+speaker 2: 对。Thymeleaf 表达式不是浏览器端 Vue 模板语法。 同时，模板只能读取 Controller 放入 Model 或可访问上下文的数据。
+speaker 1: 我来复述一下：先按图理解顺序，再区分职责，最后核对实现边界。
+speaker 2: 这个复述很准确。课程始终把已实现内容、模拟内容和生产建议分开。
+speaker 1: 这一章的主要内容已经讲完了吗？
+speaker 2: 已经讲完了。接下来可以完成本章末尾的五道单项选择题，检查自己是否真正理解了这些内容。

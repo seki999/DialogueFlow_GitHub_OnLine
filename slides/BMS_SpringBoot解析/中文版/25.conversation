@@ -1,0 +1,20 @@
+speaker 1: 这一章叫“测试金字塔与验证边界”。它要帮我们解决什么问题？
+speaker 2: 知道不同测试证明什么，并避免把配置检查说成生产部署成功。
+speaker 1: 图从“解析器单测”开始，我应该先抓住哪条主线？
+speaker 2: 沿着箭头依次看：解析器单测、Service 与 MVC 测试、Repository、Testcontainers、mvnw clean verify、JaCoCo。这就是本章的因果或调用顺序。
+speaker 1: 第一项核心信息为什么重要？
+speaker 2: 测试技术包括 JUnit 5、Mockito、Spring Boot Test、MockMvc 和 Security Test。
+speaker 1: 那第二个要点补充了什么？
+speaker 2: 解析器、业务服务、MVC、安全、调度器和云函数边界都有对应测试设计。
+speaker 1: 组件职责最容易在哪里混淆？
+speaker 2: Testcontainers PostgreSQL 用于靠近真实驱动和数据库行为的验证。
+speaker 1: 如果把它放进实际运行流程，还要注意什么？
+speaker 2: 完整 Maven 验证命令是 ./mvnw clean verify。
+speaker 1: 有没有一个必须明确写出来的现实边界？
+speaker 2: JaCoCo 报告位于 app/bms-app/target/site/jacoco/index.html。
+speaker 1: 所以不能只看到图上有节点，就断言所有能力都已经生产化，对吗？
+speaker 2: 对。若 Docker Engine 不可用，Testcontainers 跳过不能算该边界通过。 同时，compose config 或清单渲染通过只证明配置结构，不证明容器和集群运行。
+speaker 1: 我来复述一下：先按图理解顺序，再区分职责，最后核对实现边界。
+speaker 2: 这个复述很准确。课程始终把已实现内容、模拟内容和生产建议分开。
+speaker 1: 这一章的主要内容已经讲完了吗？
+speaker 2: 已经讲完了。接下来可以完成本章末尾的五道单项选择题，检查自己是否真正理解了这些内容。

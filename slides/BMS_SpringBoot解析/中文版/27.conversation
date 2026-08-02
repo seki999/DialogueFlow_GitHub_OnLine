@@ -1,0 +1,24 @@
+speaker 1: 这一章叫“课程总结：两条链路与一个核心”。它要帮我们解决什么问题？
+speaker 2: 把页面链路、监控链路、领域模型和验证边界重新连成一张图。
+speaker 1: 图从“协议输入”开始，我应该先抓住哪条主线？
+speaker 2: 沿着箭头依次看：协议输入、IngestRequest、EventProcessingService、Event 与 Alert、数据库、MVC 与 Thymeleaf、运维人员。这就是本章的因果或调用顺序。
+speaker 1: 第一项核心信息为什么重要？
+speaker 2: 监控链路把多协议输入统一为 IngestRequest，再由核心事务服务处理。
+speaker 1: 那第二个要点补充了什么？
+speaker 2: Event 保存事实，Alert 聚合持续故障，确认、恢复和关闭含义不同。
+speaker 1: 组件职责最容易在哪里混淆？
+speaker 2: 页面链路经 Security、MVC、Service、Repository、Model 和 Thymeleaf 返回 HTML。
+speaker 1: 如果把它放进实际运行流程，还要注意什么？
+speaker 2: Actuator、测试和容器配置提供可验证基础，但不等于生产部署已经完成。
+speaker 1: 有没有一个必须明确写出来的现实边界？
+speaker 2: 继续学习可聚焦 Outbox、并发幂等、SNMPv3、企业身份和真实时序聚合。
+speaker 1: 所以不能只看到图上有节点，就断言所有能力都已经生产化，对吗？
+speaker 2: 对。始终区分当前实现、浏览器模拟、配置脚手架与生产建议。 同时，最终判断应以实际代码、配置和已执行验证为依据。
+speaker 1: 如果继续深入，第一个启发式问题应该是什么？
+speaker 2: 可以问：怎样用真实指标证明系统需要引入队列，而不是因为流行就增加组件？
+speaker 1: 第二个问题呢？
+speaker 2: 可以问：Event、Alert 与通知分别需要哪种一致性和审计保证？
+speaker 1: 还有哪些问题能帮助生产化设计？
+speaker 2: 可以继续追问：SNMPv3 与企业 OIDC 的信任边界在哪里，以及怎样验证逐小时趋势来自真实聚合。
+speaker 1: 这一章的主要内容已经讲完了吗？
+speaker 2: 已经讲完了。接下来可以完成本章末尾的五道单项选择题，检查自己是否真正理解了这些内容。
