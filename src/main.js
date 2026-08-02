@@ -18,8 +18,8 @@ const languageOptions = {
   ja: { label: '日语', locale: 'ja-JP' },
   en: { label: '英语', locale: 'en-US' },
 }
-const maleHints = /male|yunxi|yunyang|yunhao|keita|ichiro|guy|david|mark|george|james|daniel/i
-const femaleHints = /female|xiaoxiao|xiaoyi|nanami|ayumi|jenny|zira|samantha|victoria|karen/i
+const maleHints = /male|yunxi|yunyang|yunhao|kangkang|keita|ichiro|guy|david|mark|george|james|daniel/i
+const femaleHints = /female|xiaoxiao|xiaoyi|huihui|yaoyao|nanami|ayumi|haruka|jenny|zira|samantha|victoria|karen/i
 const app = document.querySelector('#app')
 
 const state = {
@@ -230,8 +230,12 @@ function populateCourses() {
 }
 
 function selectCourse(path) {
+  const selectedCourse = state.courses.find((course) => course.path === path)
+  if (!selectedCourse) return
+
+  // 首次载入时，停止逻辑也会刷新章节按钮，因此必须先放入有效课程。
+  state.course = selectedCourse
   stopPlayback()
-  state.course = state.courses.find((course) => course.path === path)
   state.slidePosition = 0
   state.startPosition = 0
   state.endPosition = Math.max(0, state.course.slides.length - 1)
@@ -422,7 +426,7 @@ function setPlayingUi(playing) {
   document.querySelector('#courseSelect').disabled = playing
   document.querySelector('#languageSelect').disabled = playing
   document.querySelector('#previousSlide').disabled = playing || state.slidePosition === 0
-  document.querySelector('#nextSlide').disabled = playing || state.slidePosition === state.course.slides.length - 1
+  document.querySelector('#nextSlide').disabled = playing || !state.course || state.slidePosition === state.course.slides.length - 1
   if (!playing) {
     document.querySelector('#pauseButton').textContent = 'Ⅱ'
     document.querySelector('#pauseButton').ariaLabel = '暂停播放'
