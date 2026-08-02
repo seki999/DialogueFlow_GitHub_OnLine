@@ -44,7 +44,18 @@ button:disabled { cursor: not-allowed; opacity: .45; }
 .header-note span { width: 8px; height: 8px; background: #43a86b; border-radius: 50%; box-shadow: 0 0 0 4px #43a86b20; }
 
 .workspace { display: grid; grid-template-columns: 360px minmax(0, 1fr); min-height: calc(100vh - 78px); }
-.control-panel { padding: 34px 28px; background: var(--ink); color: #fff; }
+.control-panel {
+  position: sticky;
+  top: 78px;
+  align-self: start;
+  height: calc(100vh - 78px);
+  padding: 34px 28px;
+  overflow-y: auto;
+  overscroll-behavior: contain;
+  scrollbar-gutter: stable;
+  background: var(--ink);
+  color: #fff;
+}
 .control-panel select { background: #24324e; border-color: #43506b; color: #fff; }
 .panel-heading { margin-bottom: 28px; }
 .panel-heading h1 { margin: 7px 0 8px; font-size: 31px; letter-spacing: -.04em; }
@@ -118,7 +129,12 @@ input[type='range'] { width: 100%; accent-color: var(--orange); }
 
 @media (max-width: 920px) {
   .workspace { grid-template-columns: 1fr; }
-  .control-panel { position: static; }
+  .control-panel {
+    position: static;
+    height: auto;
+    overflow: visible;
+    scrollbar-gutter: auto;
+  }
   .lesson-area { padding-top: 30px; }
 }
 @media (max-width: 600px) {
