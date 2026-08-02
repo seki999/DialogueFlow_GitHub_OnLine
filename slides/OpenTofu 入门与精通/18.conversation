@@ -1,0 +1,10 @@
+speaker 1: 如果我想把代码里的资源名字从 main 改成更贴切的 platform，会有风险吗？
+speaker 2: 有风险。直接改名字，比如把 resource "oci_core_vcn" "main" 改成 "platform"，OpenTofu 默认可能会理解成删除 main、创建 platform。
+speaker 1: 那不就意味着真实的 VCN 会被删掉重建？
+speaker 2: 对，这在生产环境是不能接受的。正确的做法是增加一个 moved 块，写 from = oci_core_vcn.main，to = oci_core_vcn.platform，告诉 OpenTofu 这只是改名，不是替换。
+speaker 1: 如果是把资源从根目录迁移进某个 Module 呢，也能这样处理吗？
+speaker 2: 可以，同样用 moved 块，比如 from = oci_core_vcn.main，to = module.network.oci_core_vcn.this，这样即使做了模块化重构，真实资源也不会被误删。
+speaker 1: 所以 moved 块的意义就是让重构代码和保留真实资源两者兼得？
+speaker 2: 对，这也是文中强调它在生产环境非常重要的原因——你可以放心地整理代码结构，而不用担心一不小心就把线上资源删掉重建。
+speaker 1: 这一章的主要内容已经讲完了吗？
+speaker 2: 已经讲完了。接下来可以完成本章末尾的五道选择题，检查一下自己是否真正理解了这些内容。

@@ -1,0 +1,14 @@
+speaker 1: 前面的例子里 Variable、Local、Output 都出现过，但感觉界限有点模糊。
+speaker 2: 这一章专门理一下三者的分工。Variable 适合外部输入，比如 Region、Compartment OCID、环境名称、CIDR、实例规格这些从外部传进来的东西。
+speaker 1: 怎么限制 Variable 的取值范围，比如只允许 dev、stg、prod 三个环境？
+speaker 2: 用 validation 块，比如 condition = contains(["dev", "stg", "prod"], var.environment)，取值不对就会直接报错。
+speaker 1: 那 Local 是干嘛的？
+speaker 2: Local 负责内部计算，比如把项目名和环境名拼成 name_prefix，或者统一定义一套 common_tags，避免在每个资源里重复写同样的逻辑。
+speaker 1: 拼好的 name_prefix 怎么用？
+speaker 2: 直接在 display_name 里引用，比如 "${local.name_prefix}-vcn"，标签也是同理，freeform_tags = local.common_tags。
+speaker 1: 最后 Output 呢？
+speaker 2: Output 用来对外暴露结果，比如把 Compute 实例的公网 IP 输出出来，方便别人使用，或者被其他 Module 引用。
+speaker 1: 如果输出的是密码这种敏感数据呢？
+speaker 2: 可以加 sensitive = true，但要注意，这只是减少终端显示，并不代表这些数据不会进入 State 文件，State 本身的保护还是要做好。
+speaker 1: 这一章的主要内容已经讲完了吗？
+speaker 2: 已经讲完了。接下来可以完成本章末尾的五道选择题，检查一下自己是否真正理解了这些内容。

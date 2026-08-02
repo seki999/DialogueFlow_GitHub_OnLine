@@ -1,0 +1,16 @@
+speaker 1: 终于可以写第一个项目了，是不是直接建 VCN？
+speaker 2: 先不急，第一个项目只查询账户信息，不创建任何收费资源，这样练手更安全。
+speaker 1: 目录里有哪些文件？
+speaker 2: versions.tf、provider.tf、variables.tf、data.tf、outputs.tf。先看 versions.tf，里面声明了 oci Provider 的版本约束 ~> 8.24。
+speaker 1: 这个写法跟直接写 >= 8.0 有什么不一样？
+speaker 2: ~> 8.24 表示允许 8.24.x 系列的更新，但不会自动跳到 8.25.0 或者 9.0.0，比 >= 8.0 更可控，对生产环境更安全。
+speaker 1: provider.tf 里是怎么找到认证信息的？
+speaker 2: 通过 config_file_profile 指定读取 ~/.oci/config 里的 DEFAULT 配置段，Provider 就是从这里拿到 Tenancy、User、Fingerprint 这些信息的。
+speaker 1: data.tf 里查了什么？
+speaker 2: 查了当前租户信息 oci_identity_tenancy，还有所有可用区域 oci_identity_regions。
+speaker 1: outputs.tf 是怎么把区域列表整理出来的？
+speaker 2: 用了一个 for 表达式，遍历 data.oci_identity_regions.available.regions，把每个 region 的 name 提取出来，组成一个列表输出。
+speaker 1: 跑起来的顺序是怎样的？
+speaker 2: 跟上一节讲的标准流程一样：tofu fmt、tofu init、tofu validate、tofu plan，最后 tofu apply，跑完之后再用 tofu output 查看结果。
+speaker 1: 这一章的主要内容已经讲完了吗？
+speaker 2: 已经讲完了。接下来可以完成本章末尾的五道选择题，检查一下自己是否真正理解了这些内容。

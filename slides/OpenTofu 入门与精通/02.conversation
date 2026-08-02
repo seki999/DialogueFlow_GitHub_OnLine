@@ -1,0 +1,12 @@
+speaker 1: 上一章讲了 OpenTofu 的价值，这一章要讲它内部是怎么运作的吗？
+speaker 2: 对，先讲两个最基础的概念：Configuration 和 Provider。Configuration 就是 .tf 或 .tofu 文件。
+speaker 1: 文件名有讲究吗，比如是不是要按顺序命名？
+speaker 2: 不需要。OpenTofu 会读取当前目录下的所有配置文件，文件名主要用于组织代码，不决定执行顺序。常见的划分方式是 versions.tf、provider.tf、variables.tf、main.tf、outputs.tf。
+speaker 1: 那 OpenTofu 是怎么知道怎么创建一个 OCI 的 VCN 的？
+speaker 2: 这就要说到 Provider 了。OpenTofu 本身并不知道怎样创建 OCI VCN，它是通过 OCI Provider 调用 OCI API 完成的。
+speaker 1: 图里画的这个链条，从上到下是 OpenTofu、oracle/oci Provider、OCI REST API，最后到 VCN、Compute、OKE 这些具体资源。
+speaker 2: 没错，Provider 是 OpenTofu 与外部系统交互的插件，每个配置都应该声明所需 Provider 以及版本范围。
+speaker 1: 如果不声明版本范围会怎么样？
+speaker 2: 后面章节会详细讲版本约束的写法，这里先记住一点：Provider 是连接 OpenTofu 和 OCI 之间的桥梁，没有它 OpenTofu 就没法操作任何实际资源。
+speaker 1: 这一章的主要内容已经讲完了吗？
+speaker 2: 已经讲完了。接下来可以完成本章末尾的五道选择题，检查一下自己是否真正理解了这些内容。

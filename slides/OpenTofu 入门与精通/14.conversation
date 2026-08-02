@@ -1,0 +1,14 @@
+speaker 1: 前面写的代码都堆在一个目录里，这样下去会不会越来越乱？
+speaker 2: 会的，这一章要讲的就是怎么用 Module 把代码拆开。推荐结构是顶层分成 modules/ 和 environments/ 两部分。
+speaker 1: modules/ 里放什么？
+speaker 2: 放可复用的基础设施单元，比如 network、compute、database、monitoring，每个模块自己有 main.tf、variables.tf、outputs.tf。
+speaker 1: environments/ 呢？
+speaker 2: 按 dev、stg、prod 分子目录，每个环境目录里有自己的 main.tf、variables.tf 和 terraform.tfvars，去调用 modules/ 里的模块，传入不同参数。
+speaker 1: Module 一定要写在本地吗？
+speaker 2: 不一定，Module 可以来自本地目录、Registry、GitHub，或者其他 Git 地址，比较灵活。
+speaker 1: Root Module 具体怎么调用 network 模块？
+speaker 2: 写一个 module "network" 块，source 指向 "../../modules/network"，然后把 compartment_ocid、name_prefix、vcn_cidr 这些参数传进去，调用它的输出就是 module.network.vcn_id。
+speaker 1: 那 Provider 配置应该写在哪一层？
+speaker 2: 这个很关键，Provider 配置应该主要放在 Root Module 中，因为它是整个配置范围内的全局对象，可以跨模块传递，而不应该分散在各个子模块里重复声明。
+speaker 1: 这一章的主要内容已经讲完了吗？
+speaker 2: 已经讲完了。接下来可以完成本章末尾的五道选择题，检查一下自己是否真正理解了这些内容。

@@ -1,0 +1,10 @@
+speaker 1: 环境规划好了，现在可以装 OpenTofu 了吗？
+speaker 2: 对，在 WSL2 Ubuntu 里可以按照官方安装方式添加软件源，或者直接下载官方二进制文件。
+speaker 1: 装完怎么确认成功了？
+speaker 2: 执行 tofu version，应该能看到类似 OpenTofu v1.12.0 on linux_amd64 这样的输出。截至这篇教程整理的时间，官网显示的当前版本就是 1.12.0。
+speaker 1: 跟 Terraform 比起来，语法是不是完全不一样，还要重新学？
+speaker 2: 不需要担心，OpenTofu 与 Terraform 的核心配置语法和主要工作流高度兼容，OCI Provider 也可以直接被 OpenTofu 使用。
+speaker 1: 那接下来是不是可以直接开始写代码了？
+speaker 2: 先建立一个测试目录，比如 mkdir -p ~/projects/opentofu-oci-learning，然后 cd 进去，后面的代码都会放在这里。
+speaker 1: 这一章的主要内容已经讲完了吗？
+speaker 2: 已经讲完了。接下来可以完成本章末尾的五道选择题，检查一下自己是否真正理解了这些内容。

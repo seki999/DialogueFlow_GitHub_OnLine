@@ -1,0 +1,12 @@
+speaker 1: 之前一直用本地 State，感觉挺方便的，团队里也这样用行吗？
+speaker 2: 本地 State 有个明显的问题：开发者 A 的电脑、开发者 B 的电脑、CI 服务器，各自都有一份 terraform.tfstate，结果可能三个人都以为自己在管理同一套 OCI 资源，实际上完全不同步。
+speaker 1: 这样会带来什么后果？
+speaker 2: 可能重复创建资源、误删除资源、并发 Apply 导致冲突，还有 State 丢失、敏感数据泄漏这些风险。
+speaker 1: 那有什么解决办法？
+speaker 2: 一个选择是用 OCI Resource Manager，它是 Oracle 提供的基础设施自动化服务，可以集中管理配置、运行任务以及 State，让多个团队共享同一套基础设施状态。
+speaker 1: 流程大概是怎样的？
+speaker 2: 本地写好的配置通过 Git 或 ZIP 提交，创建成一个 Resource Manager Stack，然后跑 Plan Job，确认无误后跑 Apply Job，最终生成 OCI 资源，State 由 Resource Manager 托管。
+speaker 1: 是不是直接切过去就万事大吉了？
+speaker 2: 也不完全是，采用之前应该先确认它当前支持的 Terraform/OpenTofu 版本和 Provider 版本，因为它的执行环境不一定和你本地最新的 OpenTofu 完全一致。
+speaker 1: 这一章的主要内容已经讲完了吗？
+speaker 2: 已经讲完了。接下来可以完成本章末尾的五道选择题，检查一下自己是否真正理解了这些内容。

@@ -1,0 +1,16 @@
+speaker 1: 装好 OpenTofu 之后是不是就能直接连 OCI 了？
+speaker 2: 还不行，得先准备认证信息。本地 OpenTofu 最常用的是 API Key 认证，Oracle 官方入门文档也是这么配置的。
+speaker 1: 需要准备哪些东西？
+speaker 2: 五项：Tenancy OCID、User OCID、Fingerprint、Private Key，还有 Region。
+speaker 1: Tenancy OCID 和 User OCID 分别在哪找？
+speaker 2: Tenancy OCID 在 Console 的 Profile → Tenancy → OCID 里；User OCID 在 Profile → My profile → OCID 里。
+speaker 1: 私钥怎么来？
+speaker 2: 可以在 Console 里 My profile → API keys → Add API key 直接生成，也可以自己用 openssl genrsa 生成一对密钥，再把公钥上传到 OCI。
+speaker 1: 生成的私钥文件权限要注意吗？
+speaker 2: 要用 chmod 600 限制权限，只允许当前用户读写，这是安全上的基本要求。
+speaker 1: 公钥上传之后呢？
+speaker 2: OCI 会显示一个 Fingerprint，类似 12:34:56:78:90:ab:cd:ef 这种格式。把这些信息填进 ~/.oci/config 文件，同时给 config 也设置 chmod 600 权限。
+speaker 1: 怎么知道自己配置对不对？
+speaker 2: 用 OCI CLI 执行 oci iam region list，如果认证成功，会返回一个 Region 列表。
+speaker 1: 这一章的主要内容已经讲完了吗？
+speaker 2: 已经讲完了。接下来可以完成本章末尾的五道选择题，检查一下自己是否真正理解了这些内容。

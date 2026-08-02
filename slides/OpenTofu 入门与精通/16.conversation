@@ -1,0 +1,12 @@
+speaker 1: 上一章讲了本地 State 的风险，那团队里应该怎么组织 State 比较合理？
+speaker 2: 核心原则是：不要把整个公司所有 OCI 资源放进一个 State。
+speaker 1: 为什么？放一起管理不是更方便吗？
+speaker 2: 短期看方便，长期看风险很大。一个 State 出问题，可能牵连到公司所有的基础设施。文中给了一个示例拆分方式。
+speaker 1: 具体是怎么拆的？
+speaker 2: foundation-state 放 Compartments、IAM 和共享网络这类底层、变更少的资源；application-a-state 放某个应用自己的 Subnet、Compute、Load Balancer；database-state 单独放 DB System、Backup 和 Vault 集成。
+speaker 1: 这个拆分是随便定的吗，有没有原则？
+speaker 2: 有五个依据：生命周期不同、权限边界不同、团队不同、变更频率不同，还有故障影响范围不同。
+speaker 1: 能具体说说“故障影响范围”这个依据吗？
+speaker 2: 比如数据库的 State 出问题，你肯定不希望它连累到网络层的 State，两者拆开之后，一个 State 的操作失误不会波及另一个。
+speaker 1: 这一章的主要内容已经讲完了吗？
+speaker 2: 已经讲完了。接下来可以完成本章末尾的五道选择题，检查一下自己是否真正理解了这些内容。

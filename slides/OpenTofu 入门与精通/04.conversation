@@ -1,0 +1,12 @@
+speaker 1: 写完代码之后，第一步应该做什么？
+speaker 2: 先跑 tofu fmt -recursive，把整个项目的代码格式统一一下，这样后面看 diff 会更清晰。
+speaker 1: 格式化之后呢？
+speaker 2: 接下来是 tofu init。它会做三件事：下载 Provider、下载 Module、初始化 Backend，同时创建或更新 .terraform.lock.hcl 这个文件。
+speaker 1: 这个 lock 文件是干嘛的，看起来跟 npm 的 lock 文件有点像？
+speaker 2: 作用确实类似，它用来锁定 Provider 的具体版本和校验信息，应当提交到 Git，这样团队里每个人和 CI 环境用的 Provider 版本才会一致。
+speaker 1: init 之后是不是就能直接 apply 了？
+speaker 2: 中间还有一步 tofu validate，用来检查配置结构，比如属性名称错误、参数类型错误、引用不存在、Provider 配置不完整这些问题都能发现。
+speaker 1: 那 validate 通过了，是不是就说明肯定能成功创建资源？
+speaker 2: 不一定。validate 不能保证你的 OCI 权限一定足够，也不能保证指定的镜像一定存在，更不能保证 CIDR 设计合理或者创建的资源不收费，这些要靠后面的 plan 和实际执行去发现。
+speaker 1: 这一章的主要内容已经讲完了吗？
+speaker 2: 已经讲完了。接下来可以完成本章末尾的五道选择题，检查一下自己是否真正理解了这些内容。

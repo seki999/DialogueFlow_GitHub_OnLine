@@ -1,0 +1,10 @@
+speaker 1: 在正式开始安装之前，是不是应该先确定好开发环境？
+speaker 2: 对，这一步很容易被忽略，但后面踩的坑往往就出在这里。推荐结构是 Windows 下跑 WSL2 Ubuntu，然后在 WSL2 里统一安装 OpenTofu、OCI CLI、Git 和 VS Code Remote-WSL。
+speaker 1: 为什么一定要在 WSL2 里统一安装，不能一部分在 Windows 一部分在 WSL 吗？
+speaker 2: 尽量不要出现 Windows 中运行 OpenTofu，但私钥和配置放在 WSL 这种情况，否则容易遇到路径、文件权限和换行符的问题，排查起来很麻烦。
+speaker 1: 那项目代码具体应该放在哪个目录？
+speaker 2: 推荐放在类似 ~/projects/opentofu-oci-learning 这样的 WSL 原生路径，而不是 /mnt/c/Users/... 这种挂载到 Windows 分区的路径。
+speaker 1: 两者有什么本质区别？
+speaker 2: WSL 原生 Linux 文件系统在权限管理和工具兼容方面更稳定，跨文件系统的挂载路径容易出现权限或性能上的意外问题。
+speaker 1: 这一章的主要内容已经讲完了吗？
+speaker 2: 已经讲完了。接下来可以完成本章末尾的五道选择题，检查一下自己是否真正理解了这些内容。

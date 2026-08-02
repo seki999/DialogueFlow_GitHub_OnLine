@@ -1,0 +1,12 @@
+speaker 1: 如果要同时管理东京和大阪两个区域的资源，是不是要写两份完全独立的代码？
+speaker 2: 不需要，可以用 Provider Alias。定义两个 Provider 实例，一个 alias = "tokyo"，一个 alias = "osaka"，各自指定不同的 region。
+speaker 1: 资源怎么知道该用哪个 Provider？
+speaker 2: 在资源块里写 provider = oci.tokyo 或者 provider = oci.osaka，比如 oci_objectstorage_bucket "tokyo" 就用 provider = oci.tokyo。
+speaker 1: 如果要把某个 Region 的 Provider 传给 Module 呢？
+speaker 2: 用 providers = { oci = oci.osaka } 这种映射语法，在调用 module "osaka_network" 的时候传进去，Module 内部就会用大阪的 Provider 创建资源。
+speaker 1: 这种多区域架构一般用在什么场景？
+speaker 2: 常见于灾备场景，示例里 osaka_network 用的 name_prefix 是 dr-osaka，暗示大阪区域承担的是容灾角色。
+speaker 1: 两个 Provider 实例会不会互相冲突？
+speaker 2: 不会，它们是完全独立的两个实例，可以在同一份配置里共存，分别管理各自区域的资源，互不影响。
+speaker 1: 这一章的主要内容已经讲完了吗？
+speaker 2: 已经讲完了。接下来可以完成本章末尾的五道选择题，检查一下自己是否真正理解了这些内容。

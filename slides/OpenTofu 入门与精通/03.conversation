@@ -1,0 +1,14 @@
+speaker 1: 刚才提到 Resource 是要管理的资源，具体怎么写？
+speaker 2: 比如 resource "oci_core_vcn" "main"，其中 oci_core_vcn 是 OCI Provider 里的资源类型，main 是你在代码里自己起的逻辑名称。
+speaker 1: 那完整引用地址就是 oci_core_vcn.main 吗？
+speaker 2: 对，后面章节创建 VCN、Subnet、Compute 的时候都会用这种写法互相引用。
+speaker 1: 那 Data Source 是干嘛的，跟 Resource 有什么不一样？
+speaker 2: Resource 是“创建或管理”，Data Source 是“查询”。比如查询 OCI 的 Availability Domain，就是用 data "oci_identity_availability_domains" "ads"，然后引用它的返回结果，而不会去创建或修改任何东西。
+speaker 1: 最后这个 State 是做什么的？
+speaker 2: State 保存的是代码中的资源地址和 OCI 中真实资源 OCID 之间的映射关系。比如 oci_core_vcn.main 对应到 ocid1.vcn.oc1.ap-tokyo-1 这样一串真实 ID。
+speaker 1: State 文件名字是 opentofu.tfstate 吗，感觉应该改个名字？
+speaker 2: 不是，虽然工具叫 OpenTofu，但默认 State 文件名仍然是 terraform.tfstate，这是为了兼容现有生态。
+speaker 1: 那 State 文件能不能随便改，或者传到 GitHub 上？
+speaker 2: 千万不要。不要手工修改 State 文件，也不要把包含敏感数据的 State 提交到公开 GitHub，因为里面可能包含真实的 OCID 甚至敏感属性值。
+speaker 1: 这一章的主要内容已经讲完了吗？
+speaker 2: 已经讲完了。接下来可以完成本章末尾的五道选择题，检查一下自己是否真正理解了这些内容。

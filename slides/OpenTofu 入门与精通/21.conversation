@@ -1,0 +1,12 @@
+speaker 1: 本地用 API Key 挺方便的，CI/CD 里是不是也直接用同一套私钥？
+speaker 2: 不建议这样做。生产 CI/CD 不应该把长期私钥直接写进 GitHub Repository，一旦仓库泄漏，风险会非常大。
+speaker 1: 那 GitHub Actions 里应该怎么处理认证？
+speaker 2: 建议使用加密 Secrets，或者更好的是短期认证机制，减少长期凭证暴露的窗口。
+speaker 1: 如果工作负载本身就跑在 OCI Compute 上呢？
+speaker 2: 那就可以用 Instance Principal，让虚拟机本身的身份去做认证，不需要再单独管理一份私钥。
+speaker 1: OCI Functions 呢，也是类似的思路吗？
+speaker 2: 对，OCI Functions 用的是 Resource Principal，思路是一样的，都是让云平台自己管理身份，而不是依赖一份长期存在的密钥文件。
+speaker 1: 所以总的原则可以怎么总结？
+speaker 2: 本地开发用用户 API Key，OCI 工作负载用动态身份，CI/CD 优先使用最小权限、短期凭证，这是文中给出的总体原则。
+speaker 1: 这一章的主要内容已经讲完了吗？
+speaker 2: 已经讲完了。接下来可以完成本章末尾的五道选择题，检查一下自己是否真正理解了这些内容。

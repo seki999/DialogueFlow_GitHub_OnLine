@@ -1,0 +1,14 @@
+speaker 1: 实际操作中总会遇到各种报错，这一章是不是专门整理这些？
+speaker 2: 对，先说最常见的 401 NotAuthenticated，遇到这个要检查 User OCID、Tenancy OCID、Fingerprint、私钥路径，公钥是否已经上传，还有系统时间是否准确。
+speaker 1: 404 呢，跟 401 有什么不一样？
+speaker 2: 404 NotAuthorizedOrNotFound 比较特别，OCI 经常把“资源不存在”和“你无权查看资源”都表现成类似的 404，所以要同时检查 Compartment OCID、Region 和 IAM Policy，看看是不是权限问题。
+speaker 1: 如果是 Provider 下载失败呢？
+speaker 2: 可以先 rm -rf .terraform，再执行 tofu init -upgrade，同时检查网络代理、DNS、证书、Provider source 和版本约束。但要注意，不要轻易删除 .terraform.lock.hcl，除非你明确要重新解析版本。
+speaker 1: 还有一种情况是 plan 显示没变化，但我明明改了 OCI 上的东西？
+speaker 2: 这种情况可能是你改的是 OpenTofu 不管理的属性，或者配置里用了 ignore_changes，也可能是连到了不同的 Region、Profile 或 Compartment。可以用 tofu plan -refresh-only 来排查。
+speaker 1: 如果资源本来就已经存在了呢？
+speaker 2: 不要简单改个名字重复创建，先确认它是否应该由当前配置管理，需要接管的话就用前面讲过的 tofu import。
+speaker 1: 最后是 State Lock 或者并发的问题？
+speaker 2: 不要让两个人同时 apply，团队环境必须使用具有并发保护机制的远程 State 或者托管执行平台，避免出现冲突。
+speaker 1: 这一章的主要内容已经讲完了吗？
+speaker 2: 已经讲完了。接下来可以完成本章末尾的五道选择题，检查一下自己是否真正理解了这些内容。

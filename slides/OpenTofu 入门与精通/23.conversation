@@ -1,0 +1,10 @@
+speaker 1: 如果我图省事，直接在 variable 里写 default = "MyPassword123!"，会有什么问题？
+speaker 2: 问题很大，因为它会进入 Git 历史、Plan 文件、State 文件，还有 CI 日志，只要这几个地方任何一个泄漏，密码就暴露了。
+speaker 1: 那应该怎么处理密码这类敏感信息？
+speaker 2: 比较好的方式是把密码存进 OCI Vault，生成一个 Secret，OpenTofu 只保存这个 Secret 的 OCID，真正的密码内容由应用在运行时去读取。
+speaker 1: 如果是 CI 里通过环境变量传密码呢，比如 export TF_VAR_database_password？
+speaker 2: 这种方式确实更好一些，但要注意，密码仍然可能进入 State 文件，这取决于具体的资源属性和 Provider 行为，并不是绝对安全的。
+speaker 1: 那给 output 加个 sensitive = true 是不是就安全了？
+speaker 2: 要记住一句话：sensitive = true 不是加密，只是隐藏部分界面输出。它能防止密码显示在终端上，但不能阻止数据本身进入 State。
+speaker 1: 这一章的主要内容已经讲完了吗？
+speaker 2: 已经讲完了。接下来可以完成本章末尾的五道选择题，检查一下自己是否真正理解了这些内容。

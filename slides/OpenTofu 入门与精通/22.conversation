@@ -1,0 +1,14 @@
+speaker 1: 上一章讲了认证方式，认证成功是不是就代表可以随便创建资源了？
+speaker 2: 不是，认证成功只说明你是谁，不代表你有权限做什么。还需要单独设计 OCI IAM Policy。
+speaker 1: 学习的时候是不是直接给个大权限比较省事？
+speaker 2: 千万不要，文中明确提醒不要学习时就直接给 Allow group Developers to manage all-resources in tenancy，这个权限范围太大了。
+speaker 1: 那应该怎么设计？
+speaker 2: 推荐逐步缩小权限，按 Compartment 层级来，比如 Tenancy 下面有一个 Project Compartment，再往下分 Dev、Staging、Production。
+speaker 1: 示例 Policy 长什么样？
+speaker 2: 比如 Allow group OpenTofuDevelopers to manage virtual-network-family in compartment Development，这条只授权在 Development Compartment 里管理网络相关资源，范围很明确。
+speaker 1: 不同环境是不是要建不同的组？
+speaker 2: 对，比如 OpenTofu-Dev-Admin、OpenTofu-Staging-Operator、OpenTofu-Prod-Plan、OpenTofu-Prod-Apply，按环境和权限粒度分开。
+speaker 1: Prod-Plan 和 Prod-Apply 为什么要分开？
+speaker 2: 生产环境最好把能够生成 Plan 的权限和能够执行 Apply 的权限在流程上分开，这样可以让审核和执行分离，降低误操作风险。
+speaker 1: 这一章的主要内容已经讲完了吗？
+speaker 2: 已经讲完了。接下来可以完成本章末尾的五道选择题，检查一下自己是否真正理解了这些内容。

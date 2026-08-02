@@ -1,0 +1,16 @@
+speaker 1: 所以 OpenTofu 大概就是用代码来创建云资源的工具？
+speaker 2: 可以这么理解。你用 .tf 文件描述希望 OCI 上最终存在什么资源，OpenTofu 负责分析依赖、调用 OCI API 去创建或修改。
+speaker 1: 那这里说的 OCI，是不是就是容器那个 Open Container Initiative？
+speaker 2: 不是，这是一个很容易混淆的地方。本教程里的 OCI 指 Oracle Cloud Infrastructure，也就是云平台本身。Open Container Initiative 是另一个同名缩写，指的是容器镜像和 Registry 标准，OpenTofu 文档里提到 OCI Registry 时通常是后者。
+speaker 1: 明白了，两个概念不要搞混。那手动在 Console 里点几下创建资源不行吗？
+speaker 2: 当然可以，但手动操作没法重复，也没法审查。图里画的流程是，手动方式需要不断点击创建 VCN、子网、网关、路由、安全规则，最后才能建出一台虚拟机。
+speaker 1: 用 OpenTofu 呢？
+speaker 2: 你只需要维护代码，然后执行 tofu plan 和 tofu apply，OpenTofu 会完成创建工作。
+speaker 1: 那它的价值主要是省点鼠标点击吗？
+speaker 2: 价值不只是这个。它的核心价值是可重复——测试和生产可以用同一套代码；可审查——变更能通过 Git PR 走审查流程；可追踪——谁在什么时候改了网络和权限；可恢复——环境被删除后能重新创建。
+speaker 1: 还有吗？
+speaker 2: 还有可比较，执行前先看 plan，清楚哪些资源会变化；以及可模块化，比如 VCN、Compute、OKE 都可以封装成模块复用。
+speaker 1: 这几个点听起来都是围绕“可控”和“可协作”展开的。
+speaker 2: 对，这也是 IaC 工具真正的意义所在，而不只是少点几次鼠标。
+speaker 1: 这一章的主要内容已经讲完了吗？
+speaker 2: 已经讲完了。接下来可以完成本章末尾的五道选择题，检查一下自己是否真正理解了这些内容。

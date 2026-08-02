@@ -1,0 +1,14 @@
+speaker 1: 查询完账户信息，接下来要真正创建资源了吗？
+speaker 2: 对，这一章要创建 OCI VCN 网络，包括 VCN 本身、Internet Gateway、Route Table、Security List 和 Public Subnet。
+speaker 1: 图里这些资源之间有箭头连接，是不是代表创建顺序？
+speaker 2: 对，而且很关键的一点是，代码里完全没有写 depends_on，OpenTofu 是靠属性引用自动推断出这个顺序的。
+speaker 1: 怎么个自动推断法？
+speaker 2: 比如 Subnet 的配置里写了 vcn_id = oci_core_vcn.main.id，这就相当于告诉 OpenTofu：Subnet 依赖 VCN。同理 Route Table 和 Internet Gateway 也都引用了 VCN 的 id。
+speaker 1: 所以最终顺序就是先建 VCN，再建网关、安全列表和路由表，最后才是子网？
+speaker 2: 对，因为 Route Rule 又依赖 Internet Gateway，Subnet 又依赖 Route Table 和 Security List，层层递进，最终形成这个顺序。
+speaker 1: vcn_cidr 这个变量里还写了 validation，是干嘛的？
+speaker 2: 用来在 plan 之前就校验输入是否是合法的 IPv4 CIDR，用的是 can(cidrnetmask(var.vcn_cidr)) 这个表达式，如果格式不对会直接报错阻止执行。
+speaker 1: Security List 里的出站规则呢？
+speaker 2: egress_security_rules 里协议是 all，目标是 0.0.0.0/0，意思是允许所有出站流量；入站规则则分别开放了 SSH 给管理员 IP，还有 HTTP 对外开放。
+speaker 1: 这一章的主要内容已经讲完了吗？
+speaker 2: 已经讲完了。接下来可以完成本章末尾的五道选择题，检查一下自己是否真正理解了这些内容。

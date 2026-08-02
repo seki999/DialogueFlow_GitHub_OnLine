@@ -1,0 +1,12 @@
+speaker 1: 如果 OCI 上已经有手动建好的 VCN，是不是就没法用 OpenTofu 管理了？
+speaker 2: 不是，很多公司本来就不是从零开始，OpenTofu 提供了 import 功能来接管现有资源。
+speaker 1: 具体怎么操作？
+speaker 2: 第一步是先写出与现有资源匹配的配置块，比如 resource "oci_core_vcn" "existing"，填上对应的 compartment_id、cidr_blocks 这些属性。
+speaker 1: 写完配置就直接可以管理了吗？
+speaker 2: 还不行，要执行 tofu import oci_core_vcn.existing 加上真实的 OCID，比如 ocid1.vcn.oc1.ap-tokyo-1.xxxxx，这样 State 里才会有这个资源的映射关系。
+speaker 1: 导入之后是不是就完事了？
+speaker 2: 还没有，接下来要执行 tofu plan，看看代码和真实资源之间还有没有差异，通常第一次会有差异。
+speaker 1: 有差异怎么办？
+speaker 2: 持续调整代码，让配置越来越接近真实状态，直到 plan 输出 No changes，Your infrastructure matches the configuration，这才表示代码、State 和真实资源基本一致。
+speaker 1: 这一章的主要内容已经讲完了吗？
+speaker 2: 已经讲完了。接下来可以完成本章末尾的五道选择题，检查一下自己是否真正理解了这些内容。
