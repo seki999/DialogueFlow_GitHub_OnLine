@@ -18,8 +18,9 @@ const languageOptions = {
   ja: { label: '日语', locale: 'ja-JP' },
   en: { label: '英语', locale: 'en-US' },
 }
-const maleHints = /male|yunxi|yunyang|yunhao|kangkang|keita|ichiro|guy|david|mark|george|james|daniel/i
-const femaleHints = /female|xiaoxiao|xiaoyi|huihui|yaoyao|nanami|ayumi|haruka|jenny|zira|samantha|victoria|karen/i
+const maleHints = /male|yunxi|yunyang|yunhao|kangkang|zhiwei|keita|ichiro|guy|david|mark|george|james|daniel/i
+const femaleHints = /female|xiaoxiao|xiaoyi|huihui|yaoyao|yating|hanhan|nanami|ayumi|haruka|jenny|zira|samantha|victoria|karen/i
+const cantoneseHints = /cantonese|hong\s*kong|yue|粤|粵|香港/i
 const app = document.querySelector('#app')
 
 const state = {
@@ -121,11 +122,11 @@ function renderShell() {
 
         <fieldset class="voice-fieldset">
           <legend>角色声音</legend>
-          <label class="field"><span><i class="speaker-dot speaker-one"></i>Speaker 1 <b>男音</b></span>
-            <select id="speaker1Voice" aria-label="Speaker 1 男音"></select>
+          <label class="field"><span><i class="speaker-dot speaker-one"></i>Speaker 1 <b>女音</b></span>
+            <select id="speaker1Voice" aria-label="Speaker 1 女音"></select>
           </label>
-          <label class="field"><span><i class="speaker-dot speaker-two"></i>Speaker 2 <b>女音</b></span>
-            <select id="speaker2Voice" aria-label="Speaker 2 女音"></select>
+          <label class="field"><span><i class="speaker-dot speaker-two"></i>Speaker 2 <b>男音</b></span>
+            <select id="speaker2Voice" aria-label="Speaker 2 男音"></select>
           </label>
           <p class="hint">声音来自当前浏览器和操作系统，可在这里分别更换。</p>
         </fieldset>
@@ -454,17 +455,28 @@ function loadVoices() {
 }
 
 function chooseDefaultVoices() {
-  const locale = languageOptions[state.language].locale.toLowerCase()
-  const languageVoices = state.voices.filter((voice) => voice.lang.toLowerCase().startsWith(locale.split('-')[0]))
-  const male = languageVoices.find((voice) => maleHints.test(voice.name)) ?? languageVoices[0]
-  const female = languageVoices.find((voice) => femaleHints.test(voice.name)) ?? languageVoices.find((voice) => voice.name !== male?.name) ?? languageVoices[0]
-  state.speakerVoices[1] = male?.name ?? ''
-  state.speakerVoices[2] = female?.name ?? ''
+  const voices = getSelectableVoices()
+  const femaleVoices = voices.filter((voice) => femaleHints.test(voice.name))
+  const maleVoices = voices.filter((voice) => maleHints.test(voice.name))
+
+  if (state.language === 'zh') {
+    const mandarinVoices = voices.filter((voice) => voice.lang.toLowerCase().startsWith('zh-cn') || /普通话|普通話|mainland/i.test(voice.name))
+    const taiwanVoices = voices.filter((voice) => voice.lang.toLowerCase().startsWith('zh-tw') || /台湾|台灣|臺灣|國語/i.test(voice.name))
+    const speaker1 = mandarinVoices.find((voice) => femaleHints.test(voice.name)) ?? mandarinVoices[0] ?? femaleVoices[0] ?? voices[0]
+    const speaker2 = taiwanVoices.find((voice) => maleHints.test(voice.name)) ?? taiwanVoices[0] ?? maleVoices.find((voice) => voice.name !== speaker1?.name) ?? voices.find((voice) => voice.name !== speaker1?.name) ?? voices[0]
+    state.speakerVoices[1] = speaker1?.name ?? ''
+    state.speakerVoices[2] = speaker2?.name ?? ''
+    return
+  }
+
+  const speaker1 = femaleVoices[0] ?? voices[0]
+  const speaker2 = maleVoices.find((voice) => voice.name !== speaker1?.name) ?? voices.find((voice) => voice.name !== speaker1?.name) ?? voices[0]
+  state.speakerVoices[1] = speaker1?.name ?? ''
+  state.speakerVoices[2] = speaker2?.name ?? ''
 }
 
 function updateVoiceSelects() {
-  const locale = languageOptions[state.language].locale.toLowerCase()
-  const voices = state.voices.filter((voice) => voice.lang.toLowerCase().startsWith(locale.split('-')[0]))
+  const voices = getSelectableVoices()
   const options = voices.length
     ? voices.map((voice) => `<option value="${escapeAttribute(voice.name)}">${escapeHtml(voice.name)} (${escapeHtml(voice.lang)})</option>`).join('')
     : '<option value="">使用浏览器默认声音</option>'
@@ -473,6 +485,16 @@ function updateVoiceSelects() {
     select.innerHTML = options
     select.value = state.speakerVoices[speaker]
   }
+}
+
+function getSelectableVoices() {
+  const languagePrefix = languageOptions[state.language].locale.split('-')[0].toLowerCase()
+  return state.voices.filter((voice) => {
+    const voiceLanguage = voice.lang.toLowerCase()
+    if (!voiceLanguage.startsWith(languagePrefix)) return false
+    if (state.language !== 'zh') return true
+    return !voiceLanguage.startsWith('zh-hk') && !voiceLanguage.startsWith('yue') && !cantoneseHints.test(voice.name)
+  })
 }
 
 function sanitizeForSpeech(text) {
