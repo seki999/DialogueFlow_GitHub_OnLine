@@ -296,6 +296,11 @@ async function renderSlide() {
 
   const content = document.querySelector('#slideContent')
   content.innerHTML = marked.parse(slide.markdown)
+  if (slide.coursePath.startsWith('托业单词/')) {
+    content.querySelectorAll('pre code.language-text').forEach((code) => {
+      code.textContent = code.textContent.replace(/\*\*([^*\n]+)\*\*/g, '$1')
+    })
+  }
   content.querySelectorAll('input[type="checkbox"]').forEach((checkbox) => {
     checkbox.disabled = false
     checkbox.setAttribute('aria-label', checkbox.closest('li')?.textContent.trim() || '习题选项')
