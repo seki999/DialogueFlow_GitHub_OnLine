@@ -1,0 +1,16 @@
+speaker 1: 前面讲的都是回归任务，如果要做分类，比如区分猫、狗、鸟，模型结构要怎么改？
+speaker 2: 关键在最后一层，输出神经元数量要等于类别数，三分类就用 nn.Linear(128, 3)。
+speaker 1: 这一层直接输出的那几个数字是什么意思？
+speaker 2: 那些叫 logits，还没经过任何概率化处理，比如 [2.3, -0.5, 1.2]，数值越大表示模型越倾向于那个类别。
+speaker 1: 那损失函数要怎么选？
+speaker 2: 多分类一般用 nn.CrossEntropyLoss，它要求 logits 的形状是 [batch_size, 类别数]，targets 的形状是 [batch_size]。
+speaker 1: 图里特意标注了训练时和推理时用法不一样，这是为什么？
+speaker 2: 因为训练时直接把 logits 传给 CrossEntropyLoss 就行，它内部已经包含了 Softmax，如果你自己手动再做一次 Softmax 反而会出错。
+speaker 1: 这个坑挺容易踩的，有没有具体例子？
+speaker 2: 有，错误写法是先算 probabilities = softmax(logits)，再把 probabilities 传给损失函数；正确写法是直接把 logits 传进去。
+speaker 1: targets 的数据类型有要求吗？
+speaker 2: 有，必须是 torch.int64，也就是类别索引，比如 0、1、2 分别代表猫、狗、鸟。
+speaker 1: 那推理阶段要怎么拿到预测类别？
+speaker 2: 用 logits.argmax(dim=1)，找到每个样本里数值最大的那个位置，就是模型预测的类别；如果需要概率才另外调用 softmax。
+speaker 1: 这一章的主要内容已经讲完了吗？
+speaker 2: 已经讲完了。接下来可以完成本章末尾的五道选择题，检查一下自己是否真正理解了这些内容。

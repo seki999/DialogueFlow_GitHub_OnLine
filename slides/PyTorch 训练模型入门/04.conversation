@@ -1,0 +1,16 @@
+speaker 1: 上一章讲了 shape 的重要性，这一章要讲怎么改变形状吗？
+speaker 2: 对，图里列了四种常见操作：reshape、unsqueeze、squeeze 和 permute。
+speaker 1: reshape 是不是就是直接改变形状？
+speaker 2: 对，比如把 [2,3,4] 变成 [2,12]，前提是元素总数得一致，24 个元素怎么排列都行。
+speaker 1: flatten 和 reshape 是一回事吗？
+speaker 2: 效果类似，flatten(start_dim=1) 会把从第 1 维开始的所有维度展平成一维，常用来在进全连接层之前压平数据。
+speaker 1: unsqueeze 是用来增加维度的？
+speaker 2: 对，比如一个形状 [3] 的向量，调用 unsqueeze(0) 会变成 [1,3]，在第 0 维插入了一个大小为 1 的新维度。
+speaker 1: 那 squeeze 是不是正好相反？
+speaker 2: 没错，squeeze() 会把所有大小为 1 的维度都删掉，比如 [1,3,1,4] 会变成 [3,4]。
+speaker 1: 图里最后一个 permute 是做什么的？
+speaker 2: permute 用来交换已有维度的顺序，比如把 [32,10,128] 变成 [32,128,10]，维度数量不变，只是顺序换了。
+speaker 1: 这几个操作什么时候会用到？
+speaker 2: 处理图像时经常要在 [N,H,W,C] 和 [N,C,H,W] 之间转换，这时候就要用 permute；而 unsqueeze/squeeze 常用来对齐 batch 维度。
+speaker 1: 这一章的主要内容已经讲完了吗？
+speaker 2: 已经讲完了。接下来可以完成本章末尾的五道选择题，检查一下自己是否真正理解了这些内容。

@@ -1,0 +1,16 @@
+speaker 1: 上一章说初始化不合理会导致梯度消失，那具体应该怎么初始化参数？
+speaker 2: PyTorch 内置层通常已经有比较合理的默认初始化，但自定义模型或者特殊结构时，还是需要理解几种常见方案。
+speaker 1: 图里列了 Xavier、Kaiming、Normal、Orthogonal 四种，先说说 Xavier 吧？
+speaker 2: Xavier 初始化通常搭配 Tanh 或者线性网络使用，它假设激活函数近似线性来设计初始化的方差。
+speaker 1: 那 Kaiming 呢，为什么又叫 He 初始化？
+speaker 2: Kaiming 和 He 是同一个方法的两种叫法，它是专门针对 ReLU 类激活函数设计的，所以常搭配 ReLU、LeakyReLU 使用。
+speaker 1: Normal 和 Orthogonal 又是用在什么地方？
+speaker 2: Normal 初始化在 Transformer 的某些层比较常见，Orthogonal 正交初始化则常用在 RNN 这类结构里。
+speaker 1: 代码示例里用了 model.apply(initialize_weights)，这个 apply 是做什么的？
+speaker 2: apply 会递归遍历模型内的所有子模块，对每一个符合条件的层调用你写的初始化函数，比如只对 nn.Linear 生效。
+speaker 1: 那段代码里权重用 xavier_uniform_，偏置却用 zeros_，为什么两者处理方式不一样？
+speaker 2: 因为权重矩阵需要专门的方法控制方差，避免层与层之间信号过度放大或衰减；偏置项一般直接初始化成 0 就足够了，不需要特殊方差控制。
+speaker 1: 所以初始化虽然不是每次都要手动设置，但理解原理还是有必要的？
+speaker 2: 对，尤其是自定义结构或者用了不太常见的激活函数时，合理的初始化能明显减少训练初期不稳定的问题。
+speaker 1: 这一章的主要内容已经讲完了吗？
+speaker 2: 已经讲完了。接下来可以完成本章末尾的五道选择题，检查一下自己是否真正理解了这些内容。

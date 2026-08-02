@@ -1,0 +1,16 @@
+speaker 1: 训练完模型之后，怎么把它保存下来，方便以后使用？
+speaker 2: 推荐的做法是保存 model.state_dict()，也就是参数名到参数值的字典，而不是保存整个模型对象。
+speaker 1: 加载的时候要怎么操作？
+speaker 2: 要先实例化一个结构相同的模型，再用 model.load_state_dict(state_dict) 把参数加载进去，这样更灵活、也更安全。
+speaker 1: 如果只保存了 state_dict，能不能直接从中断的地方继续训练？
+speaker 2: 不行，state_dict 只包含模型参数，没有优化器状态、调度器状态和已经训练到第几轮这些信息，没法完整恢复训练过程。
+speaker 1: 那要恢复训练应该怎么保存？
+speaker 2: 需要保存完整的 checkpoint，包括 model_state_dict、optimizer_state_dict、scheduler_state_dict，还有当前 epoch 和最优验证损失。
+speaker 1: 恢复训练的时候要怎么用这些信息？
+speaker 2: 依次把这几部分状态加载回去，再从 checkpoint["epoch"] + 1 开始继续训练循环。
+speaker 1: 如果我在 GPU 上训练保存的模型，想在只有 CPU 的机器上加载，要注意什么？
+speaker 2: 用 torch.load 的时候设置 map_location="cpu"，就能把原本在 GPU 上的参数正确加载到 CPU 上。
+speaker 1: 加载模型文件是不是有安全方面需要注意的地方？
+speaker 2: 有，对不可信来源的模型文件要谨慎处理，不要随意完整反序列化里面的 Python 对象，这可能带来安全风险。
+speaker 1: 这一章的主要内容已经讲完了吗？
+speaker 2: 已经讲完了。接下来可以完成本章末尾的五道选择题，检查一下自己是否真正理解了这些内容。

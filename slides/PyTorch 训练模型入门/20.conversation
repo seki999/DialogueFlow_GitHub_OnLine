@@ -1,0 +1,18 @@
+speaker 1: 上一章说过拟合可以用 Dropout、Weight Decay、Early Stopping 应对，这些具体怎么用？
+speaker 2: 这一章就展开讲这三种正则化方法，它们从不同角度限制模型过度拟合训练数据。
+speaker 1: Weight Decay 是怎么实现的？
+speaker 2: 直接在优化器里设置就行，比如 AdamW(model.parameters(), lr=..., weight_decay=1e-2)，目标是限制参数不要变得太大。
+speaker 1: Dropout 呢，它的原理是什么？
+speaker 2: nn.Dropout(p=0.2) 会在训练时随机把一部分激活值置零，逼迫网络不能过度依赖某几个特定神经元。
+speaker 1: Dropout 的比例一般设多少合适？
+speaker 2: 常见范围是 0.1 到 0.5，不建议设置得太大，比如接近 1 的话，网络会丢失太多信息，反而影响训练。
+speaker 1: Dropout 在训练和推理阶段行为一样吗？
+speaker 2: 不一样，训练时才会随机丢弃，推理阶段会使用完整的网络，这也是为什么之前反复强调要区分 model.train() 和 model.eval()。
+speaker 1: 那 Early Stopping 具体是怎么判断该不该停止的？
+speaker 2: 用一个 patience 参数，表示验证损失连续多少轮没有改善就停止训练，比如 patience=5，连续 5 轮都没创新低就提前结束。
+speaker 1: 代码里为什么只有验证损失变得更小时才保存模型？
+speaker 2: 这样可以确保最终留下的模型，一定是历史上验证表现最好的那一版，而不是可能已经过拟合的最后一版。
+speaker 1: 这三种方法是不是经常一起用？
+speaker 2: 是的，实际项目里经常同时用 Weight Decay、Dropout 和 Early Stopping，从不同角度共同抑制过拟合。
+speaker 1: 这一章的主要内容已经讲完了吗？
+speaker 2: 已经讲完了。接下来可以完成本章末尾的五道选择题，检查一下自己是否真正理解了这些内容。

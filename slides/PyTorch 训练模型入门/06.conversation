@@ -1,0 +1,18 @@
+speaker 1: 前面几章讲的 Tensor 和 Autograd，这一章要把它们串起来做个实际例子吗？
+speaker 2: 对，这一章手写一个完整的线性回归，不用 nn.Linear，把训练五步曲亲手实现一遍。
+speaker 1: 数据是怎么构造的？
+speaker 2: 用 y = 3x + 2 再加一点噪声生成的，我们的目标就是让模型学出接近 w=3、b=2 这两个参数。
+speaker 1: 图里第一步是前向传播，也就是 predictions = x*w+b 吧？
+speaker 2: 对，用当前的 w、b 算出预测值。
+speaker 1: 第二步计算损失，用的是 MSE 吗？
+speaker 2: 是的，用预测值和真实值差的平方求均值，代码里就是把预测值减真实值，平方之后再取平均。
+speaker 1: 第三步 loss.backward() 就是我们上一章讲的自动微分了？
+speaker 2: 没错，backward 会自动算出损失对 w 和 b 的梯度，存在 w.grad 和 b.grad 里。
+speaker 1: 我注意到第四步更新参数是写在 with torch.no_grad() 里的，为什么？
+speaker 2: 因为更新参数这个减法操作本身如果不做特殊处理，也会被 Autograd 记录进计算图，破坏梯度计算的正确性，所以要用 no_grad 包裹起来。
+speaker 1: 最后一步是清空梯度？
+speaker 2: 对，w.grad.zero_() 和 b.grad.zero_()，因为梯度是累加的，不清空下一轮就会叠加出错。
+speaker 1: 训练 1000 轮之后，w 和 b 真的会接近 3 和 2 吗？
+speaker 2: 会的，随着不断重复这五步，损失逐渐变小，参数也会越来越接近生成数据时用的真实值。
+speaker 1: 这一章的主要内容已经讲完了吗？
+speaker 2: 已经讲完了。接下来可以完成本章末尾的五道选择题，检查一下自己是否真正理解了这些内容。

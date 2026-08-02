@@ -1,0 +1,18 @@
+speaker 1: 前面训练循环里一直用 optimizer.step() 更新参数，优化器具体有哪些选择？
+speaker 2: 常见的有 SGD、SGD加Momentum、Adam、AdamW，图里这条链基本是它们发展的思路。
+speaker 1: 先说最基础的 SGD 吧？
+speaker 2: SGD 的更新公式很直接，θ = θ - η∇θL，就是沿着梯度反方向，按学习率的步子走一步。
+speaker 1: 它有什么问题吗？
+speaker 2: 对学习率比较敏感，而且如果损失曲面比较崎岖，梯度方向容易来回摆动，收敛会比较慢。
+speaker 1: 加了 Momentum 之后能改善这个问题？
+speaker 2: 对，Momentum 相当于给更新过程加了惯性，会考虑之前几步的梯度方向，让更新路径更平滑，减少震荡。
+speaker 1: 那 Adam 又是怎么进一步改进的？
+speaker 2: Adam 会为每个参数维护梯度的一阶矩和二阶矩估计，根据这些统计量自适应地调整每个参数的更新幅度，收敛通常更快更稳。
+speaker 1: 所以 Adam 是不是就是最好的选择？
+speaker 2: 不一定，但确实很常用，尤其适合快速实验、NLP 和 Transformer 类模型。
+speaker 1: 那图里最后的 AdamW 又解决了什么问题？
+speaker 2: AdamW 把权重衰减和梯度更新这两部分处理得更清晰、更分离，效果通常比原始 Adam 更好，是现在很多项目的默认首选。
+speaker 1: 所以如果我在训练 Transformer，应该优先考虑 AdamW？
+speaker 2: 对，这是目前比较主流的推荐做法。
+speaker 1: 这一章的主要内容已经讲完了吗？
+speaker 2: 已经讲完了。接下来可以完成本章末尾的五道选择题，检查一下自己是否真正理解了这些内容。

@@ -1,0 +1,18 @@
+speaker 1: 前面提到过 GPU 训练，能进一步提高效率的方法是什么？
+speaker 2: 混合精度训练是很常用的一种，简称 AMP，能减少显存占用、提高 GPU 吞吐量。
+speaker 1: 它的原理是全部改用低精度计算吗？
+speaker 2: 不是全部，而是根据不同操作自动选择使用 FP16、BF16 或者 FP32，兼顾速度和数值稳定性。
+speaker 1: 图里的流程看起来比普通训练循环复杂一些，第一步是在 autocast 下计算 loss？
+speaker 2: 对，用 torch.autocast 包裹前向计算部分，让相关操作自动使用低精度。
+speaker 1: 然后是 scaler.scale(loss).backward()，这一步是干什么的？
+speaker 2: 因为 FP16 数值范围比较小，损失值太小容易下溢变成 0，所以先把损失放大再反向传播，这样梯度也会被相应放大。
+speaker 1: 那后面为什么还要 unscale_？
+speaker 2: 因为放大后的梯度不能直接用来做梯度裁剪或者更新参数，unscale_ 会把梯度还原回真实数值范围，裁剪的阈值才有意义。
+speaker 1: 所以顺序是先 unscale，再做梯度裁剪，最后才是 scaler.step 和 scaler.update？
+speaker 2: 完全正确，这个顺序不能打乱，否则计算结果会出错。
+speaker 1: BF16 和 FP16 有什么不同？
+speaker 2: BF16 的数值范围比 FP16 更大，跟 FP32 更接近，在支持 BF16 的硬件上通常会更稳定，用起来只需要把 dtype 换成 torch.bfloat16。
+speaker 1: 用混合精度训练，模型准确率会自动变好吗？
+speaker 2: 不一定，它主要带来的是速度和显存上的收益，准确率还是取决于模型结构、数据和训练策略本身。
+speaker 1: 这一章的主要内容已经讲完了吗？
+speaker 2: 已经讲完了。接下来可以完成本章末尾的五道选择题，检查一下自己是否真正理解了这些内容。

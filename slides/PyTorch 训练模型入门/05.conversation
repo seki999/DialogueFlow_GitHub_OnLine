@@ -1,0 +1,16 @@
+speaker 1: 之前反复提到梯度是自动算出来的，这背后的机制是什么？
+speaker 2: 这就是 Autograd，PyTorch 的自动微分系统。只要给 Tensor 设置 requires_grad=True，它就会自动记录相关运算。
+speaker 1: 图里那个从 x 出发，经过平方、乘3，最后加起来得到 y 的结构是什么？
+speaker 2: 那是计算图，PyTorch 在执行 y 等于 x 平方加 3x 加 1 这行代码时，会在后台动态搭建这样一张图。
+speaker 1: 那调用 y.backward() 之后发生了什么？
+speaker 2: PyTorch 会从 y 开始，沿着计算图往回走，按照链式法则依次算出每个节点对 x 的梯度。
+speaker 1: 例子里 x=2，最后 x.grad 是 7，这个 7 是怎么来的？
+speaker 2: y=x²+3x+1 的导数是 dy/dx=2x+3，代入 x=2 就是 2*2+3=7，和代码结果完全对上。
+speaker 1: 我记得前面提过梯度会累加，这是为什么？
+speaker 2: 因为 PyTorch 默认不会自动清空梯度，如果连续两次 backward 不清零，梯度会叠加在一起，所以每轮训练前都要调用 zero_grad。
+speaker 1: 那如果只是做推理，不需要训练，是不是就不用管梯度了？
+speaker 2: 对，这时候可以用 torch.no_grad() 或者更专门的 torch.inference_mode() 包裹推理代码，避免构建计算图，节省内存和计算。
+speaker 1: detach() 又是用来干什么的？
+speaker 2: detach() 会返回一个和原 Tensor 共享数据、但脱离计算图的新 Tensor，常用来保存中间特征或者转成 NumPy 数组。
+speaker 1: 这一章的主要内容已经讲完了吗？
+speaker 2: 已经讲完了。接下来可以完成本章末尾的五道选择题，检查一下自己是否真正理解了这些内容。

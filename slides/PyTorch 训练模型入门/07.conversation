@@ -1,0 +1,16 @@
+speaker 1: 上一章手动管理 w 和 b，感觉参数一多就会很麻烦，正式项目是怎么做的？
+speaker 2: 正式项目通常会继承 nn.Module 来定义模型，让 PyTorch 帮我们统一管理参数。
+speaker 1: 图里那个类图，LinearRegressionModel 继承 Module，这是标准写法吗？
+speaker 2: 对，__init__ 里第一行要调用 super().__init__()，让 nn.Module 完成自身的初始化。
+speaker 1: 为什么这一步不能省略？
+speaker 2: 因为 nn.Module 内部要维护参数和子模块的注册表，不先初始化，后面定义的层就没法被正确追踪到。
+speaker 1: 例子里用了 self.linear = nn.Linear(1, 1)，这是不是就代替了我们手写的 w、b？
+speaker 2: 完全正确，nn.Linear 内部会自动创建并管理 weight 和 bias 这两个参数，对应公式 y = xWᵀ + b。
+speaker 1: forward 方法是做什么用的？
+speaker 2: forward 定义了数据具体怎么从输入流向输出，当你调用 model(x) 的时候，PyTorch 会自动执行这个方法。
+speaker 1: 那 model.parameters() 又是干什么的？
+speaker 2: 它会返回模型里所有可训练的参数，后面我们会把这个结果直接传给优化器，让优化器统一负责更新它们。
+speaker 1: 还有一个 state_dict，这个是什么？
+speaker 2: state_dict 是参数名到参数值的一个字典，保存模型和加载模型的时候都会用到它。
+speaker 1: 这一章的主要内容已经讲完了吗？
+speaker 2: 已经讲完了。接下来可以完成本章末尾的五道选择题，检查一下自己是否真正理解了这些内容。

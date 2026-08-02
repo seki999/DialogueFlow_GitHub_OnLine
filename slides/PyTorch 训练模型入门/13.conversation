@@ -1,0 +1,16 @@
+speaker 1: 上一章讲的是多分类，如果只有两个类别，比如判断邮件是不是垃圾邮件，是不是也用 CrossEntropyLoss？
+speaker 2: 也可以，但更推荐另一种方式：模型只输出一个 logit，配合 BCEWithLogitsLoss。
+speaker 1: 输出层怎么写？
+speaker 2: 用 nn.Linear(hidden_size, 1)，最后只有一个数值，代表这个样本属于正类的倾向程度。
+speaker 1: 损失函数是 BCEWithLogitsLoss，这个名字里的 WithLogits 是什么意思？
+speaker 2: 意思是这个损失函数内部已经包含了 Sigmoid 计算，直接接收原始 logit，不需要你自己先转成概率。
+speaker 1: 所以和上一章 CrossEntropyLoss 类似，也不能提前手动做转换？
+speaker 2: 对，一样的坑，如果训练前手动调用 Sigmoid 再传进 BCEWithLogitsLoss，会导致计算结果不对。
+speaker 1: 图里训练部分有一步 squeeze(dim=1)，这是做什么的？
+speaker 2: 因为 nn.Linear(hidden, 1) 输出形状是 [batch_size, 1]，squeeze 把多余的那个维度去掉，变成 [batch_size]，方便和 targets 对齐。
+speaker 1: targets.float() 又是为什么要转换？
+speaker 2: 因为 BCEWithLogitsLoss 期望 targets 是浮点数 0.0 或 1.0，而不是像 CrossEntropyLoss 那样要求整数类别索引。
+speaker 1: 推理阶段怎么得到最终的类别判断？
+speaker 2: 先用 sigmoid 把 logit 转成概率，再用 0.5 作为阈值，大于等于 0.5 判为正类，否则判为负类。
+speaker 1: 这一章的主要内容已经讲完了吗？
+speaker 2: 已经讲完了。接下来可以完成本章末尾的五道选择题，检查一下自己是否真正理解了这些内容。

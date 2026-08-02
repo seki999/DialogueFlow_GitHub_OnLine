@@ -1,0 +1,16 @@
+speaker 1: 前面提到 Tensor 是 PyTorch 的基础，它到底是什么？
+speaker 2: 可以理解为支持 GPU 计算和自动求导的多维数组，标量、向量、矩阵都可以用它表示。
+speaker 1: 图里列了好几种创建方式，torch.tensor 和 torch.randn 有什么区别？
+speaker 2: torch.tensor 是直接从你给的 Python 数据创建，而 torch.zeros、torch.rand、torch.randn 这些是按规则自动生成。
+speaker 1: rand 和 randn 看起来很像，是不是一回事？
+speaker 2: 不是，rand 生成的是 0 到 1 之间的均匀分布随机数，randn 生成的是标准正态分布随机数，两者分布形状完全不同。
+speaker 1: 图里 Tensor 后面连了三个属性：shape、dtype、device，这些分别代表什么？
+speaker 2: shape 是形状，也就是每个维度的大小；dtype 是数据类型，比如 float32；device 是这个 Tensor 存在 CPU 还是 GPU 上。
+speaker 1: 为什么专门强调这三个属性？
+speaker 2: 因为训练模型时遇到的报错，绝大多数都能归为这三类：形状不匹配、数据类型不匹配、设备不匹配。
+speaker 1: 所以遇到报错时先打印这三个属性会比较高效？
+speaker 2: 对，比如打印 x.shape、x.dtype、x.device，往往能立刻看出问题出在哪一层。
+speaker 1: 那像 “Expected all tensors to be on the same device” 这种报错，就是 device 不一致导致的吧？
+speaker 2: 没错，通常是一个 Tensor 在 CPU 上，另一个已经被移到 GPU 上，参与运算时就会报这个错。
+speaker 1: 这一章的主要内容已经讲完了吗？
+speaker 2: 已经讲完了。接下来可以完成本章末尾的五道选择题，检查一下自己是否真正理解了这些内容。

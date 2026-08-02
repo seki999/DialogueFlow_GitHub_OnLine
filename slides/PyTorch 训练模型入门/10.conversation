@@ -1,0 +1,16 @@
+speaker 1: 前面我们的训练循环直接用了 x、y 整体计算，实际项目数据量很大，是不是要分批处理？
+speaker 2: 对，这就要用到 Dataset 和 DataLoader 了。先看 Dataset，它负责定义单条数据怎么取。
+speaker 1: 自定义 Dataset 需要实现哪些方法？
+speaker 2: 主要是两个：__len__ 返回数据总条数，__getitem__ 根据索引返回对应的一条特征和标签。
+speaker 1: 那 DataLoader 是在这基础上做什么？
+speaker 2: DataLoader 包装 Dataset，负责把数据打包成一个个 batch，还能设置 shuffle 打乱顺序、num_workers 用多进程加速读取。
+speaker 1: shuffle 是所有数据集都要打开吗？
+speaker 2: 一般只在训练集上打开，验证集和测试集通常保持顺序，方便稳定地对比不同轮次的评估结果。
+speaker 1: num_workers 这个参数怎么理解？
+speaker 2: 它控制用几个子进程并行读取和预处理数据，如果数据读取比较慢，拖慢了 GPU 的利用率，适当调大它会有帮助。
+speaker 1: 图里最后一步是 for inputs, targets in loader，这就是我们训练循环里用的写法吧？
+speaker 2: 对，DataLoader 是可迭代对象，每次循环会拿到一个 batch 的 inputs 和 targets，直接送进模型训练。
+speaker 1: 我记得你提过 Windows 下用多进程加载要注意什么？
+speaker 2: 对，Windows 下必须把训练主逻辑放进 if __name__ 等于 "__main__" 这个判断里，不然多进程启动方式不同，容易出问题。
+speaker 1: 这一章的主要内容已经讲完了吗？
+speaker 2: 已经讲完了。接下来可以完成本章末尾的五道选择题，检查一下自己是否真正理解了这些内容。

@@ -1,0 +1,16 @@
+speaker 1: 现在模型是用 nn.Module 写的，训练循环是不是也有个标准套路？
+speaker 2: 对，图里的时序图展示了标准写法，五个步骤的顺序基本是固定的。
+speaker 1: 第一步是 zero_grad，为什么要放在最前面？
+speaker 2: 因为要先把上一轮遗留的梯度清空，避免这一轮的梯度和上一轮叠加。
+speaker 1: 然后是 model(inputs) 得到 predictions，这就是前向传播吧？
+speaker 2: 对，接着用 loss_function 把 predictions 和 targets 比较，算出 loss。
+speaker 1: 再往后就是 loss.backward() 和 optimizer.step() 了？
+speaker 2: 没错，backward 算出梯度，step 才是真正把梯度应用到参数上，让参数真正被更新的一步。
+speaker 1: 如果不小心漏写了 optimizer.step() 会怎样？
+speaker 2: 梯度会算出来，但参数永远不会被改变，训练时会发现损失基本不下降，这是个常见的疏漏。
+speaker 1: 代码里用了 zero_grad(set_to_none=True)，这个参数是干什么的？
+speaker 2: 这样清空梯度时会直接把梯度设成 None 而不是填零，通常效率更高，是官方更推荐的写法。
+speaker 1: 我还看到模型和数据都调用了 .to(device)，这是必须的吗？
+speaker 2: 是的，PyTorch 要求参与同一次运算的 Tensor 必须在同一个设备上，不管都在 CPU 还是都在 GPU，否则会直接报错。
+speaker 1: 这一章的主要内容已经讲完了吗？
+speaker 2: 已经讲完了。接下来可以完成本章末尾的五道选择题，检查一下自己是否真正理解了这些内容。

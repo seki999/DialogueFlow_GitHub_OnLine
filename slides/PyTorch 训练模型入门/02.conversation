@@ -1,0 +1,18 @@
+speaker 1: 上一章讲了训练的四个步骤，这一章的图里出现了六个方框，它们是什么关系？
+speaker 2: 这六个是 PyTorch 里最核心的组件，理解它们，就理解了整个训练框架的骨架。
+speaker 1: 从 Tensor 开始讲吗？
+speaker 2: 对，Tensor 是最底层的数据结构，模型的输入、参数、梯度全都用 Tensor 保存。
+speaker 1: 那 Dataset 是做什么的？
+speaker 2: Dataset 负责定义“一条数据怎么取出来”，比如给定一个索引，返回对应的图片和标签。
+speaker 1: DataLoader 又是什么角色？
+speaker 2: DataLoader 包在 Dataset 外面，负责把很多条数据打包成一个 batch，还能打乱顺序、用多进程加速读取。
+speaker 1: 图上 DataLoader 之后连的是 nn.Module，这个是模型本身吗？
+speaker 2: 对，nn.Module 就是模型结构的定义，里面包含了各种层，以及数据怎么一步步往前计算的逻辑。
+speaker 1: Loss Function 是不是就是上一章说的损失？
+speaker 2: 没错，Loss Function 拿模型的输出和真实标签去比较，算出一个数字表示预测有多差。
+speaker 1: 最后的 Optimizer 就是负责更新参数的部分吧？
+speaker 2: 对，Optimizer 会根据反向传播算出的梯度，去更新 nn.Module 里的参数，图里那条箭头绕回 nn.Module 就是这个意思。
+speaker 1: 所以整个流程就是数据经过 Tensor、Dataset、DataLoader 进入模型，模型算出结果和损失，再由优化器把参数改好？
+speaker 2: 完全正确，后面几章我们会分别深入讲这六个部分的具体用法。
+speaker 1: 这一章的主要内容已经讲完了吗？
+speaker 2: 已经讲完了。接下来可以完成本章末尾的五道选择题，检查一下自己是否真正理解了这些内容。

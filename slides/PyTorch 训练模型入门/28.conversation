@@ -1,0 +1,18 @@
+speaker 1: 上一章讲了 CNN，实际项目是不是很少从零开始训练这么大的模型？
+speaker 2: 对，实际项目更常用迁移学习，站在已经训练好的模型基础上做适配，而不是从零训练。
+speaker 1: 迁移学习的第一步是什么？
+speaker 2: 先加载一个在大规模数据集上训练好的预训练模型，比如 resnet18(weights=ResNet18_Weights.DEFAULT)。
+speaker 1: 图里第二步是冻结部分参数，为什么要这么做？
+speaker 2: 因为预训练模型已经学到了很多通用的图像特征，如果新任务数据量不大，直接全部参数一起训练容易破坏这些已经学好的特征。
+speaker 1: 那具体怎么冻结？
+speaker 2: 遍历 model.parameters()，把每个参数的 requires_grad 设成 False，这样它们就不会再计算梯度、也不会被更新。
+speaker 1: 输出层要怎么处理？
+speaker 2: 要替换成适配新任务类别数的 nn.Linear 层，比如 model.fc = nn.Linear(number_of_features, number_of_classes)，新层默认是可训练的。
+speaker 1: 优化器那里用了 filter(lambda p: p.requires_grad, model.parameters())，这是为什么？
+speaker 2: 因为已经冻结的参数不需要被优化器更新，用 filter 只挑出还需要训练的参数，让优化器只负责这部分。
+speaker 1: 图里最后一步是逐步解冻并微调，这是什么意思？
+speaker 2: 就是先训练好新输出层之后，再逐渐把更深的层（比如 model.layer4）解冻，让它们也参与训练，做更细致的微调。
+speaker 1: 微调这些解冻的层，学习率要怎么设置？
+speaker 2: 通常要比训练新输出层时更小，因为这些参数已经比较接近合理值，用太大的学习率容易破坏已经学到的特征。
+speaker 1: 这一章的主要内容已经讲完了吗？
+speaker 2: 已经讲完了。接下来可以完成本章末尾的五道选择题，检查一下自己是否真正理解了这些内容。

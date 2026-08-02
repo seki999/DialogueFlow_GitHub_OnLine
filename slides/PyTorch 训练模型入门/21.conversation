@@ -1,0 +1,16 @@
+speaker 1: 除了正则化，训练稳定性是不是还跟归一化层有关系？
+speaker 2: 对，这一章讲两种常见的归一化：BatchNorm 和 LayerNorm，它们统计信息的范围不一样。
+speaker 1: BatchNorm 是怎么统计的？
+speaker 2: 它是按照同一个 batch 内所有样本一起统计均值和方差，这也是它名字里 Batch 的来源。
+speaker 1: 这样做会有什么问题吗？
+speaker 2: 如果 batch 很小，用很少的样本去估计均值方差，波动会比较大，统计结果可能不太稳定。
+speaker 1: 那 LayerNorm 有什么不同？
+speaker 2: LayerNorm 是在每个样本内部自己的特征维度上做归一化，完全不依赖 batch 里的其他样本。
+speaker 1: 图里说 CNN 常用 BatchNorm，Transformer 常用 LayerNorm，这是为什么？
+speaker 2: 这是经验上的搭配习惯，CNN 处理图像时 batch 通常比较大，BatchNorm 效果不错；Transformer 处理变长序列，LayerNorm 不受 batch 大小影响，更适合。
+speaker 1: BatchNorm 在训练和推理的时候行为是一样的吗？
+speaker 2: 不一样，训练时用当前 batch 的统计量，同时会累积一个移动平均；推理时通常直接用累积下来的这个移动平均，而不是当前这批数据自己的统计量。
+speaker 1: 所以这也是为什么之前一直强调要区分 model.train() 和 model.eval() 吧？
+speaker 2: 对，BatchNorm 和 Dropout 都是典型的、训练和推理行为不同的模块，这也是这两个状态切换的意义所在。
+speaker 1: 这一章的主要内容已经讲完了吗？
+speaker 2: 已经讲完了。接下来可以完成本章末尾的五道选择题，检查一下自己是否真正理解了这些内容。
