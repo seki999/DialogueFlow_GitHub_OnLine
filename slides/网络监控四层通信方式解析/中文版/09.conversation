@@ -1,0 +1,18 @@
+speaker 1: 这张图先问对象形态，而不是直接固定一种请求。
+speaker 2: 因为读取单个已知指标和遍历整张接口表的需求不同。
+speaker 1: 已知单项就走 GetRequest。
+speaker 2: 对，例如已知设备运行时间的 OID，可以直接请求它的值。
+speaker 1: GetNextRequest 返回当前位置之后的下一个 OID。
+speaker 2: 它可以沿 OID 树逐项前进，因此适合遍历未知长度的表。
+speaker 1: GetBulkRequest 则一次返回多个连续 OID。
+speaker 2: 是的，它减少往返次数，读取大型接口表时通常更高效。
+speaker 1: GetBulk 在所有 SNMP 版本里都有吗？
+speaker 2: 没有，它是 SNMPv2c 及后续版本提供的能力。
+speaker 1: 是不是批量越大越好？
+speaker 2: 不是。响应报文大小、设备处理能力和网络路径都要考虑。
+speaker 1: 单指标、逐项遍历、批量遍历分别对应三条分支。
+speaker 2: 对，选择正确操作可以降低请求数量和设备负载。
+speaker 1: 监控模板应该按指标结构设计查询方式。
+speaker 2: 这比对所有设备无差别地高频批量抓取更稳妥。
+speaker 1: 这一章的主要内容已经讲完了吗？
+speaker 2: 已经讲完了。接下来可以完成本章末尾的五道选择题，检查一下自己是否真正理解了这些内容。

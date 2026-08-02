@@ -1,12 +1,18 @@
-speaker 1: SNMP Trap 和前面讲的 SNMP GET 是同一回事吗？
-speaker 2: 方向完全相反。GET 是监控服务器主动去问，Trap 是设备主动上报，不需要服务器先发起请求。
-speaker 1: 那设备一般在什么情况下会发 Trap？
-speaker 2: 比如接口突然断开、电源出现故障、温度超过阈值，或者设备刚刚重启，这些都是典型场景。
-speaker 1: 用的是什么端口？
-speaker 2: UDP 162 端口，专门用于接收 Trap。
-speaker 1: Trap 会不会有可能收不到？
-speaker 2: 有可能，传统 Trap 基于 UDP，没有确认机制，如果网络抖动可能会丢失。
-speaker 1: 那有没有更可靠的方式？
-speaker 2: 有，SNMP 里还有一种叫 Inform 的通知方式，接收方需要返回确认，可靠性比普通 Trap 更高。
-speaker 1: 所以 Trap 的优势主要是及时性？
-speaker 2: 对，它不用等下一次轮询周期，能第一时间发现问题，但具体状态还是需要配合 SNMP GET 确认。
+speaker 1: 图先画出 SYN 和 SYN-ACK，然后才分成两种检测路径。
+speaker 2: 对，因为两种方法都先观察目标端口对 SYN 的响应。
+speaker 1: Connect 路径继续发送 ACK，这就完成了三次握手。
+speaker 2: 没错，操作系统的 connect 调用建立真实连接，随后检测程序再关闭它。
+speaker 1: SYN 路径收到 SYN-ACK 后直接发 RST。
+speaker 2: 这样可以确认端口开放，又不完成完整连接。
+speaker 1: Connect 方法为什么常见？
+speaker 2: 它实现直接、权限要求低，而且与普通应用建立 TCP 连接的过程接近。
+speaker 1: 它的代价是目标服务真的看到连接。
+speaker 2: 对，高频探测可能消耗连接资源，也可能在服务日志中留下记录。
+speaker 1: SYN 检测是不是完全没有代价？
+speaker 2: 不是。它仍产生网络报文，而且构造原始报文通常需要更高权限。
+speaker 1: 无论选哪种，都只验证到 TCP 层。
+speaker 2: 正确。握手成功不等于 TLS、HTTP 响应或业务事务成功。
+speaker 1: 选择方法时要同时看权限、探测频率和目标资源。
+speaker 2: 这三点决定检测是否既可运行，又不会给生产服务带来不必要压力。
+speaker 1: 这一章的主要内容已经讲完了吗？
+speaker 2: 已经讲完了。接下来可以完成本章末尾的五道选择题，检查一下自己是否真正理解了这些内容。

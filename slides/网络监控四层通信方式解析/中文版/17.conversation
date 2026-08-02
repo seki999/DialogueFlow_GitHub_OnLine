@@ -1,0 +1,18 @@
+speaker 1: 图把一条 Syslog 消息拆成 Facility 和 Severity 两个维度。
+speaker 2: 对，前者描述来源类别，后者描述发送方标记的严重程度。
+speaker 1: Severity 的数字越大越严重吗？
+speaker 2: 恰好相反，0 通常最严重，7 是用于调试的 Debug。
+speaker 1: 图里列出 0、3、4 和 7 作为关键锚点。
+speaker 2: 0 是 Emergency，3 是 Error，4 是 Warning，7 是 Debug。
+speaker 1: Facility 能直接告诉我是哪台设备吗？
+speaker 2: 不能，它更像来源类别；具体设备还要看主机名、地址和其他字段。
+speaker 1: 两者最后一起用于分类、路由和存储。
+speaker 2: 例如不同 Facility 可进入不同索引，不同 Severity 可触发不同通知策略。
+speaker 1: 只要 Severity 是 Error 就必须叫醒值班人员吗？
+speaker 2: 不一定。设备可能标记不一致，还要结合事件类型、资产重要性和业务影响。
+speaker 1: 所以 Severity 是输入证据，不是最终告警优先级。
+speaker 2: 正确，平台需要把日志级别转成符合本组织风险模型的告警级别。
+speaker 1: 解析规则也应该保留原始 Facility 和 Severity。
+speaker 2: 这样既便于审计，也便于后续调整路由和告警规则。
+speaker 1: 这一章的主要内容已经讲完了吗？
+speaker 2: 已经讲完了。接下来可以完成本章末尾的五道选择题，检查一下自己是否真正理解了这些内容。

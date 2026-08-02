@@ -1,0 +1,18 @@
+speaker 1: 时序图第一步是 Manager 把 GetRequest 发到 Agent 的 UDP 161。
+speaker 2: 对，161 是 SNMP 查询的典型 Agent 端口。
+speaker 1: 请求里真正指定目标的是 OID。
+speaker 2: 是的，一个请求可以携带一个或多个需要读取的对象标识。
+speaker 1: Agent 收到后在本地查找 OID 和当前值。
+speaker 2: 它会通过设备系统或硬件接口取得数据，再按 SNMP 格式编码响应。
+speaker 1: 响应不一定总是数值，也可能是错误。
+speaker 2: 正确，例如对象不存在、访问不允许或请求处理失败。
+speaker 1: 为什么图中没有先建立连接？
+speaker 2: 典型 SNMP 查询使用 UDP，它没有 TCP 那样的连接建立过程。
+speaker 1: 那请求或响应丢失怎么办？
+speaker 2: Manager 通过等待超时和有限重试处理，但要避免重试放大设备负担。
+speaker 1: 最后一步是保存结果并判断阈值。
+speaker 2: 对，协议只负责取得数据，历史趋势和告警逻辑属于监控平台。
+speaker 1: 所以 UDP 161、OID、响应和平台处理构成一次完整查询。
+speaker 2: 这四步也是排查 SNMP GET 失败时应逐段验证的路径。
+speaker 1: 这一章的主要内容已经讲完了吗？
+speaker 2: 已经讲完了。接下来可以完成本章末尾的五道选择题，检查一下自己是否真正理解了这些内容。
