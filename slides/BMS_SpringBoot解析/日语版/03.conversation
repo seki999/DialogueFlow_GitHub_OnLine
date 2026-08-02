@@ -1,0 +1,20 @@
+speaker 1: 第 03 章は「サーバーサイド画面の要求経路」ですね。何を理解する章ですか。
+speaker 2: URL へのアクセスが、認証、業務処理、HTML 応答へ進む流れを理解します。
+speaker 1: 図はどこから読み始めればよいですか。
+speaker 2: 左から ブラウザー、Security Filter、MVC Controller、Service、Repository、Model、Thymeleaf の順に追ってください。これが本章の処理または依存関係です。
+speaker 1: 最初の重要ポイントを説明してください。
+speaker 2: 画面要求は Spring Security Filter を通ってから Controller に入ります。
+speaker 1: 次のポイントは前の説明とどうつながりますか。
+speaker 2: Service は業務処理とトランザクション、Repository はデータアクセスを担当します。
+speaker 1: コンポーネントの責務で混同しやすい点は何ですか。
+speaker 2: Controller は Model にデータを格納し、テンプレートの論理名を返します。
+speaker 1: 実際の処理や運用では何に注意しますか。
+speaker 2: Thymeleaf はサーバー上で Model とテンプレートから完全な HTML を生成します。
+speaker 1: 最後に、実装済みと誤解してはいけない境界を教えてください。
+speaker 2: ブラウザーが受け取るのは、サーバーで組み立てられた HTML です。
+speaker 1: つまり、図だけで判断せず、実装、設定、実行結果を分けて確認するのですね。
+speaker 2: その理解で正しいです。シミュレーションや改善提案を、現在の本番機能として扱ってはいけません。
+speaker 1: 図の順序、各責務、検証境界の三点を押さえればよいと分かりました。
+speaker 2: はい。技術名を暗記するだけでなく、どこで何が保証されるかを説明できることが重要です。
+speaker 1: この章の説明はこれで完了ですか。
+speaker 2: 完了です。章末の 5 問の単一選択クイズに取り組み、内容を本当に理解できたか確認してください。
