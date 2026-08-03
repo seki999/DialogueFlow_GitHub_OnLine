@@ -1,0 +1,10 @@
+speaker 1: Spring Boot连数据库的时候，连接池是不是随便用哪个都行？
+speaker 2: 大部分情况下Spring Boot项目默认带的就是HikariCP，如果是普通的单实例Oracle数据库，HikariCP通常就足够用了。
+speaker 1: 那什么情况下需要考虑别的连接池？
+speaker 2: 如果数据库是Oracle RAC，或者用的是Autonomous Database这种要求较强故障切换能力的高可用架构，可以考虑Oracle的UCP，也就是Universal Connection Pool。
+speaker 1: UCP比HikariCP强在哪？
+speaker 2: UCP可以配合FAN，也就是快速应用通知，还有Application Continuity一起使用，在数据库计划维护或者部分实例故障的时候，能更好地处理连接排空、恢复，甚至把中断的事务重放，减少对业务的影响。
+speaker 1: 所以选型的原则大概是？
+speaker 2: 简单说，普通单实例场景HikariCP就能满足；如果是Oracle RAC或者Autonomous Database这种强调高可用的场景，就应该优先评估UCP。
+speaker 1: 这一章的主要内容已经讲完了吗？
+speaker 2: 已经讲完了。接下来可以完成本章末尾的五道选择题，检查一下自己是否真正理解了这些内容。

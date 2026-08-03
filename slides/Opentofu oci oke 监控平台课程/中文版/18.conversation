@@ -1,0 +1,10 @@
+speaker 1: 前面提到用户流量走HTTP LB，Trap和Syslog走NLB，这两种负载均衡器到底有什么区别？
+speaker 2: OCI Load Balancer是面向HTTP/HTTPS的七层负载均衡器，能做TLS终止、域名路由、路径路由，比如把/api转发到monitoring-api，把/admin转发到管理后台。
+speaker 1: 那NLB呢？
+speaker 2: NLB是四层负载均衡器，支持TCP和UDP，吞吐量高、延迟低，还能保留源地址和目标地址信息，这对SNMP Trap和Syslog这种需要知道设备真实来源IP的场景非常重要。
+speaker 1: 如果把Trap也放到HTTP LB后面会怎样？
+speaker 2: 行不通，因为HTTP LB是针对HTTP协议设计的七层负载均衡，Trap和Syslog走的是原始的UDP或TCP报文，不是HTTP请求，HTTP LB处理不了这种流量。
+speaker 1: Kubernetes这边怎么和这些负载均衡器配合？
+speaker 2: 对于HTTP流量，可以用OCI Native Ingress Controller，它能根据集群里的Ingress资源自动创建和维护对应的OCI Load Balancer；而Trap、Syslog这种就直接通过Kubernetes Service声明为NLB类型来创建。
+speaker 1: 这一章的主要内容已经讲完了吗？
+speaker 2: 已经讲完了。接下来可以完成本章末尾的五道选择题，检查一下自己是否真正理解了这些内容。

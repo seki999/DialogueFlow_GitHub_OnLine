@@ -1,0 +1,10 @@
+speaker 1: 数据库密码这些敏感信息应该放在哪里？
+speaker 2: 绝对不能直接写进Git仓库，像Oracle数据库密码、SNMP的Community或者v3密码、TLS私钥这些，都属于高度敏感的信息。
+speaker 1: 那普通的配置项呢？
+speaker 2: 普通配置，比如日志级别、一些非敏感的参数，可以放在Kubernetes的ConfigMap里；敏感配置应该放进OCI Vault，再通过Kubernetes Secret引用进来。
+speaker 1: OCI Vault具体是干嘛的？
+speaker 2: 它专门用来管理加密密钥和Secret，OKE甚至可以用OCI管理的密钥去加密Kubernetes etcd里存的Secret本身，多一层保护。
+speaker 1: 如果Pod需要访问Vault或者Object Storage这些OCI服务，怎么做比较安全？
+speaker 2: 推荐用OKE的Workload Identity，通过集群、Namespace、ServiceAccount这个组合来识别是哪个工作负载在请求，再通过IAM Policy给它细粒度的权限，这样就不需要在Pod里长期保存一个API Key，减少了泄露的风险。
+speaker 1: 这一章的主要内容已经讲完了吗？
+speaker 2: 已经讲完了。接下来可以完成本章末尾的五道选择题，检查一下自己是否真正理解了这些内容。

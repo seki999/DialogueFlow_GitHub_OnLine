@@ -1,0 +1,12 @@
+speaker 1: Kubernetes里的这三种Probe，具体分别是干什么的？
+speaker 2: startupProbe用来判断应用是不是已经完成启动；livenessProbe判断应用是不是死锁了，需要重启；readinessProbe判断应用现在是不是可以对外提供服务。
+speaker 1: 如果应用启动比较慢，会不会被livenessProbe误杀？
+speaker 2: 这正是startupProbe存在的意义，它会先给应用一段启动时间，在这段时间内不会触发livenessProbe导致的重启，等启动完成后才切换到正常的liveness检测。
+speaker 1: 那readinessProbe失败会发生什么？
+speaker 2: Kubernetes会把这个Pod从Service的后端列表里摘掉，暂时不再转发流量给它，直到它重新变成Ready状态，这样可以避免请求打到还没准备好的Pod上。
+speaker 1: Spring Boot里怎么配合这些Probe？
+speaker 2: Spring Boot Actuator提供了/actuator/health/liveness和/actuator/health/readiness两个端点，正好可以分别对接livenessProbe和readinessProbe。
+speaker 1: 配置的时候有什么要注意的吗？
+speaker 2: 探针最好能反映业务端口的真实状态，如果只检查一个独立的管理端口，管理端口正常不代表业务端口真的能处理请求，这样探针就失去意义了。
+speaker 1: 这一章的主要内容已经讲完了吗？
+speaker 2: 已经讲完了。接下来可以完成本章末尾的五道选择题，检查一下自己是否真正理解了这些内容。

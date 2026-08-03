@@ -1,0 +1,10 @@
+speaker 1: 为什么不能把所有OpenTofu配置都写在一个大文件里？
+speaker 2: 如果都堆在一起，代码会变得很难维护，一旦项目变复杂，改一处可能牵连很多地方。所以推荐拆成多个模块。
+speaker 1: 具体应该怎么拆？
+speaker 2: 比如可以拆成compartment、iam、network、oke、database、load-balancer、vault和observability这几个模块，每个模块只负责一类资源。
+speaker 1: 这样拆分之后，模块之间要怎么互相配合？
+speaker 2: 一般是通过Output和Variable传递依赖，比如network模块输出子网的OCID，oke模块把它当作Variable输入，用来把OKE集群创建在对应的子网里。
+speaker 1: 如果我只改了数据库配置，是不是就不用碰network模块了？
+speaker 2: 对，这就是模块化的好处，职责清晰之后，改动可以聚焦在对应的模块里，不会牵一发动全身，代码审查和协作也会更顺畅。
+speaker 1: 这一章的主要内容已经讲完了吗？
+speaker 2: 已经讲完了。接下来可以完成本章末尾的五道选择题，检查一下自己是否真正理解了这些内容。

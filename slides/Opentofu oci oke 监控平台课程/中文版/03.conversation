@@ -1,0 +1,12 @@
+speaker 1: OpenTofu在这个项目里到底是干什么用的？
+speaker 2: 它负责创建和维护OCI上的云基础设施，比如VCN、OKE集群、数据库这些，而不是写Spring Boot的业务代码。
+speaker 1: 它跟Terraform是什么关系？是分支吗？
+speaker 2: 不是简单的分支，它是一个和Terraform HCL配置高度兼容的开源工具，很多原来的Terraform配置只需要较小改动就能迁移过来。
+speaker 1: 那它是怎么连到OCI去创建资源的？
+speaker 2: 通过oracle/oci这个Provider插件，OpenTofu调用OCI的API，把配置文件描述的资源变成真实的云资源。
+speaker 1: 平时操作的时候大概是什么流程？
+speaker 2: 先执行tofu init初始化，然后tofu plan看一下会做哪些变更，确认没问题再执行tofu apply真正应用。
+speaker 1: 那Spring Boot升级版本是不是也用OpenTofu去部署？
+speaker 2: 一般不建议这样做。应用版本变化很频繁，如果和底层的VCN、OKE网络绑在同一个State里，每次发布应用都可能牵动基础设施，所以通常让OpenTofu只管基础设施，应用发布交给单独的流水线。
+speaker 1: 这一章的主要内容已经讲完了吗？
+speaker 2: 已经讲完了。接下来可以完成本章末尾的五道选择题，检查一下自己是否真正理解了这些内容。

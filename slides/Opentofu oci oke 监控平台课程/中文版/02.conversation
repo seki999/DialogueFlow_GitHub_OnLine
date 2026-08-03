@@ -1,0 +1,12 @@
+speaker 1: 能不能先给我看一下这套系统从头到尾长什么样？
+speaker 2: 可以。简单说，运维人员通过浏览器走HTTPS访问OCI Load Balancer，后面接的是Spring Boot API。
+speaker 1: 那设备那边呢？设备是怎么连进来的？
+speaker 2: 设备通常在企业内网，通过IPSec VPN或者FastConnect专线接入OCI，然后Trap和Syslog这类入站消息，会打到一个OCI Network Load Balancer上。
+speaker 1: 为什么Trap和Syslog不走跟用户一样的Load Balancer？
+speaker 2: 因为它们是UDP或TCP协议，不是HTTP协议，普通的HTTP负载均衡器处理不了，所以专门用支持TCP/UDP的NLB。
+speaker 1: 那TCP Ping和SNMP GET呢，它们也要经过NLB吗？
+speaker 2: 不需要。这两个是平台自己主动去连设备、去查询，属于出站流量，Poller直接发起连接就行，不用经过负载均衡器。
+speaker 1: 所以数据最后都存到哪里？
+speaker 2: 不管是API写入的配置数据，还是Poller采集的指标，还是Trap、Syslog收到的事件，最终都会汇总进Oracle数据库，后续查询、报表、告警都是基于这个数据库。
+speaker 1: 这一章的主要内容已经讲完了吗？
+speaker 2: 已经讲完了。接下来可以完成本章末尾的五道选择题，检查一下自己是否真正理解了这些内容。

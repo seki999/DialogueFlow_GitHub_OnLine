@@ -1,0 +1,10 @@
+speaker 1: OpenTofu和Kubernetes/Helm这两者的职责应该怎么划分？
+speaker 2: 简单说，OpenTofu负责Compartment、IAM、VCN、OKE集群本身、数据库、Vault这些基础设施，Kubernetes或者Helm负责Deployment、Service、Ingress、HPA、PDB这些应用层的资源。
+speaker 1: OpenTofu是不是也能直接创建Deployment？
+speaker 2: 技术上可以，OpenTofu也有Kubernetes Provider和Helm Provider，能创建这些资源，但不建议把它们和底层的OCI网络绑在同一个State里。
+speaker 1: 为什么不建议绑在一起？
+speaker 2: 因为应用版本变化非常频繁，如果和VCN、OKE这些基础设施共用一个State，每次升级应用可能都会牵动整个基础设施的评估流程，风险和复杂度都会增加。
+speaker 1: 那更合理的做法是什么？
+speaker 2: 更稳妥的是拆成两条流水线，一条是OpenTofu Pipeline，专门负责基础设施；另一条是Application Pipeline，专门负责Spring Boot和Helm部署。这样升级Spring Boot的时候，不需要重新走一遍VCN、OKE、数据库这些基础设施的流程。
+speaker 1: 这一章的主要内容已经讲完了吗？
+speaker 2: 已经讲完了。接下来可以完成本章末尾的五道选择题，检查一下自己是否真正理解了这些内容。

@@ -1,0 +1,10 @@
+speaker 1: Pod的网络和普通的Kubernetes是不是不太一样？
+speaker 2: 在OKE里，推荐使用VCN-Native Pod Networking，这种模式下Pod直接从VCN的地址空间获得可路由的IP。
+speaker 1: 这样有什么好处？
+speaker 2: 好处是同一个VCN内、对等连接的VCN，甚至通过VPN、FastConnect接入的本地网络，都可以直接和Pod通信，不需要额外的地址转换。
+speaker 1: 那是不是可以让设备直接把Trap发到某个Pod的IP上？
+speaker 2: 不建议这么做。Pod的生命周期比较短，一旦重建，IP很可能会变化，如果设备配置的是具体Pod IP，Pod一重建，设备就发不到消息了。
+speaker 1: 那应该怎么办？
+speaker 2: 应该让设备把Trap和Syslog发送到一个稳定的地址，也就是前面提到的NLB地址。NLB后面的Pod可以随时变化，但对外暴露的入口地址是不变的，这样设备端的配置就不需要跟着调整了。
+speaker 1: 这一章的主要内容已经讲完了吗？
+speaker 2: 已经讲完了。接下来可以完成本章末尾的五道选择题，检查一下自己是否真正理解了这些内容。

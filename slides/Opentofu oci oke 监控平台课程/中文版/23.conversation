@@ -1,0 +1,10 @@
+speaker 1: Spring Boot服务怎么变成能在OKE里跑起来的东西？
+speaker 2: 需要先打包成JAR，然后用Dockerfile把它构建成容器镜像，推荐用非root用户去运行这个容器，出于安全考虑。
+speaker 1: 镜像构建完之后放在哪？
+speaker 2: 推送到OCIR，也就是OCI Container Registry，它是OCI托管的容器镜像仓库，支持Docker镜像和OCI兼容的制品格式。
+speaker 1: 如果是私有仓库，OKE怎么才能拉到镜像？
+speaker 2: 需要配置好对应的IAM权限，以及镜像拉取需要的认证信息，比如Kubernetes里的镜像拉取Secret，这样OKE才能成功从私有OCIR拉取镜像。
+speaker 1: 完整的流程大概是什么样？
+speaker 2: 一般是Git Push之后触发Maven测试，构建出JAR包，再做Docker Build，构建完先做一次安全扫描，确认没有已知严重漏洞，然后推送到OCIR，最后通过Helm Upgrade之类的方式触发OKE的滚动更新，去拉取新镜像。
+speaker 1: 这一章的主要内容已经讲完了吗？
+speaker 2: 已经讲完了。接下来可以完成本章末尾的五道选择题，检查一下自己是否真正理解了这些内容。

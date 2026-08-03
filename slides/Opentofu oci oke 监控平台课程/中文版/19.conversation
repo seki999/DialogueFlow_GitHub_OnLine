@@ -1,0 +1,10 @@
+speaker 1: 配置NLB的时候要保留设备的真实源IP，具体怎么做？
+speaker 2: 一般是通过NLB相关的注解，比如is-preserve-source设置为true，再配合Service的externalTrafficPolicy设置为Local，这样才能让后端应用看到真实的客户端源IP，而不是被转换过的地址。
+speaker 1: 安全规则这块OCI会不会自动帮忙配好？
+speaker 2: 不一定。OCI文档特别提醒过，NLB和后端节点之间所需的安全规则，默认情况下不一定会自动创建，需要自己去确认NSG或者安全列表是不是配置正确。
+speaker 1: 那来源方面要怎么限制？
+speaker 2: 可以用loadBalancerSourceRanges限制只允许特定网段访问，比如企业内网的地址段，而不是让全世界都能访问这个UDP 162或者514端口。
+speaker 1: 容器内部监听端口是不是也要跟NLB对外端口一样？
+speaker 2: 不需要完全一样，因为很多情况下容器不会用root权限运行，没办法直接绑定小于1024的端口，可以让容器内部监听比如1162，NLB对外还是提供标准的UDP 162，中间做一个端口映射就行。
+speaker 1: 这一章的主要内容已经讲完了吗？
+speaker 2: 已经讲完了。接下来可以完成本章末尾的五道选择题，检查一下自己是否真正理解了这些内容。

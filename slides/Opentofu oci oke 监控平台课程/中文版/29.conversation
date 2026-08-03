@@ -1,0 +1,12 @@
+speaker 1: 这么多组件，应该按什么顺序去部署？
+speaker 2: 第一步一定是先创建Compartment和IAM，这是整个OCI资源体系的基础；接下来是VCN、子网、DRG、NSG这些网络资源，再打通VPN或者FastConnect跟企业网络的连接。
+speaker 1: 然后呢？
+speaker 2: 接下来创建OCIR镜像仓库，再准备Oracle数据库，还有Vault和Secret，这些都要在应用真正启动之前准备好，因为应用启动时是需要连数据库的。
+speaker 1: OKE集群是什么时候创建？
+speaker 2: 在数据库和Vault之后，创建OKE Cluster、Node Pool以及Pod网络，接着安装Ingress、监控和日志相关的组件。
+speaker 1: 应用是按什么顺序部署的？
+speaker 2: 先构建并推送Spring Boot镜像，然后部署monitoring-api和TCP Ping、SNMP GET这些Poller，再部署Trap和Syslog接收器。
+speaker 1: 最后还要做什么？
+speaker 2: 最后创建HTTP Load Balancer和Trap/Syslog用的NLB，然后做一次完整的端到端通信测试，确认整条链路都通了，最后再细化配置HPA、PDB、告警和日志这些运维层面的内容。
+speaker 1: 这一章的主要内容已经讲完了吗？
+speaker 2: 已经讲完了。接下来可以完成本章末尾的五道选择题，检查一下自己是否真正理解了这些内容。

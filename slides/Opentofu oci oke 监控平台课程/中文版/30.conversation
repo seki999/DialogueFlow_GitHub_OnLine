@@ -1,0 +1,14 @@
+speaker 1: 整个课程学下来，能不能帮我梳理一下最核心的几个原则？
+speaker 2: 可以，我觉得最关键的有五条。第一，Web流量走OCI Load Balancer，TCP/UDP协议流量走OCI NLB，不要混用。
+speaker 1: 第二呢？
+speaker 2: 第二，TCP Ping和SNMP GET是平台主动发起的出站任务，不需要负载均衡器；而SNMP Trap和Syslog必须保留来源IP，并且要通过异步队列这类机制防止突发流量压垮数据库。
+speaker 1: 还有呢？
+speaker 2: 第三，Poller做水平扩容的时候，一定要有分片或者抢占机制，不然多个副本会重复轮询同一台设备。第四，OpenTofu负责基础设施，Helm或者Kubernetes负责应用部署，不要把它们绑在同一个State里。
+speaker 1: 最后一条呢？
+speaker 2: 第五，也是最容易被忽略的一点，监控平台自己也要有自监控，覆盖Spring Boot应用层、协议层、Kubernetes层和OCI基础设施层这四个层面，不能只顾着监控别人。
+speaker 1: 如果我想继续深入，还可以研究哪些方向？
+speaker 2: 可以往几个方向延伸：比如SNMPv3的具体加密机制、Oracle数据库的分区和归档策略细节、OKE的Workload Identity实际配置，或者更完整地设计告警规则引擎的收敛和降噪逻辑，这些都是可以继续深挖的地方。
+speaker 1: 好的，这一章的主要内容已经讲完了吗？
+speaker 2: 已经讲完了。这也是整个课程的最后一章，接下来完成这一章末尾的五道综合测验题，检查一下自己对整套课程的掌握程度吧。
+speaker 1: 这一章的主要内容已经讲完了吗？
+speaker 2: 已经讲完了。接下来可以完成本章末尾的五道选择题，检查一下自己是否真正理解了这些内容。

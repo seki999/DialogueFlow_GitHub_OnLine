@@ -1,0 +1,10 @@
+speaker 1: 数据库里大概会有哪些核心的表？
+speaker 2: 主要包括DEVICE设备表，还有POLL_TASK轮询任务，METRIC_SAMPLE指标采样数据，SNMP_TRAP_EVENT和SYSLOG_EVENT分别对应Trap和Syslog的事件，标准化之后还有NORMALIZED_EVENT，最终触发ALERT告警表。
+speaker 1: 这些表的数据量应该很大吧？
+speaker 2: 确实，比如SNMP GET假设每5分钟采集一次，1000台设备，每台设备20个OID，这个量级增长得很快，Syslog和Trap在故障期间还可能瞬间暴增。
+speaker 1: 那怎么应对这么大的数据量？
+speaker 2: 一般会按日期给这些事件类表做分区，同时围绕DEVICE_ID、METRIC_CODE、COLLECTED_AT这些常用查询条件建立合适的索引，另外还要有冷热数据分离、归档和自动清理的策略，不能让数据无限增长。
+speaker 1: 写入的时候有什么要注意的吗？
+speaker 2: 不建议每条指标都单独开一个事务，那样在高频写入下性能开销会很大，更合理的做法是批量Insert，减少事务开销。
+speaker 1: 这一章的主要内容已经讲完了吗？
+speaker 2: 已经讲完了。接下来可以完成本章末尾的五道选择题，检查一下自己是否真正理解了这些内容。

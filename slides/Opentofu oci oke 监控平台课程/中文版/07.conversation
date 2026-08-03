@@ -1,0 +1,10 @@
+speaker 1: State为什么不能直接传到GitHub上？
+speaker 2: 因为State里可能记录了数据库地址、用户信息，甚至一些密钥相关的属性，一旦提交到公共仓库，就存在泄露风险。
+speaker 1: 那应该怎么保存State才安全？
+speaker 2: OpenTofu支持远程Backend来集中存储State，还支持State Locking防止多人同时操作产生冲突，也可以对State和Plan文件做加密。
+speaker 1: 开发、测试、生产环境的State是共用一个吗？
+speaker 2: 不应该共用。一般会按环境建立独立目录，比如environments/dev、stg、prod，每个环境有自己的main.tf、backend.tf和变量文件。
+speaker 1: 那能不能只用Workspace来区分环境，不用建这么多目录？
+speaker 2: 对于简单场景可以，但复杂的生产部署通常需要独立的权限、独立的State，甚至独立的流水线，官方也建议这种情况下用独立配置目录，而不是仅仅依赖Workspace。
+speaker 1: 这一章的主要内容已经讲完了吗？
+speaker 2: 已经讲完了。接下来可以完成本章末尾的五道选择题，检查一下自己是否真正理解了这些内容。

@@ -1,0 +1,12 @@
+speaker 1: Spring Boot这边具体拆成了哪些模块？
+speaker 2: 大致可以拆成monitoring-common和monitoring-domain这两个公共模块，再加上monitoring-api、tcp-ping-worker、snmp-get-worker、snmp-trap-receiver、syslog-receiver和alert-engine这几个业务模块。
+speaker 1: monitoring-api具体负责什么？
+speaker 2: 它是面向用户和外部系统的，负责登录、设备管理、OID管理、监控策略配置、阈值配置，还有告警查询和历史趋势这些REST API。
+speaker 1: tcp-ping-worker是不是一失败就马上告警？
+speaker 2: 不是，如果第一次失败就告警，很容易因为网络抖动产生误报。更合理的设计是第一次失败先记录，连续失败达到一定次数，比如连续三次，才真正产生告警，恢复正常之后再产生一个恢复事件。
+speaker 1: snmp-get-worker是怎么处理采集到的数据的？
+speaker 2: 它会把“采集”和“告警判断”分开：采集层只负责记录设备返回的原始数值，比如CPU是35度，规则层再单独判断这个数值是不是超过了阈值，这样职责更清晰。
+speaker 1: 不同来源的数据最后是怎么汇总到一起判断告警的？
+speaker 2: 会统一转换成一种标准化事件格式，比如包含deviceId、sourceType、eventCode这些字段，不管是Trap、Syslog还是TCP Ping产生的问题，最后都用同一种格式交给alert-engine统一处理。
+speaker 1: 这一章的主要内容已经讲完了吗？
+speaker 2: 已经讲完了。接下来可以完成本章末尾的五道选择题，检查一下自己是否真正理解了这些内容。

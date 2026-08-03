@@ -1,0 +1,10 @@
+speaker 1: 为什么不能把Web API、Poller、Trap接收都塞进一个Spring Boot容器里？
+speaker 2: 假设都放一起，一旦Web API的负载升高，HPA会把Pod从2个扩到6个，结果同一台设备可能被6个副本同时轮询，Trap监听端口也重复了，告警也可能重复生成。
+speaker 1: 那正确的做法是什么？
+speaker 2: 把功能拆开，分成monitoring-api、tcp-ping-poller、snmp-get-poller、snmp-trap-receiver、syslog-receiver和alert-engine，各自独立部署。
+speaker 1: 这样拆开之后有什么好处？
+speaker 2: Web API可以按HTTP流量独立扩缩容，Poller可以按设备数量或任务量扩缩容，Trap和Syslog接收器可以按报文速率扩缩容，互相不会干扰。
+speaker 1: 那数据库初始化和清理历史数据这种任务呢？
+speaker 2: 这些是一次性或周期性的任务，不适合用常驻的Deployment，数据库初始化更适合用Job执行一次就结束，定期清理历史数据适合用CronJob周期性触发。
+speaker 1: 这一章的主要内容已经讲完了吗？
+speaker 2: 已经讲完了。接下来可以完成本章末尾的五道选择题，检查一下自己是否真正理解了这些内容。
