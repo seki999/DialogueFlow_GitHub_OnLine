@@ -1,14 +1,12 @@
-speaker 1: 这个 API 接口的基本信息是怎样的？
-speaker 2: 路径固定是 POST /api/traps，请求头要求 Content-Type 是 application/json，这是转发脚本和 Spring Boot 之间唯一的对接点。
-speaker 1: 响应状态码有几种？
-speaker 2: 三种：保存成功返回 201 Created；必须字段缺失返回 400 Bad Request；数据库保存出问题返回 500 Internal Server Error。
-speaker 1: 请求体里一共有几个字段？
-speaker 2: 9 个，全部必填：trapOid、trapName、deviceId、deviceName、eventType、severity、temperature、message、eventTime。
-speaker 1: 这些字符串字段的长度限制是统一的吗？
-speaker 2: 不统一，各自对应数据库列的长度：trapOid 和 trapName 都是 128 字符，deviceId 是 64 字符，deviceName 是 128 字符，eventType 是 64 字符，severity 是 32 字符，message 相对宽松，是 512 字符。
-speaker 1: temperature 和 eventTime 这两个字段有什么特别之处？
-speaker 2: temperature 在 JSON 里是数值类型，对应 Java 的 Double；eventTime 要求是符合 ISO-8601 格式的本地日期时间字符串，Spring Boot 收到后会解析成 LocalDateTime。
-speaker 1: 如果转发脚本发的 JSON 缺了一个字段会怎样？
-speaker 2: Bean Validation 会拦下这次请求，返回 400 Bad Request，不会让不完整的数据进到数据库层。
+speaker 1: 这一路学下来感觉这个项目挺完整的，是不是稍微改改就能上生产了？
+speaker 2: 不建议，README 里专门列了一份"制约事项"，我们一条条看一下。首先，SNMP v2c 用的 Community public 不提供加密也不提供强认证，理论上是可能被网络嗅探拿到的。
+speaker 1: 那数据库账号密码这些呢？
+speaker 2: 也是固定值，专门给本地演示用的，README 建议生产环境要换成 Docker Secrets 之类的方案，不能直接沿用。
+speaker 1: 还有哪些是明确排除在外的？
+speaker 2: SNMPv3、Inform、认证授权、失败重试队列、多节点部署，这几项都被明确列为本 Demo 范围之外，意味着单点故障和消息丢失在设计上是被默认接受的风险。
+speaker 1: 所以如果 snmptrapd 那台机器挂了，发出去的 Trap 就真的丢了？
+speaker 2: 对，因为没有重试队列，也没有多节点冗余，一旦某个环节出问题，那条数据大概率就丢了，只能靠日志排查发现，没法自动恢复。
+speaker 1: 那 Simulator 显示发送成功是不是就代表数据肯定保存好了？
+speaker 2: 不是，Trap 是基于 UDP 的，发送成功只说明报文送出去了，并不保证真的被接收和保存，这也是为什么上一章我们要专门讲怎么通过日志和页面去确认结果。
 speaker 1: 这一章的主要内容已经讲完了吗？
 speaker 2: 已经讲完了。接下来可以完成本章末尾的五道选择题，检查一下自己是否真正理解了这些内容。

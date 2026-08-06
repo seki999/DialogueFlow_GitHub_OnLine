@@ -1,14 +1,12 @@
-speaker 1: Spring Boot 这部分代码看起来分了好几层，能不能按顺序捋一遍？
-speaker 2: 可以。最上层是两个 Controller：TrapApiController 处理 POST /api/traps，TrapViewController 处理 / 和 /traps 这两个页面路由。
-speaker 1: POST 请求进来之后先经过什么？
-speaker 2: 先经过 TrapEventRequest 这个 DTO，它用 Bean Validation 注解做入参校验，比如必填字段是否为空、格式是否正确。
-speaker 1: 校验通过之后呢？
-speaker 2: 交给 TrapService，它负责把 DTO 转换成 TrapEvent 实体，然后调用 Repository 保存，查询数据的时候也是走这一层做转换。
-speaker 1: Repository 这层具体做什么？
-speaker 2: TrapEventRepository 基于 JPA，负责持久化操作，并且支持按接收时间倒序检索，这正是页面需要的排序方式。
-speaker 1: 如果校验失败或者数据库出错，谁来处理？
-speaker 2: ApiExceptionHandler 统一接管这类异常，给出最简洁的响应，不会把内部堆栈信息暴露给调用方。
-speaker 1: 页面部分呢，是用什么技术渲染的？
-speaker 2: 用 Thymeleaf 模板 traps.html，它是不依赖 JavaScript 的纯 HTML 表格，浏览器请求一次，服务端直接把数据渲染好返回。
+speaker 1: 上一章说规则拆成了字典，那具体先看哪个字典？
+speaker 2: 先看 trap-definitions.tsv，这个文件是通知级别的翻译表，决定一个 OID 最终变成什么 Trap 名。
+speaker 1: 它每一行都存了什么？
+speaker 2: 四列：通知 OID、Trap 名、期望的 eventType、期望的 severity。
+speaker 1: 能举个具体例子吗？
+speaker 2: 比如 .0.2 这一行，对应 Trap 名是 temperatureHighTrap，期望 eventType 是 TEMPERATURE_HIGH，期望 severity 是 WARNING。
+speaker 1: 那这个'期望值'是干嘛用的，只是给人看的注释吗？
+speaker 2: 不只是注释，它会在后面的处理流程里被拿来跟 Trap 报文里实际携带的 eventType、severity 做核对，如果对不上就说明数据有问题。
+speaker 1: 如果字典里不小心写重复了同一个 OID 会怎样？
+speaker 2: 那属于违反了唯一性要求，属于字典格式错误，正常情况下应该在构建阶段的校验脚本里就被挡下来，不会进入运行环境。
 speaker 1: 这一章的主要内容已经讲完了吗？
 speaker 2: 已经讲完了。接下来可以完成本章末尾的五道选择题，检查一下自己是否真正理解了这些内容。

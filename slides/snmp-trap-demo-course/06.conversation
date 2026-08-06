@@ -1,14 +1,12 @@
-speaker 1: snmptrapd 具体是什么软件？
-speaker 2: 它是 Net-SNMP 套件里的 Trap 接收守护进程，这里用的是 5.9 系列、Debian bookworm 打包的版本。
-speaker 1: 它监听哪里？
-speaker 2: 监听全部 IPv4 接口的 UDP 162 端口，用的是 SNMP v2c，Community 是 public。
-speaker 1: 启动参数里那几个字母是什么意思？
-speaker 2: -f 表示前台运行，不脱离终端；-Lo 表示日志输出到标准输出，方便容器化环境查看；-On 表示用数值形式的 OID 而不是符号名。
-speaker 1: 为什么一定要数值形式的 OID？
-speaker 2: 因为后面转发脚本要拿这个 OID 去查字典做比较，数值形式不依赖 MIB 的显示配置和本地化设置，更稳定可靠。
-speaker 1: 那 snmptrapd 自己会不会把数据存到数据库？
-speaker 2: 不会，这正是它的边界。它只负责协议接收、加载 MIB 字典、提取 OID 和 VB、做 Trap 名称转换，数据库持久化是 Spring Boot 的事。
-speaker 1: 它怎么把数据交给后面处理？
-speaker 2: 靠一条配置 traphandle default，意思是所有收到的通知都交给 forward-trap.sh 这个脚本去处理，脚本再负责后续的转换和转发。
+speaker 1: 我发现 forward-trap.sh 里好像没有写死任何 if OID 等于什么就怎么处理，这是为什么？
+speaker 2: 因为项目故意把规则和执行逻辑分开了，规则放在字典文件里，脚本只负责读字典、按规则转换。
+speaker 1: 具体分成了哪几层？
+speaker 2: 三层：最上面是 MIB 文件，定义 OID 的层级结构和符号名；中间是两个 TSV 字典，定义运行时的转换规则；最下面是脚本，负责查表执行。
+speaker 1: 两个字典具体分别管什么？
+speaker 2: trap-definitions.tsv 管的是通知级别，也就是某个通知 OID 对应哪个 Trap 名、期望的 eventType 和 severity；varbind-definitions.tsv 管的是字段级别，VB OID 对应哪个 JSON 字段、是否必填、什么类型、最大长度。
+speaker 1: 这么设计有什么好处？
+speaker 2: 最大的好处是可扩展性，如果以后要新增一种事件类型，只需要改字典文件和 MIB，不用碰脚本代码，风险小很多。
+speaker 1: 那万一字典写错了怎么办，会不会等到运行时才炸？
+speaker 2: 不会，构建镜像的时候会跑 validate-dictionary.sh，提前检查字典格式、重复项，还有跟 MIB 是否一致，有问题直接让构建失败，不会带着错误配置上线。
 speaker 1: 这一章的主要内容已经讲完了吗？
 speaker 2: 已经讲完了。接下来可以完成本章末尾的五道选择题，检查一下自己是否真正理解了这些内容。

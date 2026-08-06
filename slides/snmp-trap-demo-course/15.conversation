@@ -1,12 +1,14 @@
-speaker 1: trap-definitions.tsv 这个文件长什么样？
-speaker 2: 是一个用竖线分隔列的文本文件，UTF-8 编码。每一行代表一个事件的定义，比如 1.3.6.1.4.1.99999.0.2|temperatureHighTrap|TEMPERATURE_HIGH|WARNING。
-speaker 1: 列的顺序是固定的吗？
-speaker 2: 固定，依次是 notificationOid、trapName、eventType、severity，脚本按位置读取，不能随意调换。
-speaker 1: 这些列各自有什么校验规则？
-speaker 2: notificationOid 必须是数字和点号组成、文件内唯一，并且要跟 MIB 里同一个 Trap 的 OID 完全一致；trapName 要小驼峰、唯一，还得真实存在于 MIB 中；eventType 要大写加下划线、唯一；severity 只能是 INFO、WARNING、CRITICAL 三选一。
-speaker 1: 为什么强调“不能反过来用 eventType 推算 Trap 名”？
-speaker 2: 因为如果按 eventType 去反推，一旦发送端的 eventType 字段被篡改或者写错，系统可能会把这条 Trap 误判成别的事件类型。而以通知 OID 作为唯一检索键，就避免了这种风险。
-speaker 1: 所以这份辞书的核心作用，其实是把“协议里的数字”翻译成“业务上能看懂的名字和枚举值”。
-speaker 2: 说得很准确，它是连接协议层数字世界和业务层语义世界的桥梁。
+speaker 1: 数据最后存进数据库的表长什么样？
+speaker 2: 表名是 SNMP_TRAP_EVENT，由 JPA 的 ddl-auto=update 自动创建，不需要手写建表语句。
+speaker 1: 主键是怎么设计的？
+speaker 2: ID 字段，类型是 Long，用 IDENTITY 自增策略，也就是每插入一条记录，数据库自动给它分配一个递增的 ID。
+speaker 1: 我看到有 TRAP_OID 和 TRAP_NAME 两个字段，都是必填吗？
+speaker 2: 对，都是 NOT NULL，限制 128 字符，这样能保证每条记录都能明确追溯到它到底是哪种通知。
+speaker 1: 设备相关的字段呢？
+speaker 2: DEVICE_ID 限制 64 字符，DEVICE_NAME 限制 128 字符，也都是必填，跟前面 API 那边的校验规则是一致的。
+speaker 1: 我注意到有两个时间字段，EVENT_TIME 和 RECEIVED_TIME，有什么区别？
+speaker 2: EVENT_TIME 是事件本身发生的时间，来自 Trap 报文；RECEIVED_TIME 是系统真正接收并保存这条数据的时间，两者可能会有一点点延迟差。
+speaker 1: 这个区分有什么实际用处？
+speaker 2: 比如你想知道设备最近一次上报是什么时候，就该按 RECEIVED_TIME 降序查；但如果你想还原当时事件的真实发生时刻，就得看 EVENT_TIME。
 speaker 1: 这一章的主要内容已经讲完了吗？
 speaker 2: 已经讲完了。接下来可以完成本章末尾的五道选择题，检查一下自己是否真正理解了这些内容。

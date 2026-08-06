@@ -1,12 +1,14 @@
-speaker 1: 如果收到一个从没见过的通知 OID，脚本会怎么处理？
-speaker 2: 它不会临时给这个 OID 起一个叫 unknownTrap 的通用名字然后照样转发，而是直接判定“Trap名变换失败”，把这条信息输出到标准错误，然后以退出码 1 结束，不会继续往下走。
-speaker 1: 如果 OID 是已知的，是不是就可以直接转发了？
-speaker 2: 还不行，查到 Trap 名之后还有第二关：要比较这次收到的 eventType 和 severity，跟辞书里为这个 Trap 预先定好的期望值是不是一致。
-speaker 1: 如果不一致会怎样？
-speaker 2: 脚本会把这种不一致当成两种可能：数据被篡改，或者发送端的实现跟约定不一致。不管是哪种，都拒绝转发，这一步同样会终止在“整合性エラー”，也就是一致性错误。
-speaker 1: 为什么要这么严格，直接拒绝而不是打个警告日志然后照常发？
-speaker 2: 因为这条数据一旦真的被写进数据库、显示在页面上，运维人员看到的就是一个自相矛盾的记录，比如 OID 说是设备错误但严重程度显示成正常。严格拒绝可以避免这种误导性的数据进入系统。
-speaker 1: 所以只有两关都通过，才会走到最后生成 JSON 那一步？
-speaker 2: 对，通知 OID 必须已注册，业务字段必须和期望值完全一致，两个条件同时满足，才会生成包含 trapOid 和 trapName 的 JSON，发给 Spring Boot。
+speaker 1: 如果我发了一条 Trap，结果页面上没看到新记录，第一反应应该查什么？
+speaker 2: 先看 snmptrapd 的日志，docker compose logs snmptrapd，看看是不是真的收到了这条 Trap，转发脚本有没有执行，有没有报未注册 OID 或者一致性错误。
+speaker 1: 如果 snmptrapd 这边看着是正常的，问题会不会出在 Spring Boot 那边？
+speaker 2: 有可能，接着看 docker compose logs monitoring-app，检查 API 有没有收到请求、有没有校验失败或者保存异常的堆栈信息。
+speaker 1: 要是数据库本身有问题呢？
+speaker 2: 那就查 docker compose logs oracle-db，确认数据库是不是已经完成初始化，有没有连接相关的错误。
+speaker 1: 能不能同时看多个服务的日志，边发 Trap 边观察？
+speaker 2: 可以，加个 -f 参数，比如 docker compose logs -f monitoring-app snmptrapd，这样两个服务的实时日志会同步滚动，很适合一边发送一边排查。
+speaker 1: 如果我想彻底停掉重来，命令是什么？
+speaker 2: 停止服务用 docker compose down，如果还想连数据库里保存的历史数据一起清掉，要额外加上 -v 参数，不加的话数据会保留下来。
+speaker 1: 所以排查思路基本是顺着数据流的方向一段一段查？
+speaker 2: 对，先看接收转发这一段，再看 API 保存这一段，最后看数据库本身，这样才能准确定位到底是哪个环节出的问题，而不是一上来就把数据全部清空重来。
 speaker 1: 这一章的主要内容已经讲完了吗？
 speaker 2: 已经讲完了。接下来可以完成本章末尾的五道选择题，检查一下自己是否真正理解了这些内容。

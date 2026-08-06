@@ -1,14 +1,12 @@
-speaker 1: 前几章讲的都是概念，这一章能不能把整个系统串起来看一遍？
-speaker 2: 可以。整个系统跑在一个 Docker Compose 网络里，一共四个核心服务：iot-simulator、snmptrapd、monitoring-app、oracle-db。
-speaker 1: 数据大致是怎么流动的？
-speaker 2: 从 IoT Simulator 开始，它通过 UDP 162 把 Trap 发给 snmptrapd；snmptrapd 处理完之后，用 HTTP POST 把 JSON 发给 monitoring-app；monitoring-app 再通过 JDBC 把数据写进 Oracle。
-speaker 1: 那浏览器是怎么参与进来的？
-speaker 2: 浏览器只跟 monitoring-app 打交道，通过 8080 端口访问 /traps 页面。浏览器完全看不到 SNMP 那一层，也不直接连数据库。
-speaker 1: 这种设计有什么好处？
-speaker 2: 每个组件只负责一件事：模拟发送、协议接收转换、业务校验加持久化、数据存储、页面展示。职责清楚，出问题时也容易定位是哪一环。
-speaker 1: 如果我要排查某条数据没显示出来，大概从哪里查起？
-speaker 2: 按这条链路倒着查：先看页面有没有刷新，再看数据库里有没有记录，再看 monitoring-app 日志有没有报错，最后看 snmptrapd 和 Simulator 的日志，一步步缩小范围。
-speaker 1: 所以理解这张架构图，其实就是理解了整个排查思路的骨架。
-speaker 2: 对，后面每一章讲某个组件的细节，其实都是在往这张骨架图上补肉。
+speaker 1: 我们刚才看了整体架构，从 Simulator 开始，它具体是怎么工作的？
+speaker 2: Simulator 是用 Java 21 写的命令行程序，底层用 SNMP4J 这个库来构造和发送 SNMP v2c 的 Trap 报文。
+speaker 1: 它发送的每条 Trap 里包含哪些数据？
+speaker 2: 对应到代码里的 TrapEvent 类，一共 7 个字段：deviceId、deviceName、eventType、severity、temperature、message、eventTime。
+speaker 1: 那我要发一条'设备错误'的 Trap，具体怎么触发？
+speaker 2: 在命令行加个参数就行，比如 device-error，Simulator 内部已经预置了 normal、temperature-high、device-error 三种场景。
+speaker 1: 它怎么知道要发到哪里去？
+speaker 2: 靠三个环境变量：SNMP_HOST、SNMP_PORT、SNMP_COMMUNITY，Compose 里默认分别是 snmptrapd、162、public。
+speaker 1: 如果我想测试发到另一台机器，是不是要改代码？
+speaker 2: 不需要，直接改这几个环境变量就行，这也是把配置和代码分离的一个好处。
 speaker 1: 这一章的主要内容已经讲完了吗？
 speaker 2: 已经讲完了。接下来可以完成本章末尾的五道选择题，检查一下自己是否真正理解了这些内容。

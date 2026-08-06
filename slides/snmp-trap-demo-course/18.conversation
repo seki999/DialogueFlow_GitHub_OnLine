@@ -1,12 +1,14 @@
-speaker 1: 如果辞书文件里写错了一个 OID，是不是要等到真的发一条 Trap 才会发现？
-speaker 2: 不是，这正是 validate-dictionary.sh 存在的意义。它在镜像构建阶段就会运行，如果发现问题，直接让整个镜像构建失败，根本不会打包出一个带错误辞书的可运行镜像。
-speaker 1: 它具体检查哪些方面？
-speaker 2: 第一类是格式问题，比如列数对不对、OID 格式合不合法、枚举值是不是在允许范围内、最大长度是不是合理的整数。
-speaker 1: 还有别的检查吗？
-speaker 2: 第二类是重复检查，看 OID、Trap 名、eventType、MIB 符号、JSON 项目这些标识符有没有在辞书内部重复出现。
-speaker 1: 最有意思的是哪一步？
-speaker 2: 是用 snmptranslate 命令去真正解析每一个辞书里出现的符号，看解析出来的数值 OID 是不是跟辞书里写的完全一致。这一步能从根本上防止“辞书写的和 MIB 定义的对不上”这种问题。
-speaker 1: 如果我只想单独跑一次校验，不想重新构建整个镜像，能做到吗？
-speaker 2: 可以，用 docker compose run --rm --no-deps --entrypoint validate-dictionary.sh snmptrapd 这条命令就能单独触发校验，不需要走完整的构建流程。
+speaker 1: 我们一章一章拆了这么多细节，能不能整体走一遍，把所有环节串起来？
+speaker 2: 可以，正好这一章就是把前面十七章的内容拼成一条完整的时序图，从头到尾走一遍。
+speaker 1: 那就从头说起，第一步是什么？
+speaker 2: Simulator 发出 SNMP v2c Trap，走 UDP 162 到 snmptrapd；snmptrapd 通过 Community 认证之后，用 traphandle default 把它转交给 forward-trap.sh。
+speaker 1: 脚本拿到数据之后要做哪些事？
+speaker 2: 先查 trap-definitions.tsv 确认通知类型，再按 varbind-definitions.tsv 把七个字段逐一转成 JSON，同时做必填、类型、长度的校验。
+speaker 1: 校验通过之后就直接进数据库了吗？
+speaker 2: 还要经过一步，脚本用 curl --fail 把 JSON POST 给 Spring Boot 的 /api/traps 接口，Spring Boot 校验、保存，通过 JDBC 写进 Oracle，成功的话返回 201。
+speaker 1: 这时候数据已经在数据库里了，那浏览器那边呢？
+speaker 2: 浏览器是完全独立的另一条路径，用户访问 /traps，Spring Boot 查询数据库、按接收时间降序取出记录，交给 Thymeleaf 渲染成表格返回。
+speaker 1: 所以写入和查询其实是两条不同的路，只是都经过 Spring Boot 和 Oracle？
+speaker 2: 对，可以这么理解：写入路径是 Simulator 到 snmptrapd 到脚本到 API 到数据库，查询路径是浏览器到 API 到数据库，两条路只在数据库这一点交汇。
 speaker 1: 这一章的主要内容已经讲完了吗？
 speaker 2: 已经讲完了。接下来可以完成本章末尾的五道选择题，检查一下自己是否真正理解了这些内容。

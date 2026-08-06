@@ -1,12 +1,14 @@
-speaker 1: 这张表是手工建的还是自动生成的？
-speaker 2: 自动生成的，靠的是 JPA 的 ddl-auto=update，Spring Boot 启动时会根据 TrapEvent 实体类自动创建或更新 SNMP_TRAP_EVENT 这张表。
-speaker 1: 主键是怎么设计的？
-speaker 2: ID 列，Long 类型，用 IDENTITY 自增策略，每插入一条记录，数据库自动分配一个新的唯一编号。
-speaker 1: 为什么要同时保存 TRAP_OID 和 TRAP_NAME 两列，不是有点冗余吗？
-speaker 2: 看起来冗余，但各有用途：TRAP_OID 是协议层的原始事实，方便日后按协议维度追踪；TRAP_NAME 是给人看的可读名称，方便运维快速理解。两者都保留，才不会丢失任何一方的信息。
-speaker 1: EVENT_TIME 和 RECEIVED_TIME 有什么区别？
-speaker 2: EVENT_TIME 是事件本身实际发生的时间，来自设备端；RECEIVED_TIME 是这条数据被系统接收到、写入数据库的时间。两者理论上会有一个小的时间差，是两个独立记录的字段。
-speaker 1: 所有列都要求非空吗？
-speaker 2: 对，全部标记为 NOT NULL，这跟前面讲的 VB 字段全部必填、API 请求体字段全部必填是一致的，整条链路对“完整性”的要求是统一的。
+speaker 1: 上一章说了当前 Demo 的一堆限制，那这些问题就没法解决吗？
+speaker 2: 仓库里其实还有一份更完整的设计文档，专门讨论了怎么往生产方向演进，不过要先说清楚，这份文档描述的东西，当前 Demo 并没有真正实现。
+speaker 1: 就是说这只是一个'设想'，不是现在能跑起来的功能？
+speaker 2: 对，一定要把这两者分开看。比如文档里提到用 SNMPv3 的 authPriv 替代 v2c 的 Community，加上 SHA-256 和 AES-128，来解决上一章说的加密认证问题，但当前跑的还是 v2c。
+speaker 1: 单点故障那个问题呢，文档里怎么说？
+speaker 2: 提到用多个接收节点加上 UDP 负载均衡里的 source affinity，让同一个设备的报文固定路由到同一个接收节点，但这需要额外维护 Engine ID 和 USM key 的持久化，复杂度明显提高了。
+speaker 1: 消息丢失的问题呢？
+speaker 2: 设计里提到用共享的持久化重试队列，配合 eventId 去重，即使 API 或数据库短暂不可用，消息也不会丢，等恢复后可以重新投递。
+speaker 1: 那 API 没有认证这个问题呢？
+speaker 2: 文档里建议用 Bearer Token 给内部 API 调用加一层身份校验，而不是像现在这样完全没有认证。
+speaker 1: 所以这一章的重点其实是提醒我们别把设想当成现实？
+speaker 2: 没错，这些都是很合理的生产化方向，但目前只存在于文档里，代码和 Compose 配置并没有实现，学习的时候要把它们当作"以后要考虑的方向"，而不是当前系统已经具备的能力。
 speaker 1: 这一章的主要内容已经讲完了吗？
 speaker 2: 已经讲完了。接下来可以完成本章末尾的五道选择题，检查一下自己是否真正理解了这些内容。

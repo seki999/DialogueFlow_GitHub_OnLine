@@ -1,12 +1,14 @@
-speaker 1: 把这些环境变量放在一起看，能不能按组件分分类？
-speaker 2: 可以分成三组。第一组是 Simulator 用的：SNMP_HOST、SNMP_PORT、SNMP_COMMUNITY，默认值分别是 snmptrapd、162、public，决定 Trap 往哪发。
-speaker 1: 第二组呢？
-speaker 2: 第二组是转发脚本用的：TRAP_API_URL 默认指向 http://monitoring-app:8080/api/traps，另外 TRAP_DICTIONARY 和 VARBIND_DICTIONARY 分别指向两份辞书文件的默认路径。
-speaker 1: 第三组是数据库连接相关的吧？
-speaker 2: 对，SPRING_DATASOURCE_URL、SPRING_DATASOURCE_USERNAME、SPRING_DATASOURCE_PASSWORD，默认连接本机 1521 端口的 FREEPDB1，用户名 snmpuser，密码 snmppassword。
-speaker 1: 如果我想改一下发送目标地址，需要改代码吗？
-speaker 2: 不需要，这些值都写在 docker-compose.yml 里，直接调整对应的环境变量就行，代码本身不用动。
-speaker 1: 那这些默认的用户名密码能直接用在正式环境吗？
-speaker 2: 不能，文档反复强调这些是演示专用的固定凭据，正式环境要通过 Secrets 管理之类的方式替换掉，不能原样沿用。
-speaker 1: 这一章的主要内容已经讲完了吗？
-speaker 2: 已经讲完了。接下来可以完成本章末尾的五道选择题，检查一下自己是否真正理解了这些内容。
+speaker 1: 整个课程学完了，能不能帮我把这条链路从头到尾串一遍？
+speaker 2: 当然，从头开始：Simulator 生成一个事件并发出 SNMP v2c Trap；snmptrapd 收到后先做 Community 认证，通过后转交给 forward-trap.sh；脚本依据两个字典完成 OID 转换、字段校验和一致性核对；校验通过的数据以 JSON 形式 POST 给 Spring Boot；Spring Boot 分层处理后写入 Oracle；最后浏览器通过 Thymeleaf 页面查看结果。
+speaker 1: 如果只能用一句话总结这个项目最核心的设计思想，你会怎么说？
+speaker 2: 字典驱动。把"规则是什么"和"怎么执行"彻底分开，规则放在 MIB 和两个 TSV 字典里，脚本代码本身几乎不用因为新增一种事件类型而改动。
+speaker 1: 那这门课里最容易被误解的一点是什么？
+speaker 2: 我觉得是把"发送成功"和"保存成功"划等号，Trap 是 UDP，发出去不代表真的被接收和存进数据库，这个认知一定要清楚。
+speaker 1: 还有一个问题，仓库里那份讲 SNMPv3、多节点、重试队列的设计文档，是不是也算这个项目已经实现的功能？
+speaker 2: 不算，那只是演进方向的设想，当前实际跑起来的是更简单的 v2c、单节点、无重试队列版本，这一点我们在第 23 章特别强调过，不能混为一谈。
+speaker 1: 如果以后有人让你在这个项目基础上加一种新的事件类型，你会怎么规划步骤？
+speaker 2: 我会先按命名规范在 MIB 里分配一个新的 OID，然后同步更新 trap-definitions.tsv 和 varbind-definitions.tsv 两个字典，再让 Simulator 支持生成这种新事件，最后跑一遍构建时的字典校验和端到端测试，确认整条链路都没问题。
+speaker 1: 最后一个问题，这门课学完之后，接下来还可以研究哪些方向？
+speaker 2: 可以深入看看真正的 SNMPv3 认证机制是怎么实现的，也可以研究一下持久化重试队列在分布式场景下怎么设计，这些都是这门课里提到过、但没有展开讲的方向。
+speaker 1: 整门课的内容都讲完了吧？
+speaker 2: 都讲完了，最后这一章末尾是综合性的五道选择题，涵盖整个课程的重点内容，完成之后就算是给这门课画上一个完整的句号了。

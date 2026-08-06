@@ -1,12 +1,14 @@
-speaker 1: 很多真实的 MIB 文件里会看到 MODULE-IDENTITY、OBJECT-TYPE 这些关键字，这个项目的 MIB 里有吗？
-speaker 2: 没有，这个项目的 MIB 是简化过的“自包含 MIB”，只用最基础的 OBJECT IDENTIFIER 来定义结构，不使用完整的 MODULE-IDENTITY、OBJECT-TYPE、NOTIFICATION-TYPE。
-speaker 1: 为什么要这样简化，而不是直接用标准的 SMIv2 MIB？
-speaker 2: 因为 Debian bookworm 的最小化 Net-SNMP 软件包出于许可证原因，不自带 SNMPv2-SMI、SNMPv2-TC 这些标准 MIB。如果项目 MIB 依赖它们，镜像就没法在这个精简环境里正常解析名称。
-speaker 1: 所以自包含 MIB 是一种“无外部依赖”的折中方案？
-speaker 2: 可以这么理解，它牺牲了标准 MIB 的完整类型系统，换来了在最小化环境下依然能正确做数值 OID 到符号名的转换。
-speaker 1: 那如果要上生产环境，是不是直接把这份 MIB 拿去用就行？
-speaker 2: 不行，文档特意强调，完整的、使用标准类型定义的生产级 MIB，需要另外引入经过许可证审核的标准 MIB 包，这份自包含 MIB 仅限本演示使用。
-speaker 1: 命名上有什么讲究吗？
-speaker 2: 有，模块名用大写加连字符，比如 SNMP-TRAP-DEMO-MIB；具体的 OBJECT-TYPE 和 NOTIFICATION-TYPE 名称用小驼峰，比如 deviceId、temperatureHighTrap，这样风格统一，也方便阅读。
+speaker 1: 接口收到数据之后，代码内部具体是怎么流转的？
+speaker 2: 先经过 TrapApiController，它专门负责接收 POST /api/traps 的请求；页面展示是另一个 TrapViewController，负责 / 和 /traps。
+speaker 1: 接收到的 JSON 数据是怎么校验的？
+speaker 2: 靠 TrapEventRequest 这个 DTO，它负责把 JSON 反序列化成 Java 对象，同时执行 Bean Validation 的注解校验。
+speaker 1: 校验通过之后呢，直接存数据库？
+speaker 2: 不是直接存，中间还有 TrapService，它负责把 DTO 转换成 Entity，或者反过来，同时协调保存和查询的业务逻辑。
+speaker 1: 真正落地到数据库的是哪一层？
+speaker 2: 是 TrapEventRepository，它基于 JPA 实现，除了基本的保存，还提供按接收时间倒序查询的方法，供页面展示用。
+speaker 1: 如果校验失败或者数据库出错，是谁负责统一处理？
+speaker 2: ApiExceptionHandler，它把输入校验错误和数据库异常统一收口，返回一个简洁的错误响应，不会让异常堆栈直接暴露给调用方。
+speaker 1: 最后展示给用户看的页面是怎么生成的？
+speaker 2: 是 traps.html，用 Thymeleaf 在服务端渲染成纯 HTML 表格，不依赖任何 JavaScript，浏览器打开就能看。
 speaker 1: 这一章的主要内容已经讲完了吗？
 speaker 2: 已经讲完了。接下来可以完成本章末尾的五道选择题，检查一下自己是否真正理解了这些内容。

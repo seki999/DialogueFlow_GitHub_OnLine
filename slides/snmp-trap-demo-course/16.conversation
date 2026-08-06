@@ -1,14 +1,12 @@
-speaker 1: VB 定义辞书跟前面讲的 Trap 定义辞书是什么关系？
-speaker 2: 两者分工不同。Trap 定义辞书管的是“这个通知 OID 对应哪个事件”，VB 定义辞书管的是“每一个字段 OID 对应哪个 JSON 属性、什么类型、多长”。
-speaker 1: 它的列结构是怎样的？
-speaker 2: 依次是 oid、symbol、jsonField、required、valueType、maxLength。比如 1.3.6.1.4.1.99999.1.5|temperature|temperature|true|number|32，这一行定义了温度字段。
-speaker 1: valueType 有几种取值？
-speaker 2: 三种：string、number、datetime。number 允许带符号的整数或小数，datetime 要求满足 ISO-8601 本地日期时间的前缀格式。
-speaker 1: 如果收到一个辞书里没有定义的 OID 会怎么处理？
-speaker 2: 会被直接忽略，不会报错也不会中断处理。这是为了保留 SNMP 协议本身的可扩展性，未来加新字段时旧版本脚本不会因为看不懂就崩掉。
-speaker 1: 但如果是已知的必须字段呢？
-speaker 2: 如果一个已知的必须字段最终解析出来是空值，整条 Trap 会被拒绝，不会带着缺失字段继续往下走。
-speaker 1: 目前 required 这一列的值都是一样的吗？
-speaker 2: 对，现有的 7 个字段都是 true，也就是全部必填，没有可选字段。
+speaker 1: 我们已经看了数据怎么进数据库，那浏览器打开页面看到的表格是怎么来的？
+speaker 2: 浏览器请求 /traps 之后，由 TrapViewController 接手，它调用 TrapService 去查数据，再把结果交给 Thymeleaf 模板渲染成 HTML。
+speaker 1: 这个页面用了 React 或者 Vue 这类前端框架吗？
+speaker 2: 完全没有，traps.html 是纯服务端渲染的 HTML 表格，不依赖任何 JavaScript，页面一加载就是完整内容。
+speaker 1: 这样设计是不是显得比较"老派"？
+speaker 2: 看起来简单，但胜在可预测和兼容性好，不需要考虑前端框架版本、打包工具这些复杂性，对于一个演示项目来说很合适。
+speaker 1: 表格里的记录是按什么顺序展示的？
+speaker 2: 按接收时间降序，也就是最新收到的 Trap 会排在最上面，方便运维人员第一时间看到最新事件。
+speaker 1: README 里那几张截图就是直接截的这个页面？
+speaker 2: 对，正因为它是纯静态渲染，加载完成的那一刻就是最终效果，用普通截图工具就能捕捉到，不需要等待任何异步脚本执行完。
 speaker 1: 这一章的主要内容已经讲完了吗？
 speaker 2: 已经讲完了。接下来可以完成本章末尾的五道选择题，检查一下自己是否真正理解了这些内容。

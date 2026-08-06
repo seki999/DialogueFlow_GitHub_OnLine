@@ -1,12 +1,14 @@
-speaker 1: 启动这套系统之前，需要确认哪些端口是空闲的？
-speaker 2: 一共三个：UDP 162 用于接收 SNMP Trap，TCP 8080 用于 REST API 和网页，TCP 1521 用于 Oracle 的 JDBC 连接。
-speaker 1: 如果这几个端口在宿主机上已经被别的程序占用了会怎样？
-speaker 2: docker compose up 的时候端口映射会失败，容器起不来，或者起来了但外部访问不到，这是很常见的启动失败原因。
-speaker 1: 容器之间通信也是走这几个端口吗？
-speaker 2: 对，路径完全一致：iot-simulator 发 UDP 162 给 snmptrapd，snmptrapd 发 TCP 8080 给 monitoring-app，monitoring-app 发 TCP 1521 给 oracle-db。
-speaker 1: 那浏览器能不能直接访问 162 或者 1521？
-speaker 2: 不能，也不应该。浏览器只应该触达 8080，这跟前面讲的“浏览器只跟 Spring Boot 打交道”是同一个设计原则的体现。
-speaker 1: 所以端口设计其实也在强化组件之间的职责边界。
-speaker 2: 可以这么理解，端口只是物理层面的体现，背后是“谁该跟谁说话、谁不该跟谁说话”这条设计原则。
+speaker 1: 前面几章都是准备工作，现在能不能看看真正处理一条 Trap 的完整脚本流程？
+speaker 2: 可以，这个脚本叫 forward-trap.sh，snmptrapd 会把接收到的数据通过标准输入传给它。
+speaker 1: 标准输入里具体是什么格式？
+speaker 2: 前两行是接收主机和接收地址，用来记日志；从第三行开始，每一行是一个"数值 OID 加值"的组合，这就是这条 Trap 携带的全部数据。
+speaker 1: 脚本拿到这些数据后先干什么？
+speaker 2: 先找出 snmpTrapOID.0 这一项，这是通知类型的身份证，拿它去查 trap-definitions.tsv，就能知道这是哪种 Trap、对应什么名字。
+speaker 1: 然后是不是就该处理那七个具体字段了？
+speaker 2: 对，接着按照 varbind-definitions.tsv 的规则，把七个已知 VB 逐个转换成 JSON 字段，同时检查类型对不对、有没有超长、必填的是不是缺失。
+speaker 1: 最后生成的 JSON 里会包含哪些关键信息？
+speaker 2: 除了业务字段，还专门保留了 trapOid 和 trapName 这两项，一个是原始数字，一个是翻译后的名字，这样数据库和页面都能拿到完整信息。
+speaker 1: 发送的时候用的是什么方式？
+speaker 2: 用 curl --fail 发 POST 请求，这个 --fail 参数很关键，只要 Spring Boot 返回的不是 2xx 状态码，curl 就会判定失败退出，脚本就能感知到这次投递没成功。
 speaker 1: 这一章的主要内容已经讲完了吗？
 speaker 2: 已经讲完了。接下来可以完成本章末尾的五道选择题，检查一下自己是否真正理解了这些内容。

@@ -1,12 +1,12 @@
-speaker 1: 把前面几章串起来看，一次完整的请求到底经历了几步？
-speaker 2: 可以分成两个阶段：写入阶段和查询阶段。写入阶段是从 Simulator 发送 Trap 一直到数据存进 Oracle；查询阶段是浏览器打开页面看数据。
-speaker 1: 先说写入阶段吧。
-speaker 2: Simulator 发一条 SNMP v2c Trap，snmptrapd 提取 OID 和 VB 并转换成 Trap 名，再 POST 给 Spring Boot；Spring Boot 先做 Bean Validation，通过后 INSERT 进 Oracle，最后拿到保存结果。
-speaker 1: 查询阶段是怎么触发的？
-speaker 2: 跟写入完全独立，是浏览器主动发起 GET /traps，Spring Boot 按接收时间倒序 SELECT，然后把结果渲染成 HTML 表格返回给浏览器。
-speaker 1: 这两个阶段是实时联动的吗，比如写入之后页面会自动刷新？
-speaker 2: 不会，这里没有 WebSocket 或者轮询推送。浏览器看到的数据取决于用户什么时候刷新页面，刷新时读到的是数据库当前的最新状态。
-speaker 1: 所以如果测试的时候发了 Trap 但页面没变化，不一定是出错了？
-speaker 2: 对，很可能只是页面还没刷新。这也是排查问题时容易踩的一个坑，先刷新页面，再判断是不是真的有问题。
+speaker 1: 前两章讲的两个字典文件，万一有人手写的时候打错了怎么办？
+speaker 2: 项目专门有一个脚本处理这个问题，叫 validate-dictionary.sh，它在镜像构建阶段就会运行，而不是等运行时才发现。
+speaker 1: 它具体检查哪些内容？
+speaker 2: 三方面：字典的列格式对不对、有没有重复的键，还有最重要的一点，用 snmptranslate 去解析字典里的每条记录，看它和 MIB 里定义的数值 OID 是不是完全一致。
+speaker 1: 为什么 OID 一致性这么重要？
+speaker 2: 因为字典和 MIB 本质上是两份独立维护的文件，时间久了很容易出现"漂移"，比如 MIB 改了但字典没跟着改，这时候如果不校验，运行时就会出现莫名其妙的解析错误。
+speaker 1: 如果校验没通过会怎样？
+speaker 2: 直接导致整个 Docker 镜像构建失败，构建不出来，自然也就不会被部署到任何环境里，从源头堵住了问题。
+speaker 1: 这种做法是不是比等出问题了再去查日志要好很多？
+speaker 2: 对，这就是所谓的"提前失败"策略，宁可在构建阶段麻烦一点，也不要让错误配置流到线上影响真实流量。
 speaker 1: 这一章的主要内容已经讲完了吗？
 speaker 2: 已经讲完了。接下来可以完成本章末尾的五道选择题，检查一下自己是否真正理解了这些内容。
