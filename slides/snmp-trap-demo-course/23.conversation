@@ -1,0 +1,12 @@
+speaker 1: 这张表是手工建的还是自动生成的？
+speaker 2: 自动生成的，靠的是 JPA 的 ddl-auto=update，Spring Boot 启动时会根据 TrapEvent 实体类自动创建或更新 SNMP_TRAP_EVENT 这张表。
+speaker 1: 主键是怎么设计的？
+speaker 2: ID 列，Long 类型，用 IDENTITY 自增策略，每插入一条记录，数据库自动分配一个新的唯一编号。
+speaker 1: 为什么要同时保存 TRAP_OID 和 TRAP_NAME 两列，不是有点冗余吗？
+speaker 2: 看起来冗余，但各有用途：TRAP_OID 是协议层的原始事实，方便日后按协议维度追踪；TRAP_NAME 是给人看的可读名称，方便运维快速理解。两者都保留，才不会丢失任何一方的信息。
+speaker 1: EVENT_TIME 和 RECEIVED_TIME 有什么区别？
+speaker 2: EVENT_TIME 是事件本身实际发生的时间，来自设备端；RECEIVED_TIME 是这条数据被系统接收到、写入数据库的时间。两者理论上会有一个小的时间差，是两个独立记录的字段。
+speaker 1: 所有列都要求非空吗？
+speaker 2: 对，全部标记为 NOT NULL，这跟前面讲的 VB 字段全部必填、API 请求体字段全部必填是一致的，整条链路对“完整性”的要求是统一的。
+speaker 1: 这一章的主要内容已经讲完了吗？
+speaker 2: 已经讲完了。接下来可以完成本章末尾的五道选择题，检查一下自己是否真正理解了这些内容。

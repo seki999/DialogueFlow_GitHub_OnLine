@@ -1,0 +1,16 @@
+speaker 1: 这个项目一上来就叫 SNMP Trap Demo，它到底想解决什么问题？
+speaker 2: 简单说，它想验证一条完整链路：一个设备发生事件后，这个事件怎样一路传到网页上被人看到。
+speaker 1: 那具体的事件类型是固定的吗？
+speaker 2: 对，固定为三种：NORMAL 表示设备正常，TEMPERATURE_HIGH 表示温度超过阈值，DEVICE_ERROR 表示设备出错。
+speaker 1: 听起来像是一个真实监控系统的缩小版。
+speaker 2: 可以这么理解，但它是单节点演示，没有做集群、没有做告警通知，也没有轮询能力。
+speaker 1: 为什么要特意强调这些没有做的部分？
+speaker 2: 因为这类演示项目最容易被误解成生产级系统。提前划清边界，可以避免后面学习时产生错误预期。
+speaker 1: 那安全性方面呢，比如认证授权？
+speaker 2: 同样不在范围内。项目使用的是 SNMP v2c 的 Community 字符串方式，这在后面会专门讲，它并不提供强认证。
+speaker 1: 技术栈大概是什么样的组合？
+speaker 2: 发送端是 Java 21 配合 SNMP4J 库，接收端是 Net-SNMP 的 snmptrapd，业务处理用 Spring Boot，数据落地在 Oracle Database Free。
+speaker 1: 也就是说这条链路串联了好几种不同的技术，各自负责一段。
+speaker 2: 正是这样。后面几章会按顺序拆开讲每一段的职责，先建立整体的问题意识，再逐步深入细节。
+speaker 1: 这一章的主要内容已经讲完了吗？
+speaker 2: 已经讲完了。接下来可以完成本章末尾的五道选择题，检查一下自己是否真正理解了这些内容。

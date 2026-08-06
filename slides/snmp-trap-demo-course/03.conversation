@@ -1,0 +1,14 @@
+speaker 1: Community 这个词第一次听到，它相当于密码吗？
+speaker 2: 可以粗略理解成一个共享的口令，SNMP v2c 用它来做最基础的访问控制。
+speaker 1: 这个项目里用的是什么值？
+speaker 2: 固定用 public，这是 SNMP 里最常见的默认 Community 名称，本身就带有“公开、不安全”的含义。
+speaker 1: 那它安全吗，比如会不会被人截获？
+speaker 2: 不安全。Community 字符串是明文传输的，没有加密，也没有像用户名密码那样的强认证机制。
+speaker 1: 那 snmptrapd 是怎么用这个字符串做校验的？
+speaker 2: 它有一条配置叫 authCommunity，声明哪个 Community 允许做日志记录、允许执行处理器、允许被转发，本项目里这三项都对 public 开放。
+speaker 1: 如果 Trap 带的 Community 不是 public 会怎样？
+speaker 2: 会被 snmptrapd 直接忽略，不会进入后续的转发和处理流程。
+speaker 1: 设计文档对这块有没有特别提醒？
+speaker 2: 有，明确写了 Community 和固定的数据库密码都只是演示专用配置，正式环境需要换成 SNMPv3 之类的强认证方案。
+speaker 1: 这一章的主要内容已经讲完了吗？
+speaker 2: 已经讲完了。接下来可以完成本章末尾的五道选择题，检查一下自己是否真正理解了这些内容。

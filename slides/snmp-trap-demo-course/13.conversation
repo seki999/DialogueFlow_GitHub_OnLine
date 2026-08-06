@@ -1,0 +1,12 @@
+speaker 1: MIB 里说的“企业根 OID”是什么意思？
+speaker 2: SNMP 允许企业申请一个私有的 OID 前缀，本项目用的是 1.3.6.1.4.1.99999，这是一个自定义的示例编号，专门用于这个演示项目。
+speaker 1: 在这个根节点下面，OID 是怎么分类的？
+speaker 2: 分成两支：一支叫 demoNotifications，放的是通知 OID，也就是三种事件对应的 Trap；另一支叫 demoObjects，放的是 VB 的 OID，也就是每个字段的编号。
+speaker 1: 这两支各自怎么编号？
+speaker 2: 通知 OID 是 .0.1、.0.2、.0.3，分别对应 NORMAL、TEMPERATURE_HIGH、DEVICE_ERROR。VB OID 是 .1.1 到 .1.7，对应 7 个字段。
+speaker 1: 这个 MIB 文件实际存放在哪里？
+speaker 2: Git 仓库里的路径是 trap-receiver/mibs/SNMP-TRAP-DEMO-MIB.txt，它是所有通知名、OID、类型、含义的唯一正本，其他地方的定义都要跟它保持一致。
+speaker 1: 7 个 VB 字段具体是哪些？
+speaker 2: 按 OID 顺序是 deviceId、deviceName、eventType、severity、temperature、message、eventTime，这正好和前面 TrapEvent 类保存的 7 项数据一一对应。
+speaker 1: 这一章的主要内容已经讲完了吗？
+speaker 2: 已经讲完了。接下来可以完成本章末尾的五道选择题，检查一下自己是否真正理解了这些内容。

@@ -1,0 +1,14 @@
+speaker 1: IoT Simulator 具体是怎么被触发运行的？
+speaker 2: 通过命令行执行 docker compose run --rm iot-simulator，后面跟一个事件参数，比如 normal、temperature-high 或者 device-error。
+speaker 1: 它内部是怎么组织代码的？
+speaker 2: 核心是 IotSimulator 这个类，负责读取参数和环境变量，然后构造要发送的 PDU；另外有个 TrapEvent 类，专门保存这次要发送的 7 项数据。
+speaker 1: 哪 7 项数据？
+speaker 2: 设备编号、设备名称、事件类型、严重程度、温度、消息内容，还有事件发生时间。这些数据最终会被编码进 Trap 的 Variable Binding 里。
+speaker 1: 它怎么知道要发给谁？
+speaker 2: 靠三个环境变量：SNMP_HOST、SNMP_PORT、SNMP_COMMUNITY。Compose 里给的默认值分别是 snmptrapd、162、public，也就是发给同一个网络里的 snmptrapd 容器。
+speaker 1: 如果我传了一个不认识的事件参数会怎样？
+speaker 2: 会触发参数校验失败，退出码是 2。如果参数合法但发送过程中出了异常，比如网络问题，退出码是 1，并且会打印日志说明具体原因。
+speaker 1: 这两种退出码区分开有什么用？
+speaker 2: 在自动化脚本或者 CI 里，可以通过退出码快速区分“用法用错了”还是“运行时出问题了”，不用逐行翻日志。
+speaker 1: 这一章的主要内容已经讲完了吗？
+speaker 2: 已经讲完了。接下来可以完成本章末尾的五道选择题，检查一下自己是否真正理解了这些内容。

@@ -1,0 +1,12 @@
+speaker 1: 如果辞书文件里写错了一个 OID，是不是要等到真的发一条 Trap 才会发现？
+speaker 2: 不是，这正是 validate-dictionary.sh 存在的意义。它在镜像构建阶段就会运行，如果发现问题，直接让整个镜像构建失败，根本不会打包出一个带错误辞书的可运行镜像。
+speaker 1: 它具体检查哪些方面？
+speaker 2: 第一类是格式问题，比如列数对不对、OID 格式合不合法、枚举值是不是在允许范围内、最大长度是不是合理的整数。
+speaker 1: 还有别的检查吗？
+speaker 2: 第二类是重复检查，看 OID、Trap 名、eventType、MIB 符号、JSON 项目这些标识符有没有在辞书内部重复出现。
+speaker 1: 最有意思的是哪一步？
+speaker 2: 是用 snmptranslate 命令去真正解析每一个辞书里出现的符号，看解析出来的数值 OID 是不是跟辞书里写的完全一致。这一步能从根本上防止“辞书写的和 MIB 定义的对不上”这种问题。
+speaker 1: 如果我只想单独跑一次校验，不想重新构建整个镜像，能做到吗？
+speaker 2: 可以，用 docker compose run --rm --no-deps --entrypoint validate-dictionary.sh snmptrapd 这条命令就能单独触发校验，不需要走完整的构建流程。
+speaker 1: 这一章的主要内容已经讲完了吗？
+speaker 2: 已经讲完了。接下来可以完成本章末尾的五道选择题，检查一下自己是否真正理解了这些内容。

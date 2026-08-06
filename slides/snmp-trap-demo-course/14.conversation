@@ -1,0 +1,12 @@
+speaker 1: 很多真实的 MIB 文件里会看到 MODULE-IDENTITY、OBJECT-TYPE 这些关键字，这个项目的 MIB 里有吗？
+speaker 2: 没有，这个项目的 MIB 是简化过的“自包含 MIB”，只用最基础的 OBJECT IDENTIFIER 来定义结构，不使用完整的 MODULE-IDENTITY、OBJECT-TYPE、NOTIFICATION-TYPE。
+speaker 1: 为什么要这样简化，而不是直接用标准的 SMIv2 MIB？
+speaker 2: 因为 Debian bookworm 的最小化 Net-SNMP 软件包出于许可证原因，不自带 SNMPv2-SMI、SNMPv2-TC 这些标准 MIB。如果项目 MIB 依赖它们，镜像就没法在这个精简环境里正常解析名称。
+speaker 1: 所以自包含 MIB 是一种“无外部依赖”的折中方案？
+speaker 2: 可以这么理解，它牺牲了标准 MIB 的完整类型系统，换来了在最小化环境下依然能正确做数值 OID 到符号名的转换。
+speaker 1: 那如果要上生产环境，是不是直接把这份 MIB 拿去用就行？
+speaker 2: 不行，文档特意强调，完整的、使用标准类型定义的生产级 MIB，需要另外引入经过许可证审核的标准 MIB 包，这份自包含 MIB 仅限本演示使用。
+speaker 1: 命名上有什么讲究吗？
+speaker 2: 有，模块名用大写加连字符，比如 SNMP-TRAP-DEMO-MIB；具体的 OBJECT-TYPE 和 NOTIFICATION-TYPE 名称用小驼峰，比如 deviceId、temperatureHighTrap，这样风格统一，也方便阅读。
+speaker 1: 这一章的主要内容已经讲完了吗？
+speaker 2: 已经讲完了。接下来可以完成本章末尾的五道选择题，检查一下自己是否真正理解了这些内容。

@@ -1,0 +1,12 @@
+speaker 1: 启动这套系统之前，需要确认哪些端口是空闲的？
+speaker 2: 一共三个：UDP 162 用于接收 SNMP Trap，TCP 8080 用于 REST API 和网页，TCP 1521 用于 Oracle 的 JDBC 连接。
+speaker 1: 如果这几个端口在宿主机上已经被别的程序占用了会怎样？
+speaker 2: docker compose up 的时候端口映射会失败，容器起不来，或者起来了但外部访问不到，这是很常见的启动失败原因。
+speaker 1: 容器之间通信也是走这几个端口吗？
+speaker 2: 对，路径完全一致：iot-simulator 发 UDP 162 给 snmptrapd，snmptrapd 发 TCP 8080 给 monitoring-app，monitoring-app 发 TCP 1521 给 oracle-db。
+speaker 1: 那浏览器能不能直接访问 162 或者 1521？
+speaker 2: 不能，也不应该。浏览器只应该触达 8080，这跟前面讲的“浏览器只跟 Spring Boot 打交道”是同一个设计原则的体现。
+speaker 1: 所以端口设计其实也在强化组件之间的职责边界。
+speaker 2: 可以这么理解，端口只是物理层面的体现，背后是“谁该跟谁说话、谁不该跟谁说话”这条设计原则。
+speaker 1: 这一章的主要内容已经讲完了吗？
+speaker 2: 已经讲完了。接下来可以完成本章末尾的五道选择题，检查一下自己是否真正理解了这些内容。

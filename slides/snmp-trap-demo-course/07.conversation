@@ -1,0 +1,16 @@
+speaker 1: forward-trap.sh 收到的输入长什么样？
+speaker 2: 标准输入的前两行是受信元信息：第一行是主机，第二行是地址；从第三行开始是一行一个“数值 OID 加值”。
+speaker 1: 脚本拿到这些之后第一步做什么？
+speaker 2: 先把 snmpTrapOID.0 这一行提取出来，作为这次 Trap 的通知 OID，后面所有的字典查找都以它为起点。
+speaker 1: 然后呢？
+speaker 2: 逐一处理已知的 7 个 Variable Binding，用 VB 定义辞书把每个 OID 转换成对应的 JSON 字段名，同时检查类型和最大长度是否符合要求。
+speaker 1: 光检查单个字段够吗？
+speaker 2: 不够，还要做交叉校验：用通知 OID 查 Trap 定义辞书，看看这个 OID 期望的 eventType 和 severity 是什么，再跟实际收到的 VB 值比对是否一致。
+speaker 1: 为什么要做这层交叉校验？
+speaker 2: 这是为了防止发送端的数据被篡改或者实现不一致，比如 OID 说是设备错误，但 eventType 字段却写着正常，这种矛盾必须被拦截。
+speaker 1: 全部校验通过之后呢？
+speaker 2: 脚本会拼出一份包含 trapOid 和 trapName 的固定格式 JSON，用 curl --fail 发给 Spring Boot 的 /api/traps 接口，只要没拿到 2xx 响应，就当作失败处理。
+speaker 1: 如果某一步校验失败呢？
+speaker 2: 脚本会把具体原因输出到标准错误，然后以退出码 1 结束，不会继续往后转发，这条 Trap 就到此为止了。
+speaker 1: 这一章的主要内容已经讲完了吗？
+speaker 2: 已经讲完了。接下来可以完成本章末尾的五道选择题，检查一下自己是否真正理解了这些内容。

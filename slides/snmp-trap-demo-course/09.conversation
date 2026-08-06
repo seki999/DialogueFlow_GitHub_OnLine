@@ -1,0 +1,14 @@
+speaker 1: 数据库这块用的是哪个版本的 Oracle？
+speaker 2: Oracle Database Free 23，通过 Compose 里的 oracle-db 服务运行，属于官方提供的免费版本。
+speaker 1: Spring Boot 是怎么连上它的？
+speaker 2: 通过 JDBC，连接到 FREEPDB1 这个可插拔数据库实例，端口是标准的 1521。
+speaker 1: 建表是手动执行 SQL 脚本吗？
+speaker 2: 不是，用的是 JPA 的 ddl-auto=update，Spring Boot 启动的时候会根据实体类自动创建或更新表结构，省去了手工维护建表脚本的步骤。
+speaker 1: Oracle 在这套系统里承担了哪些职责，又不承担哪些？
+speaker 2: 它只负责把 SNMP_TRAP_EVENT 这张表的数据持久化好。业务校验、排序检索这些逻辑都不在数据库这一层，全部由 Spring Boot 完成。
+speaker 1: 如果我想清空所有数据重新开始，该怎么做？
+speaker 2: 普通的 docker compose down 只是停止容器，数据卷还在，数据不会丢。如果想连数据一起清掉，要加上 -v 参数，也就是 docker compose down -v。
+speaker 1: 这个区别挺重要的，容易踩坑。
+speaker 2: 对，尤其是调试阶段反复重启，如果没注意这个区别，可能会发现“数据一直没变”或者“数据突然全没了”，其实都跟这条命令有关。
+speaker 1: 这一章的主要内容已经讲完了吗？
+speaker 2: 已经讲完了。接下来可以完成本章末尾的五道选择题，检查一下自己是否真正理解了这些内容。
