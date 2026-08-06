@@ -68,7 +68,12 @@ function buildCourses() {
       label: path.split('/').join(' › '),
       slides: slides.sort((a, b) => a.index - b.index),
     }))
-    .sort((a, b) => a.path.localeCompare(b.path, 'zh-CN'))
+    .sort((a, b) => {
+      if (a.path.startsWith('托业单词/') && b.path.startsWith('托业单词/')) {
+        return b.path.localeCompare(a.path, 'zh-CN', { numeric: true })
+      }
+      return a.path.localeCompare(b.path, 'zh-CN')
+    })
 }
 
 function parseConversation(text = '') {
