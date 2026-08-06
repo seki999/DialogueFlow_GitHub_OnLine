@@ -1,12 +1,14 @@
-speaker 1: 如果发过来的数据本身有问题，比如字段缺失，系统是怎么处理的？
-speaker 2: 要看是在哪个环节出问题。如果是通知 OID 根本没在字典里登记，脚本层面就会直接终止，连 HTTP 请求都不会发出去。
-speaker 1: 那必填字段缺失呢，也是脚本层面拦？
-speaker 2: 对，还有类型不对、超长、eventType 和字典期望值不一致，这几种都会在 forward-trap.sh 这一层被拦下来，本质上都不会到达 Spring Boot。
-speaker 1: 那如果脚本这边都通过了，是不是就一定能存进数据库？
-speaker 2: 不一定，Spring Boot 那边还有独立的一道校验，就是 Bean Validation，万一请求体依然缺字段，会返回 400。
-speaker 1: 那 500 是什么情况才会出现？
-speaker 2: 500 是请求本身完全合法，但数据库那边出了问题，比如连接异常导致保存失败，这跟前面的"数据本身有问题"是两码事，属于基础设施故障。
-speaker 1: 为什么要搞两层校验，而不是干脆都放在一个地方做？
-speaker 2: 因为两层面对的输入来源不一样，脚本层管的是原始 SNMP 报文的可信度，API 层管的是 HTTP 请求本身的合法性；就算以后有别的调用方绕开脚本直接打 API，Bean Validation 依然能兜底，这是一种纵深防御的思路。
+speaker 1: 前面把各个组件都拆开讲了，能不能带着走一遍完整的启动流程？
+speaker 2: 好，第一步一定是生成Secret，用generate-secrets.sh或者对应的PowerShell脚本，把Oracle密码、API Token、SNMPv3口令这些敏感信息生成到runtime-secrets目录。
+speaker 1: 如果跳过这一步直接启动会怎么样？
+speaker 2: 容器会因为读取不到对应的Secret文件而启动失败，这也是我们之前讲过的fail-fast设计的一部分。
+speaker 1: Secret准备好之后呢？
+speaker 2: 执行docker compose up -d --build，Compose会按照依赖关系启动oracle-db、两个monitoring-app、两个trap-receiver，最后是gateway，健康检查没通过前，依赖它的服务是不会启动的。
+speaker 1: 都启动完了怎么测试有没有正常工作？
+speaker 2: 用iot-simulator发一条测试通知，不过要注意，这个服务平时不会自动启动，因为它配置了profiles: tools，得用docker compose --profile tools run --rm iot-simulator这种方式手动调用。
+speaker 1: 怎么判断这次发送算不算成功？
+speaker 2: 不是看UDP包有没有发出去，而是看有没有收到SNMP RESPONSE并且errorStatus是noError，这跟我们第4章讲的Inform确认机制是一回事。
+speaker 1: 测试完之后怎么关闭？
+speaker 2: 普通的docker compose down就够了，但要特别小心docker compose down -v这个命令，它会把Oracle数据、USM状态和还没处理完的重试队列全部删掉，而且不可恢复，绝对不能在有生产数据或者正在排查故障的时候误用。
 speaker 1: 这一章的主要内容已经讲完了吗？
 speaker 2: 已经讲完了。接下来可以完成本章末尾的五道选择题，检查一下自己是否真正理解了这些内容。

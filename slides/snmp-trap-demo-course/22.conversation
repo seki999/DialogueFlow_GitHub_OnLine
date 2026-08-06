@@ -1,12 +1,14 @@
-speaker 1: 这一路学下来感觉这个项目挺完整的，是不是稍微改改就能上生产了？
-speaker 2: 不建议，README 里专门列了一份"制约事项"，我们一条条看一下。首先，SNMP v2c 用的 Community public 不提供加密也不提供强认证，理论上是可能被网络嗅探拿到的。
-speaker 1: 那数据库账号密码这些呢？
-speaker 2: 也是固定值，专门给本地演示用的，README 建议生产环境要换成 Docker Secrets 之类的方案，不能直接沿用。
-speaker 1: 还有哪些是明确排除在外的？
-speaker 2: SNMPv3、Inform、认证授权、失败重试队列、多节点部署，这几项都被明确列为本 Demo 范围之外，意味着单点故障和消息丢失在设计上是被默认接受的风险。
-speaker 1: 所以如果 snmptrapd 那台机器挂了，发出去的 Trap 就真的丢了？
-speaker 2: 对，因为没有重试队列，也没有多节点冗余，一旦某个环节出问题，那条数据大概率就丢了，只能靠日志排查发现，没法自动恢复。
-speaker 1: 那 Simulator 显示发送成功是不是就代表数据肯定保存好了？
-speaker 2: 不是，Trap 是基于 UDP 的，发送成功只说明报文送出去了，并不保证真的被接收和保存，这也是为什么上一章我们要专门讲怎么通过日志和页面去确认结果。
+speaker 1: Kubernetes部署架构讲完了，那网络层面的安全和会话保持是怎么设计的？
+speaker 2: 先看HTTP这一侧，Ingress负责做TLS终止，外部只需要通过标准的443端口访问，证书统一挂在monitoring-app-tls这个Secret上，流量解密之后再转发给monitoring-app的Service。
+speaker 1: UDP这一侧呢，之前在Docker Compose里靠nginx做一致性哈希，Kubernetes里怎么实现类似效果？
+speaker 2: 靠trap-receiver Service上的sessionAffinity: ClientIP配置，这个是文档特别强调不能删除的一项，它保证同一个来源IP的流量始终路由到同一个Pod。
+speaker 1: 这跟之前讲的一致性哈希是一回事吗？
+speaker 2: 目的完全一样，都是为了保证SNMPv3的discovery阶段和后续Inform落在同一个节点上，只是实现机制从nginx的一致性哈希换成了Kubernetes Service原生的会话亲和性。
+speaker 1: 那如果这套系统部署在NAT网关后面呢？
+speaker 2: 这就是文档特别提醒要注意的风险，如果多台设备经过NAT之后来源IP被统一替换成了同一个IP，基于ClientIP的会话保持就没法正确区分不同设备了，需要单独验证LoadBalancer是否支持保留原始来源IP。
+speaker 1: NetworkPolicy又是解决什么问题的？
+speaker 2: 它是最小权限的网络访问控制，限定只有特定来源能访问monitoring-app，就算某个组件被攻破，攻击者也很难直接横向访问到其他Pod。
+speaker 1: 所以这三个机制加起来才是完整的网络安全设计？
+speaker 2: 对，Ingress管入口加密，sessionAffinity管会话路由的一致性，NetworkPolicy管访问权限的最小化，三者各自解决不同层面的问题，缺一个都不完整。
 speaker 1: 这一章的主要内容已经讲完了吗？
 speaker 2: 已经讲完了。接下来可以完成本章末尾的五道选择题，检查一下自己是否真正理解了这些内容。

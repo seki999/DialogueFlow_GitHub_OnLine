@@ -1,14 +1,14 @@
-speaker 1: 如果我发了一条 Trap，结果页面上没看到新记录，第一反应应该查什么？
-speaker 2: 先看 snmptrapd 的日志，docker compose logs snmptrapd，看看是不是真的收到了这条 Trap，转发脚本有没有执行，有没有报未注册 OID 或者一致性错误。
-speaker 1: 如果 snmptrapd 这边看着是正常的，问题会不会出在 Spring Boot 那边？
-speaker 2: 有可能，接着看 docker compose logs monitoring-app，检查 API 有没有收到请求、有没有校验失败或者保存异常的堆栈信息。
-speaker 1: 要是数据库本身有问题呢？
-speaker 2: 那就查 docker compose logs oracle-db，确认数据库是不是已经完成初始化，有没有连接相关的错误。
-speaker 1: 能不能同时看多个服务的日志，边发 Trap 边观察？
-speaker 2: 可以，加个 -f 参数，比如 docker compose logs -f monitoring-app snmptrapd，这样两个服务的实时日志会同步滚动，很适合一边发送一边排查。
-speaker 1: 如果我想彻底停掉重来，命令是什么？
-speaker 2: 停止服务用 docker compose down，如果还想连数据库里保存的历史数据一起清掉，要额外加上 -v 参数，不加的话数据会保留下来。
-speaker 1: 所以排查思路基本是顺着数据流的方向一段一段查？
-speaker 2: 对，先看接收转发这一段，再看 API 保存这一段，最后看数据库本身，这样才能准确定位到底是哪个环节出的问题，而不是一上来就把数据全部清空重来。
+speaker 1: 从Docker Compose换到Kubernetes生产部署，最大的变化是什么？
+speaker 2: 最明显的是monitoring-app和trap-receiver分别用了不同的控制器类型，一个是Deployment，一个是StatefulSet。
+speaker 1: 为什么要分开处理？
+speaker 2: monitoring-app是无状态的，Pod可以随意创建替换，用Deployment配合HorizontalPodAutoscaler可以根据负载自动扩缩容。
+speaker 1: trap-receiver呢？
+speaker 2: trap-receiver不一样，每个Pod都需要一个跟自己身份绑定的USM存储，也就是SNMPv3的安全状态，这种稳定的一对一存储关联，只有StatefulSet能提供。
+speaker 1: 那共享的重试队列和vendor MIB是怎么处理的？
+speaker 2: 它们用的是RWX模式的PVC，因为需要被多个trap-receiver Pod同时挂载读写，这跟Docker Compose里用一个Volume在多容器间共享是同样的思路，只是换成了支持ReadWriteMany的存储后端。
+speaker 1: 我看manifest里trap-receiver还配了个headless Service，这是干什么的？
+speaker 2: headless Service会给StatefulSet里每个Pod生成一个独立的DNS记录，方便按身份直接寻址，另外还有一个普通的Service，负责对外提供UDP LoadBalancer入口，两者各司其职。
+speaker 1: 这份manifest可以直接拿去生产环境用吗？
+speaker 2: 不行，它是一份不含环境特定值的模板，里面像镜像仓库地址、DNS主机名、TLS Secret、外部Oracle连接信息、StorageClass、允许的来源CIDR这些，都要先替换成实际环境的值才能apply。
 speaker 1: 这一章的主要内容已经讲完了吗？
 speaker 2: 已经讲完了。接下来可以完成本章末尾的五道选择题，检查一下自己是否真正理解了这些内容。

@@ -1,14 +1,16 @@
-speaker 1: 前面几章都是准备工作，现在能不能看看真正处理一条 Trap 的完整脚本流程？
-speaker 2: 可以，这个脚本叫 forward-trap.sh，snmptrapd 会把接收到的数据通过标准输入传给它。
-speaker 1: 标准输入里具体是什么格式？
-speaker 2: 前两行是接收主机和接收地址，用来记日志；从第三行开始，每一行是一个"数值 OID 加值"的组合，这就是这条 Trap 携带的全部数据。
-speaker 1: 脚本拿到这些数据后先干什么？
-speaker 2: 先找出 snmpTrapOID.0 这一项，这是通知类型的身份证，拿它去查 trap-definitions.tsv，就能知道这是哪种 Trap、对应什么名字。
-speaker 1: 然后是不是就该处理那七个具体字段了？
-speaker 2: 对，接着按照 varbind-definitions.tsv 的规则，把七个已知 VB 逐个转换成 JSON 字段，同时检查类型对不对、有没有超长、必填的是不是缺失。
-speaker 1: 最后生成的 JSON 里会包含哪些关键信息？
-speaker 2: 除了业务字段，还专门保留了 trapOid 和 trapName 这两项，一个是原始数字，一个是翻译后的名字，这样数据库和页面都能拿到完整信息。
-speaker 1: 发送的时候用的是什么方式？
-speaker 2: 用 curl --fail 发 POST 请求，这个 --fail 参数很关键，只要 Spring Boot 返回的不是 2xx 状态码，curl 就会判定失败退出，脚本就能感知到这次投递没成功。
+speaker 1: Trap API这个接口只应该给内部的接收节点调用，是怎么做鉴权的？
+speaker 2: 用了一个自定义的TrapApiTokenFilter，专门校验Authorization头里的Bearer Token。
+speaker 1: 它会拦截所有请求吗？
+speaker 2: 不会，它重写了shouldNotFilter方法，只有请求路径是以/api/traps开头才会真正执行校验，其他路径直接跳过。
+speaker 1: Token比较用的是普通的字符串相等吗？
+speaker 2: 不是，用的是MessageDigest.isEqual，这是固定时间比较，不管Token对不对，比较耗时基本一致。
+speaker 1: 为什么要在意比较耗时？
+speaker 2: 如果用普通的字符串比较，遇到不匹配的字符就会提前退出，攻击者理论上可以通过测量响应时间的细微差异，逐个字节猜出正确Token，这就是时序攻击。
+speaker 1: Token本身的长度有要求吗？
+speaker 2: 有，构造函数里检查Token长度必须大于等于16个字符，不满足的话应用在启动阶段就会直接抛异常失败，而不是等到真正调用时才出错。
+speaker 1: 这个过滤器在整个过滤器链里的执行顺序有讲究吗？
+speaker 2: 有，用了@Order(Ordered.HIGHEST_PRECEDENCE)，让它比其他Spring Security过滤器都先执行，尽早拦下没有合法Token的请求。
+speaker 1: 如果请求根本没带Authorization头呢？
+speaker 2: 代码里会把提供的Token当成空字符串处理，跟真正的Token比较肯定不相等，最终返回401状态码和一段JSON格式的错误提示。
 speaker 1: 这一章的主要内容已经讲完了吗？
 speaker 2: 已经讲完了。接下来可以完成本章末尾的五道选择题，检查一下自己是否真正理解了这些内容。

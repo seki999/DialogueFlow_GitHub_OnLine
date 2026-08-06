@@ -1,14 +1,14 @@
-speaker 1: 数据最后存进数据库的表长什么样？
-speaker 2: 表名是 SNMP_TRAP_EVENT，由 JPA 的 ddl-auto=update 自动创建，不需要手写建表语句。
-speaker 1: 主键是怎么设计的？
-speaker 2: ID 字段，类型是 Long，用 IDENTITY 自增策略，也就是每插入一条记录，数据库自动给它分配一个递增的 ID。
-speaker 1: 我看到有 TRAP_OID 和 TRAP_NAME 两个字段，都是必填吗？
-speaker 2: 对，都是 NOT NULL，限制 128 字符，这样能保证每条记录都能明确追溯到它到底是哪种通知。
-speaker 1: 设备相关的字段呢？
-speaker 2: DEVICE_ID 限制 64 字符，DEVICE_NAME 限制 128 字符，也都是必填，跟前面 API 那边的校验规则是一致的。
-speaker 1: 我注意到有两个时间字段，EVENT_TIME 和 RECEIVED_TIME，有什么区别？
-speaker 2: EVENT_TIME 是事件本身发生的时间，来自 Trap 报文；RECEIVED_TIME 是系统真正接收并保存这条数据的时间，两者可能会有一点点延迟差。
-speaker 1: 这个区分有什么实际用处？
-speaker 2: 比如你想知道设备最近一次上报是什么时候，就该按 RECEIVED_TIME 降序查；但如果你想还原当时事件的真实发生时刻，就得看 EVENT_TIME。
+speaker 1: 上一章提到EVENT_ID是V2才加的，能具体讲讲这两个版本的迁移脚本吗？
+speaker 2: 可以。V1很简单，就是建SNMP_TRAP_EVENT表和一个索引，当时还没有去重需求，所以没有EVENT_ID这一列。
+speaker 1: 后来为什么要加EVENT_ID？
+speaker 2: 因为要支持重试队列的幂等去重，必须有一个唯一标识来判断这条记录是不是已经处理过了，所以V2专门加了EVENT_ID和RECEIVER_NODE两列。
+speaker 1: 直接加一列NOT NULL不就行了吗？
+speaker 2: 不行，因为表里已经有历史数据了，如果直接要求新列NOT NULL，这些老记录会因为新列是空的而导致迁移失败。
+speaker 1: 那怎么解决这个问题？
+speaker 2: 分三步走。先用ALTER TABLE ADD加两列，但暂时允许为空；然后用UPDATE给这些历史记录回填一个legacy格式的EVENT_ID，用原来的自增主键拼出来，保证格式合法又不重复。
+speaker 1: 回填完就结束了吗？
+speaker 2: 还没，回填之后再用MODIFY把这两列改成NOT NULL，最后才用ADD CONSTRAINT加上唯一约束，这个顺序不能乱，乱了就会因为存在空值或者冲突值而失败。
+speaker 1: Flyway配置里还有个validate-migration-naming是干什么的？
+speaker 2: 这是让Flyway在启动的时候严格检查迁移文件名是不是符合规范，比如V1__create_trap_event.sql这种格式，命名不规范就直接启动失败，避免版本号或描述写错导致迁移顺序混乱。
 speaker 1: 这一章的主要内容已经讲完了吗？
 speaker 2: 已经讲完了。接下来可以完成本章末尾的五道选择题，检查一下自己是否真正理解了这些内容。

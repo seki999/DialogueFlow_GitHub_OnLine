@@ -1,12 +1,16 @@
-speaker 1: 我们一直在说 OID，比如 .0.2 代表温度过高，这些数字到底是怎么分配出来的？
-speaker 2: 项目用了一个私有的 Enterprise Root，就是 1.3.6.1.4.1.99999，所有自定义的东西都挂在这个根下面。
-speaker 1: 根下面又分了哪些分支？
-speaker 2: 分两支，一支是 demoNotifications，放通知类的 OID，比如三种 Trap；另一支是 demoObjects，放数据字段的 OID，比如 deviceId、temperature。
-speaker 1: 那命名上有什么讲究吗？我看到 SNMP-TRAP-DEMO-MIB 全是大写，但 temperatureHighTrap 又是小写开头的？
-speaker 2: 对，这是故意区分的，MIB 模块名用大写加连字符，具体的 OBJECT-TYPE 和 NOTIFICATION-TYPE 用小驼峰命名，这样一眼就能分清是模块还是具体对象。
-speaker 1: 如果以后不想要某个 Trap 类型了，能不能把它的编号删掉给新的用？
-speaker 2: 不行，规则很明确，已经发布的 OID 语义和类型不能改，要废弃也不能复用编号，只能分配一个全新的号码，这是为了避免历史数据和新语义混在一起造成误判。
-speaker 1: 为什么项目不直接用业界标准的 MIB，比如 SNMPv2-SMI？
-speaker 2: 因为 Debian 精简版的 Net-SNMP 默认不自带这些标准 MIB，它们属于另外的许可分发范畴，所以项目干脆做了一个自包含的 MIB，只靠 OBJECT IDENTIFIER 就能完成名字解析，不依赖外部标准包。
+speaker 1: 前面讲了接收节点怎么初始化USM用户，那收到Trap之后具体怎么处理这个消息呢？
+speaker 2: 靠forward-trap.sh这个脚本，它的核心任务就是把原始的数字OID翻译成有业务含义的字段。
+speaker 1: 怎么翻译？
+speaker 2: 它会查两个字典文件，一个是trap-definitions.tsv，把通知OID映射成trapName、eventType、severity；另一个是varbind-definitions.tsv，把每个VB的OID映射成JSON字段名。
+speaker 1: VB的字典里还包含类型信息吗？
+speaker 2: 对，每行有六列：OID、symbol、jsonField、required、valueType、maxLength，脚本会按valueType对内容做格式校验。
+speaker 1: 具体怎么校验？
+speaker 2: 比如number类型要求是数字，datetime类型要求符合ISO-8601格式，uuid类型要求是标准的36位UUID格式，都是用awk正则来判断的。
+speaker 1: 光校验格式够吗？
+speaker 2: 不够，脚本最后还会做交叉校验，解析出的eventType和severity必须跟trap-definitions.tsv里trapName对应的期望值完全一致，不一致就报错终止。
+speaker 1: 这一步是为了防止什么？
+speaker 2: 防止报文被篡改，或者两个字典文件配置出现漂移，比如VB里写的eventType和Trap定义里期望的对不上，这种不一致本身就说明数据有问题。
+speaker 1: 最后生成JSON的时候，为什么不直接用字符串拼接？
+speaker 2: 因为原始数据可能包含引号或者特殊字符，直接拼接容易破坏JSON结构，脚本用jq的参数化写法来安全转义，避免这个风险。
 speaker 1: 这一章的主要内容已经讲完了吗？
 speaker 2: 已经讲完了。接下来可以完成本章末尾的五道选择题，检查一下自己是否真正理解了这些内容。

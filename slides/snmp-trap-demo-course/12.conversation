@@ -1,14 +1,14 @@
-speaker 1: 上一章提到脚本要判断通知 OID 是不是已知的，具体是怎么判断的？
-speaker 2: 先拿 snmpTrapOID.0 这个数值去字典里查，这是第一优先级的判断依据，不会用报文里的 eventType 反过来猜 Trap 名。
-speaker 1: 为什么不能用 eventType 反推？
-speaker 2: 因为 eventType 只是报文里的一段文本，理论上是可以被篡改或者写错的；而 snmpTrapOID.0 是协议层面的通知标识，字典把它当作权威依据，更可靠。
-speaker 1: 那如果这个 OID 压根没在字典里登记过呢？
-speaker 2: 就当作未注册的 Trap 处理，直接终止转发，同时往标准错误输出"Trap名转换失败"，不会尝试继续猜测或者硬转发。
-speaker 1: 如果 OID 是已知的，是不是就一定放行了？
-speaker 2: 还不一定，接下来还要看报文里实际的 eventType 和 severity，跟字典里登记的"期望值"是不是一致。
-speaker 1: 如果不一致会怎样？
-speaker 2: 同样会终止转发，因为这种不一致很可能意味着数据被篡改，或者发送端的实现跟字典规则对不上，为了安全起见宁可拒绝也不硬塞。
-speaker 1: 所以这其实是两层校验，一层管未知类型，一层管已知类型但内容不对的情况？
-speaker 2: 完全正确，这两层加在一起，才能保证最后写进数据库的每一条记录，OID、名字、类型三者是互相自洽的。
+speaker 1: 数据从trap-receiver转发过来之后，Spring Boot这边是怎么再做一层校验的？
+speaker 2: 靠TrapEventRequest这个record，它是一个DTO，用Bean Validation的注解给每个字段都定义了校验规则。
+speaker 1: 具体举个例子？
+speaker 2: 比如eventId，用了一个正则，要求必须是标准UUID的8-4-4-4-12分段格式，格式不对就通不过。
+speaker 1: severity这种枚举类型的字段呢？
+speaker 2: 也是用正则限制，只能是INFO、WARNING、CRITICAL三个值之一，这个约束跟shell脚本那边字典文件里定义的severity范围是完全对齐的。
+speaker 1: temperature是数字，也能用@NotBlank吗？
+speaker 2: 不行，@NotBlank是给字符串用的，Double类型只能用@NotNull来判断是不是有值，这是Bean Validation里常见的一个细节区分。
+speaker 1: 如果某个字段没通过校验，会返回什么？
+speaker 2: Controller方法参数上加了@Valid，校验失败会抛出MethodArgumentNotValidException，ApiExceptionHandler统一捕获，返回400状态码，还会带上具体是哪个字段出的问题。
+speaker 1: 之前forward-trap.sh在shell层已经校验过一遍格式了，Java这边为什么还要再校验一次？
+speaker 2: 这是纵深防御的思路，两层校验相互独立，就算shell脚本某个正则写漏了，或者未来有其他调用方绕过了shell层，Java这边依然能兜底拦截不合法的数据。
 speaker 1: 这一章的主要内容已经讲完了吗？
 speaker 2: 已经讲完了。接下来可以完成本章末尾的五道选择题，检查一下自己是否真正理解了这些内容。

@@ -1,12 +1,14 @@
-speaker 1: 我们已经看了数据怎么进数据库，那浏览器打开页面看到的表格是怎么来的？
-speaker 2: 浏览器请求 /traps 之后，由 TrapViewController 接手，它调用 TrapService 去查数据，再把结果交给 Thymeleaf 模板渲染成 HTML。
-speaker 1: 这个页面用了 React 或者 Vue 这类前端框架吗？
-speaker 2: 完全没有，traps.html 是纯服务端渲染的 HTML 表格，不依赖任何 JavaScript，页面一加载就是完整内容。
-speaker 1: 这样设计是不是显得比较"老派"？
-speaker 2: 看起来简单，但胜在可预测和兼容性好，不需要考虑前端框架版本、打包工具这些复杂性，对于一个演示项目来说很合适。
-speaker 1: 表格里的记录是按什么顺序展示的？
-speaker 2: 按接收时间降序，也就是最新收到的 Trap 会排在最上面，方便运维人员第一时间看到最新事件。
-speaker 1: README 里那几张截图就是直接截的这个页面？
-speaker 2: 对，正因为它是纯静态渲染，加载完成的那一刻就是最终效果，用普通截图工具就能捕捉到，不需要等待任何异步脚本执行完。
+speaker 1: 前面几章都是围绕Trap API这条线讲的，那Web画面这边的登录认证是怎么配置的？
+speaker 2: 是SecurityConfig这个类，它跟TrapApiTokenFilter是两套完全独立的认证机制，一个管Web页面，一个管内部API。
+speaker 1: Web这边哪些路径不需要登录？
+speaker 2: 只有健康检查/actuator/health和已经用Bearer Token认证过的/api/traps是放行的，其余所有路径都要求用户具备VIEWER角色。
+speaker 1: 用户密码是怎么存的？
+speaker 2: 用BCryptPasswordEncoder加密，加密强度设成了12，这个数值越大，攻击者暴力破解需要的计算成本就越高。
+speaker 1: 我看代码里还配置了STATELESS，这是什么意思？
+speaker 2: 意思是不使用HTTP Session保存登录状态，每次请求浏览器都要重新带上Basic Auth的用户名密码，这跟Basic Auth协议本身的工作方式是一致的。
+speaker 1: 为什么/api/traps这个路径要单独关掉CSRF防护？
+speaker 2: 因为CSRF攻击是利用浏览器自动带上Cookie的特性，而这个接口用的是显式的Bearer Token认证，不依赖Cookie，本来就不存在CSRF攻击的前提，硬要求CSRF Token反而会让内部脚本调用不了这个接口。
+speaker 1: 如果密码配置得太短会怎样？
+speaker 2: 跟Trap API Token类似，也是fail-fast设计，只要密码长度小于16位，应用在启动的时候就会直接抛异常失败，而不是等到真正登录的时候才发现问题。
 speaker 1: 这一章的主要内容已经讲完了吗？
 speaker 2: 已经讲完了。接下来可以完成本章末尾的五道选择题，检查一下自己是否真正理解了这些内容。

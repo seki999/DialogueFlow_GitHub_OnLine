@@ -1,12 +1,14 @@
-speaker 1: 我们刚才看了整体架构，从 Simulator 开始，它具体是怎么工作的？
-speaker 2: Simulator 是用 Java 21 写的命令行程序，底层用 SNMP4J 这个库来构造和发送 SNMP v2c 的 Trap 报文。
-speaker 1: 它发送的每条 Trap 里包含哪些数据？
-speaker 2: 对应到代码里的 TrapEvent 类，一共 7 个字段：deviceId、deviceName、eventType、severity、temperature、message、eventTime。
-speaker 1: 那我要发一条'设备错误'的 Trap，具体怎么触发？
-speaker 2: 在命令行加个参数就行，比如 device-error，Simulator 内部已经预置了 normal、temperature-high、device-error 三种场景。
-speaker 1: 它怎么知道要发到哪里去？
-speaker 2: 靠三个环境变量：SNMP_HOST、SNMP_PORT、SNMP_COMMUNITY，Compose 里默认分别是 snmptrapd、162、public。
-speaker 1: 如果我想测试发到另一台机器，是不是要改代码？
-speaker 2: 不需要，直接改这几个环境变量就行，这也是把配置和代码分离的一个好处。
+speaker 1: 我们已经看了整体架构，那测试的时候用什么工具往里面发数据？
+speaker 2: 就是这个IotSimulator，一个用SNMP4J写的小Java程序，模拟真实设备发出SNMPv3通知。
+speaker 1: 它能发哪几种事件？
+speaker 2: 命令行参数支持三种：normal表示设备正常，temperature-high表示温度过高，device-error表示设备通信错误，各自带着不同的默认温度和消息文本。
+speaker 1: 每次发送的数据都完全一样吗？
+speaker 2: 不完全一样，最关键的是eventId，每次运行都会用UUID.randomUUID()生成一个全新的随机值，这个值后面会用来做去重判断。
+speaker 1: 发送前需要做安全配置吗？
+speaker 2: 需要，代码里会创建一个USM安全用户，认证用AuthHMAC192SHA256，加密用PrivAES128，跟我们上一章讲的authPriv完全对应。
+speaker 1: 发送之后怎么知道成功没成功？
+speaker 2: 如果是Inform模式，程序会等待响应，检查类型必须是RESPONSE而不是REPORT，还要检查errorStatus是不是noError，两个条件都满足才算真正成功。
+speaker 1: 如果验证失败呢？
+speaker 2: 程序会抛出异常，打印失败原因，然后以非零状态码退出，方便脚本或CI流程判断这次调用是不是真的送达了。
 speaker 1: 这一章的主要内容已经讲完了吗？
 speaker 2: 已经讲完了。接下来可以完成本章末尾的五道选择题，检查一下自己是否真正理解了这些内容。

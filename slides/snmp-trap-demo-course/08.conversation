@@ -1,12 +1,16 @@
-speaker 1: 上一章说规则拆成了字典，那具体先看哪个字典？
-speaker 2: 先看 trap-definitions.tsv，这个文件是通知级别的翻译表，决定一个 OID 最终变成什么 Trap 名。
-speaker 1: 它每一行都存了什么？
-speaker 2: 四列：通知 OID、Trap 名、期望的 eventType、期望的 severity。
-speaker 1: 能举个具体例子吗？
-speaker 2: 比如 .0.2 这一行，对应 Trap 名是 temperatureHighTrap，期望 eventType 是 TEMPERATURE_HIGH，期望 severity 是 WARNING。
-speaker 1: 那这个'期望值'是干嘛用的，只是给人看的注释吗？
-speaker 2: 不只是注释，它会在后面的处理流程里被拿来跟 Trap 报文里实际携带的 eventType、severity 做核对，如果对不上就说明数据有问题。
-speaker 1: 如果字典里不小心写重复了同一个 OID 会怎样？
-speaker 2: 那属于违反了唯一性要求，属于字典格式错误，正常情况下应该在构建阶段的校验脚本里就被挡下来，不会进入运行环境。
+speaker 1: 上一章说字典文件负责翻译OID，那怎么保证字典和MIB定义本身没有写错？
+speaker 2: 靠两层校验。第一层是MIB Bundle本身的完整性校验，用manifest.sha256对整个MIB目录做sha256sum校验。
+speaker 1: 这一步是防止什么？
+speaker 2: 防止MIB文件被意外修改或者替换成不对的版本，只有校验通过，才会用MIBS=ALL调用snmptranslate去解析所有依赖。
+speaker 1: 解析成功之后呢？
+speaker 2: 接着调用validate-dictionary.sh，先检查字典文件本身的格式，比如列数对不对、OID格式对不对、severity是不是INFO/WARNING/CRITICAL这几个枚举值之一。
+speaker 1: 光格式对还不够吧？
+speaker 2: 对，还要检查唯一性，不能有重复的OID或者重复的Trap名，脚本用关联数组来发现这种重复。
+speaker 1: 那字典和MIB之间怎么保证两边写的OID是同一个？
+speaker 2: 这是最关键的一步，脚本用snmptranslate把字典里写的symbol名字翻译回OID，再跟字典里手写的OID逐条比较，只要有一条不一致就直接报错。
+speaker 1: 为什么要这么较真？
+speaker 2: 因为很容易出现只改了字典没改MIB，或者反过来，两边不同步的情况，运行时看起来Trap名转换是对的，但实际OID其实变了，这种隐患很难在日常测试里发现。
+speaker 1: jsonField这一列是不是也有限制？
+speaker 2: 有，它只能是deviceId、deviceName这些已经在forward-trap.sh里实现过处理逻辑的8个字段之一，避免有人加了新字段但转发脚本根本不认识，导致数据被悄悄丢弃。
 speaker 1: 这一章的主要内容已经讲完了吗？
 speaker 2: 已经讲完了。接下来可以完成本章末尾的五道选择题，检查一下自己是否真正理解了这些内容。

@@ -1,14 +1,16 @@
-speaker 1: 前面理论讲了很多，能不能实际跑一遍看看效果？
-speaker 2: 可以，我们按顺序发送三种事件，先看 normal。命令是 docker compose run --rm iot-simulator normal。
-speaker 1: 这条对应字典里的哪一行？
-speaker 2: 对应通知 OID .0.1，Trap 名是 normalTrap，eventType 是 NORMAL，severity 是 INFO，这些值应该会一致地出现在数据库和页面上。
-speaker 1: 接下来试试温度过高的场景？
-speaker 2: 命令是把参数换成 temperature-high，这次对应 .0.2，Trap 名 temperatureHighTrap，eventType 是 TEMPERATURE_HIGH，severity 变成 WARNING，级别明显更高了。
-speaker 1: 最后是设备错误？
-speaker 2: 参数换成 device-error，对应 .0.3，Trap 名 deviceErrorTrap，eventType 是 DEVICE_ERROR，severity 是 CRITICAL，这是三种里级别最高的。
-speaker 1: 发完这三条之后去哪里看结果？
-speaker 2: 打开浏览器访问 localhost:8080/traps，应该能看到三行新记录，按接收时间从新到旧排列，最新发的 device-error 一般会排在最上面。
-speaker 1: 如果我想单独确认某个 Trap 名和 OID 的对应关系对不对，有什么办法？
-speaker 2: 可以用 README 里给的 snmptranslate 命令，比如查 deviceErrorTrap，正确结果应该解析回 .1.3.6.1.4.1.99999.0.3，跟设计文档里的映射表完全对得上。
+speaker 1: 我们已经零散提到过容器的一些安全设置，能不能系统地梳理一下都用了哪些手段？
+speaker 2: 可以，最基础的一条是read_only: true，容器运行时的根文件系统是只读的，任何写入都会失败，除非专门挂载了可写卷。
+speaker 1: 那容器内部真的完全不能写东西吗？
+speaker 2: 不是完全不能，是不能随意写。像nginx必须写pid文件和缓存目录，这些特定路径会用tmpfs单独挂载成内存里的可写空间，其他地方依然保持只读。
+speaker 1: 还有哪些加固手段？
+speaker 2: no-new-privileges:true，这是内核级别的限制，防止容器内的进程通过某些手段在运行时获得比启动时更高的权限。
+speaker 1: capability这块呢？
+speaker 2: cap_drop设置成ALL，把所有Linux capability都丢弃了，权限降到最低。
+speaker 1: 但gateway好像又加回了一个？
+speaker 2: 对，NET_BIND_SERVICE，因为nginx要监听162和其他1024以下的端口，普通非root进程默认没这个权限，只能精确地把这一个能力加回来，而不是整体放开权限。
+speaker 1: gateway不是用root用户运行的吗？
+speaker 2: 不是，它专门指定了user: 101:101，用一个非root用户运行，配合刚才那些capability和文件系统限制，即使容器被攻破，攻击者能做的事情也非常有限。
+speaker 1: 数据库这边有没有类似的加固？
+speaker 2: 有，Oracle的端口没有映射到宿主机，只能被Compose内部网络里的其他容器访问，外部完全看不到这个端口，这也是缩小攻击面的一种方式。
 speaker 1: 这一章的主要内容已经讲完了吗？
 speaker 2: 已经讲完了。接下来可以完成本章末尾的五道选择题，检查一下自己是否真正理解了这些内容。

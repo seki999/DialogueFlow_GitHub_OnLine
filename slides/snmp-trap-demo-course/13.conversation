@@ -1,14 +1,14 @@
-speaker 1: forward-trap.sh 发出去的 JSON 最终敲的是哪个门？
-speaker 2: 是 Spring Boot 提供的 POST /api/traps 接口，Content-Type 固定是 application/json。
-speaker 1: 这个接口对请求体有什么要求？
-speaker 2: 要求携带 9 个必填字段：trapOid、trapName、deviceId、deviceName、eventType、severity、temperature、message、eventTime，每个字段都有对应的类型和长度限制。
-speaker 1: 如果这些字段里少了一个会怎样？
-speaker 2: 会触发 Bean Validation 校验失败，接口返回 400 Bad Request，告诉调用方请求本身有问题。
-speaker 1: 如果字段都齐全，保存的时候数据库挂了呢？
-speaker 2: 那种情况属于服务端内部错误，返回 500 Internal Server Error，跟 400 的"客户端问题"是两回事。
-speaker 1: 那正常成功的情况呢？
-speaker 2: 数据成功写入之后返回 201 Created，表示这条记录已经被成功创建。
-speaker 1: eventTime 这种时间字段有什么格式要求？
-speaker 2: 要求 ISO-8601 本地日期时间格式，这样前后端、数据库对时间的理解才能保持一致，不会因为格式歧义出问题。
+speaker 1: 前面讲了TrapEventRequest这个DTO，那它进入TrapService之后具体经历了什么？
+speaker 2: 首先会做一次查重，调用repository.existsByEventId，看这个eventId是不是已经保存过了。
+speaker 1: 如果已经存在了呢？
+speaker 2: 会打一条日志说明丢弃了重复Trap，然后直接返回false，不会再执行插入操作。
+speaker 1: 如果是新的呢？
+speaker 2: 就把DTO转换成TrapEvent这个Entity，这里有个细节，会额外补一个receivedTime字段，用LocalDateTime.now()记录真正写入数据库的时间点。
+speaker 1: 这个receivedTime和eventTime不是一回事吗？
+speaker 2: 不是，eventTime是设备侧记录的事件发生时间，receivedTime是数据真正落库的时间，两者可能会有几秒到几分钟的差异，特别是走了重试队列的场景。
+speaker 1: 这一整套查重加写入的过程，为什么要用@Transactional包起来？
+speaker 2: 是为了保证查重和写入在同一个事务里完成，配合数据库层面的唯一约束，即使有并发请求同时到达，也不会出现数据不一致的情况。
+speaker 1: 那查看列表的时候是怎么排序的？
+speaker 2: 用了findAllByOrderByReceivedTimeDesc这个方法名，Spring Data JPA会自动根据方法名生成对应的SQL，按接收时间倒序排列，最新的告警排在最前面。
 speaker 1: 这一章的主要内容已经讲完了吗？
 speaker 2: 已经讲完了。接下来可以完成本章末尾的五道选择题，检查一下自己是否真正理解了这些内容。

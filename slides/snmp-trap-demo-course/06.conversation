@@ -1,12 +1,16 @@
-speaker 1: 我发现 forward-trap.sh 里好像没有写死任何 if OID 等于什么就怎么处理，这是为什么？
-speaker 2: 因为项目故意把规则和执行逻辑分开了，规则放在字典文件里，脚本只负责读字典、按规则转换。
-speaker 1: 具体分成了哪几层？
-speaker 2: 三层：最上面是 MIB 文件，定义 OID 的层级结构和符号名；中间是两个 TSV 字典，定义运行时的转换规则；最下面是脚本，负责查表执行。
-speaker 1: 两个字典具体分别管什么？
-speaker 2: trap-definitions.tsv 管的是通知级别，也就是某个通知 OID 对应哪个 Trap 名、期望的 eventType 和 severity；varbind-definitions.tsv 管的是字段级别，VB OID 对应哪个 JSON 字段、是否必填、什么类型、最大长度。
-speaker 1: 这么设计有什么好处？
-speaker 2: 最大的好处是可扩展性，如果以后要新增一种事件类型，只需要改字典文件和 MIB，不用碰脚本代码，风险小很多。
-speaker 1: 那万一字典写错了怎么办，会不会等到运行时才炸？
-speaker 2: 不会，构建镜像的时候会跑 validate-dictionary.sh，提前检查字典格式、重复项，还有跟 MIB 是否一致，有问题直接让构建失败，不会带着错误配置上线。
+speaker 1: 每个接收节点启动的时候，是怎么把USM用户配置好的？
+speaker 2: 靠container-entrypoint.sh这个脚本，它先从Secret文件里读取认证口令和加密口令。
+speaker 1: 读取之后直接用吗？
+speaker 2: 不是，先校验格式，只能是字母数字下划线连字符，而且长度必须大于等于16位，不满足就直接启动失败。
+speaker 1: 校验通过之后呢？
+speaker 2: 检查是不是第一次启动。如果是，就执行createUser命令，把用户写进持久化的snmptrapd.conf文件，挂载在USM卷上，重启也不会丢。
+speaker 1: 那已经运行过的节点重启，会不会重复创建用户？
+speaker 2: 不会，脚本会先算一个凭据哈希，跟之前保存的标记文件比对，如果一致就跳过创建，直接启动snmptrapd。
+speaker 1: 如果两次的哈希对不上呢？
+speaker 2: 说明这次传入的Secret跟USM卷里已经使用的凭据不一样了，脚本会直接启动失败，提示要按手册走手动轮换流程，不会自动覆盖。
+speaker 1: 为什么不直接自动覆盖，省得报错？
+speaker 2: 因为静默替换生产环境的认证凭据风险很大，一旦出问题很难排查，所以宁可让容器启动失败，也要让运维明确地走一遍受控的轮换步骤。
+speaker 1: 脚本对Engine ID还做了什么处理？
+speaker 2: 它会遍历SNMP_TRAP_ENGINE_IDS里配置的每一个Engine ID，分别执行带-e参数的createUser，这样无论是Inform还是Trap模式涉及的不同Engine ID，都能提前建好对应的USM用户。
 speaker 1: 这一章的主要内容已经讲完了吗？
 speaker 2: 已经讲完了。接下来可以完成本章末尾的五道选择题，检查一下自己是否真正理解了这些内容。

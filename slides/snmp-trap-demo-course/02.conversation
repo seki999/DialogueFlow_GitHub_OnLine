@@ -1,16 +1,16 @@
-speaker 1: 上一章提到 Trap 和 OID，这两个到底是什么？
-speaker 2: OID 就是一串像 1.3.6.1.4.1.99999.0.1 这样的数字，它的作用是唯一标识某一种通知或者某个数据字段。
-speaker 1: 那具体到我们这个项目，OID 是用来标识什么的？
-speaker 2: 用来标识事件类型，比如 .0.1 代表 NORMAL 正常事件，.0.2 代表温度过高，.0.3 代表设备错误。
-speaker 1: 那 Trap 报文里除了 OID，还带了别的数据吧？
-speaker 2: 对，那部分叫 Varbind，也就是变量绑定，里面装着设备 ID、设备名、温度、消息内容这些具体信息。
-speaker 1: 我看到项目里用的是 Community public，这个是干什么的？
-speaker 2: 这是 SNMP v2c 版本里最基础的认证方式，本质上就是一个共享的口令字符串，双方都用 public 就算通过。
-speaker 1: 听起来不太安全啊。
-speaker 2: 确实，它不提供加密也不是强认证，这也是为什么 README 里反复强调这只是一个演示环境，不能直接用于生产。
-speaker 1: 那 Trap 和 Inform 有什么区别？
-speaker 2: Trap 是发出去就不管了，不等对方确认；Inform 则要求接收方必须回应确认收到。我们这个项目用的是 Trap。
-speaker 1: 最后再问一下 MIB 文件是干嘛用的？
-speaker 2: 它就是一本对照表，把那些不好记的数字 OID 翻译成有意义的名字，比如把 .0.2 翻译成 temperatureHighTrap，方便阅读和工具解析。
+speaker 1: 我们先聊聊SNMPv3吧，它和之前的版本比，安全性到底强在哪？
+speaker 2: SNMPv3引入了三种安全级别：noAuthNoPriv完全不认证、authNoPriv只认证不加密、authPriv两者都做。
+speaker 1: 那这个项目用的是哪一种？
+speaker 2: 强制用最高级别authPriv，认证算法是SHA-256，加密算法是AES-128，这两者结合起来才叫authPriv。
+speaker 1: 那如果有人试图用SNMPv2c的方式接入呢？
+speaker 2: 会被拒绝。README里写得很清楚，不接受SNMPv2c和Community public，模拟器也只允许SNMP_VERSION=3。
+speaker 1: 我一直分不清Trap和Inform，它们不是一回事吗？
+speaker 2: 名字很像，但机制不同。Trap是单向的，设备发出去就不管了，不知道对方收没收到。
+speaker 1: 那Inform呢？
+speaker 2: Inform要求接收方必须回一个SNMP RESPONSE，而且errorStatus要是noError才算真正送达。
+speaker 1: 所以Inform更可靠？
+speaker 2: 对，这也是为什么IotSimulator默认用Inform——它可以准确知道通知到底送达没有，而不是发出去就当作成功。
+speaker 1: 那什么时候会用Trap呢？
+speaker 2: 项目也支持通过环境变量切换成Trap模式，但因为Trap本身没有送达确认，切换后只能靠接收日志、队列和数据库里的eventId去反推追踪。
 speaker 1: 这一章的主要内容已经讲完了吗？
 speaker 2: 已经讲完了。接下来可以完成本章末尾的五道选择题，检查一下自己是否真正理解了这些内容。

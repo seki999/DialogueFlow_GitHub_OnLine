@@ -1,14 +1,14 @@
-speaker 1: Simulator 发出去的 Trap，第一个接住它的是谁？
-speaker 2: 是 snmptrapd，它是 Net-SNMP 自带的一个接收服务，监听所有网卡的 UDP 162 端口。
-speaker 1: 它怎么判断这条报文能不能处理？
-speaker 2: 靠 Community 字段，配置里写的是 authCommunity log,execute,net public，意思是只有 Community 为 public 的报文才被允许记录日志、触发处理器。
-speaker 1: 如果报文的 Community 不是 public 会怎样？
-speaker 2: 会被直接丢弃，不会进入后续处理流程，这就是它最基础的一层过滤。
-speaker 1: 通过认证之后呢，是不是每种 Trap 走不同的处理逻辑？
-speaker 2: 不是，配置里用的是 traphandle default，意思是不管什么类型的通知，统一都转交给同一个脚本 forward-trap.sh 去处理。
-speaker 1: 那启动参数里那些 -f -Lo -On 是干嘛的？
-speaker 2: -f 是前台运行方便容器管理，-Lo 是把日志打到标准输出，-On 是让 OID 以数字形式显示，这样后面脚本比较的时候不用管符号名或者本地化设置。
-speaker 1: 那 snmptrapd 会不会自己把数据存到数据库？
-speaker 2: 完全不会，它的职责很纯粹，只管接收、认证、转交，存储、业务查询这些都不归它管，都交给后面的 Spring Boot。
+speaker 1: 上一章讲了模拟器怎么发消息，那消息到了UDP Gateway之后是怎么被分配到两个接收节点的？
+speaker 2: 靠一致性哈希，nginx配置里写着hash $remote_addr$remote_port consistent，把来源IP和端口组合起来算哈希值。
+speaker 1: 为什么不能简单地轮询分发，让两个节点负载更均衡？
+speaker 2: 因为SNMPv3有个特殊要求，discovery阶段协商的Engine ID和USM安全状态，必须在后续的Inform请求里保持一致。
+speaker 1: 也就是说同一台设备的请求必须固定走同一个节点？
+speaker 2: 对，如果这次请求分到receiver-a，下次又分到receiver-b，receiver-b并不知道之前协商过的安全上下文，认证就会失败。
+speaker 1: 那如果以后要加第三个接收节点，会不会把所有映射关系都打乱？
+speaker 2: 不会大规模打乱，这正是consistent一致性哈希的优势，只有哈希环上相邻的一小部分映射会变化，大部分设备还是继续路由到原来的节点。
+speaker 1: 配置里还有个reuseport，这个是干什么的？
+speaker 2: 它允许多个nginx worker进程同时监听UDP 162端口，内核帮忙分发连接，可以提升整体的并发处理能力。
+speaker 1: 这两个机制是配合使用的吗？
+speaker 2: 是的，reuseport解决并发吞吐问题，一致性哈希解决路由稳定性问题，两者一起保证了UDP层既能扩展又不会破坏SNMPv3的安全会话。
 speaker 1: 这一章的主要内容已经讲完了吗？
 speaker 2: 已经讲完了。接下来可以完成本章末尾的五道选择题，检查一下自己是否真正理解了这些内容。

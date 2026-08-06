@@ -1,12 +1,14 @@
-speaker 1: 这四个组件要跑起来，是不是要分别一个个启动？
-speaker 2: 不需要，项目用 Docker Compose 把它们编排到一起，一条 docker compose up -d --build 就能把常驻服务全部构建并启动。
-speaker 1: 哪些算常驻服务？
-speaker 2: snmptrapd、monitoring-app、oracle-db 这三个是持续运行的；iot-simulator 不一样，它是一次性任务，要用 docker compose run --rm iot-simulator 加场景名才会触发一次发送。
-speaker 1: 这些容器之间怎么知道对方在哪、怎么连接？
-speaker 2: 靠环境变量，比如 SNMP_HOST、SNMP_PORT、SNMP_COMMUNITY 告诉 Simulator 该往哪发；TRAP_API_URL 告诉 snmptrapd 里的转发脚本该往哪投递 JSON；SPRING_DATASOURCE 系列告诉 Spring Boot 怎么连 Oracle。
-speaker 1: 启动之前有什么要注意的吗？
-speaker 2: 要确保宿主机的 UDP 162、TCP 8080、TCP 1521 这三个端口没被别的程序占用，不然会启动失败或者端口冲突。
-speaker 1: 启动之后是不是立刻就能用了？
-speaker 2: Oracle 首次启动一般要等几分钟做初始化，这是正常现象，不用担心，等它就绪之后整套系统才算真正可用。
+speaker 1: 前面讲了输入校验和数据库唯一约束，那这些出错的情况在Spring Boot里是怎么统一处理的？
+speaker 2: 靠ApiExceptionHandler这个类，它用@RestControllerAdvice标注，可以全局捕获所有Controller抛出的特定异常。
+speaker 1: 具体处理了哪几种异常？
+speaker 2: 三种，MethodArgumentNotValidException对应输入校验失败，DataAccessException对应通用的数据库访问异常，DataIntegrityViolationException对应数据完整性冲突，也就是唯一约束冲突。
+speaker 1: 校验失败返回什么？
+speaker 2: 返回400，还有一条提示信息，说明具体是哪个字段出了问题，但不会把背后的正则表达式或详细规则暴露出去。
+speaker 1: 为什么不把详细规则告诉调用方，这样不是更方便排查吗？
+speaker 2: 出于最小信息暴露的原则，字段名已经足够让开发者定位问题了，把内部实现细节暴露出去反而可能被用来针对性地试探和绕过校验。
+speaker 1: 我注意到唯一约束冲突居然返回的是200，这不是矛盾吗？
+speaker 2: 不矛盾，结合之前讲的重试队列和幂等机制，重复的eventId冲突其实是预期内的正常情况，把它当作成功处理，能让上游认为这条数据已经妥善保存，不用再重复重试了。
+speaker 1: 那真正的数据库故障呢？
+speaker 2: DataAccessException这种情况会返回500，客户端只看到一句通用的保存失败提示，详细的异常堆栈只会记录在服务端日志里，不会暴露给外部调用方。
 speaker 1: 这一章的主要内容已经讲完了吗？
 speaker 2: 已经讲完了。接下来可以完成本章末尾的五道选择题，检查一下自己是否真正理解了这些内容。

@@ -1,14 +1,14 @@
-speaker 1: 上一章说了当前 Demo 的一堆限制，那这些问题就没法解决吗？
-speaker 2: 仓库里其实还有一份更完整的设计文档，专门讨论了怎么往生产方向演进，不过要先说清楚，这份文档描述的东西，当前 Demo 并没有真正实现。
-speaker 1: 就是说这只是一个'设想'，不是现在能跑起来的功能？
-speaker 2: 对，一定要把这两者分开看。比如文档里提到用 SNMPv3 的 authPriv 替代 v2c 的 Community，加上 SHA-256 和 AES-128，来解决上一章说的加密认证问题，但当前跑的还是 v2c。
-speaker 1: 单点故障那个问题呢，文档里怎么说？
-speaker 2: 提到用多个接收节点加上 UDP 负载均衡里的 source affinity，让同一个设备的报文固定路由到同一个接收节点，但这需要额外维护 Engine ID 和 USM key 的持久化，复杂度明显提高了。
-speaker 1: 消息丢失的问题呢？
-speaker 2: 设计里提到用共享的持久化重试队列，配合 eventId 去重，即使 API 或数据库短暂不可用，消息也不会丢，等恢复后可以重新投递。
-speaker 1: 那 API 没有认证这个问题呢？
-speaker 2: 文档里建议用 Bearer Token 给内部 API 调用加一层身份校验，而不是像现在这样完全没有认证。
-speaker 1: 所以这一章的重点其实是提醒我们别把设想当成现实？
-speaker 2: 没错，这些都是很合理的生产化方向，但目前只存在于文档里，代码和 Compose 配置并没有实现，学习的时候要把它们当作"以后要考虑的方向"，而不是当前系统已经具备的能力。
+speaker 1: 前面讲了很多业务逻辑，那这些逻辑是怎么被测试覆盖的？
+speaker 2: 项目里既有单元测试，也有集成测试，分工是不一样的。先说单元测试，比如TrapEventRequestTest，专门测DTO上那些Pattern和Size注解在合法、非法输入下的表现。
+speaker 1: TrapService的逻辑怎么测？没有真实数据库怎么办？
+speaker 2: 用Mock，TrapServiceTest会Mock掉TrapEventRepository，让existsByEventId在不同用例下返回true或者false，这样就能单独验证save方法里判重的分支逻辑，完全不需要连接真实Oracle。
+speaker 1: 那集成测试是做什么的？
+speaker 2: TrapFlowIntegrationTest覆盖的是端到端的链路，从API请求进来，到数据真正被持久化，再到重复请求确实被正确去重，这是多个组件协作之后的整体行为验证。
+speaker 1: 它跟TrapServiceTest的区别是什么？
+speaker 2: TrapServiceTest只隔离测试Service这一层，靠Mock跳过了数据库；集成测试则是把真实的组件串起来一起跑，验证的是整体协作的效果，两者是互补关系，不是重复的。
+speaker 1: iot-simulator那边也有自己的测试吗？
+speaker 2: 有，TrapEventTest测的是Simulator这一侧构造事件模板和相关字段的逻辑，跟monitoring-app的测试是完全独立维护的两套代码，因为这本来就是两个不同的Maven项目。
+speaker 1: 运行这些Java测试对本地环境有要求吗？
+speaker 2: 文档提供了用官方Maven镜像跑容器化测试的方式，把项目目录挂进容器里执行mvn test，这样即使本地没装Maven或者JDK版本不一致，也能得到一致的测试结果。
 speaker 1: 这一章的主要内容已经讲完了吗？
 speaker 2: 已经讲完了。接下来可以完成本章末尾的五道选择题，检查一下自己是否真正理解了这些内容。

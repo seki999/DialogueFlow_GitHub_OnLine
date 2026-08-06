@@ -1,14 +1,14 @@
-speaker 1: 我们一章一章拆了这么多细节，能不能整体走一遍，把所有环节串起来？
-speaker 2: 可以，正好这一章就是把前面十七章的内容拼成一条完整的时序图，从头到尾走一遍。
-speaker 1: 那就从头说起，第一步是什么？
-speaker 2: Simulator 发出 SNMP v2c Trap，走 UDP 162 到 snmptrapd；snmptrapd 通过 Community 认证之后，用 traphandle default 把它转交给 forward-trap.sh。
-speaker 1: 脚本拿到数据之后要做哪些事？
-speaker 2: 先查 trap-definitions.tsv 确认通知类型，再按 varbind-definitions.tsv 把七个字段逐一转成 JSON，同时做必填、类型、长度的校验。
-speaker 1: 校验通过之后就直接进数据库了吗？
-speaker 2: 还要经过一步，脚本用 curl --fail 把 JSON POST 给 Spring Boot 的 /api/traps 接口，Spring Boot 校验、保存，通过 JDBC 写进 Oracle，成功的话返回 201。
-speaker 1: 这时候数据已经在数据库里了，那浏览器那边呢？
-speaker 2: 浏览器是完全独立的另一条路径，用户访问 /traps，Spring Boot 查询数据库、按接收时间降序取出记录，交给 Thymeleaf 渲染成表格返回。
-speaker 1: 所以写入和查询其实是两条不同的路，只是都经过 Spring Boot 和 Oracle？
-speaker 2: 对，可以这么理解：写入路径是 Simulator 到 snmptrapd 到脚本到 API 到数据库，查询路径是浏览器到 API 到数据库，两条路只在数据库这一点交汇。
+speaker 1: 我们已经把各个组件都拆开讲过了，能不能整体串一遍，看看高可用具体体现在哪里？
+speaker 2: 可以。先看接收层，两个节点trap-receiver-a和trap-receiver-b各自独立运行，通过之前讲的一致性哈希分流。
+speaker 1: 这两个节点之间有共享的东西吗？
+speaker 2: 有，重试队列这个Volume是共享的，但USM安全状态是各自独立的Volume，这样设计既保证了队列里的任务不会因为某个节点故障而卡住，又不会因为共享USM状态而产生冲突。
+speaker 1: 应用层呢？
+speaker 2: monitoring-app-a和monitoring-app-b是完全对等的无状态实例，配置几乎一模一样，都靠YAML锚点复用出来的，nginx可以随意把请求分给任何一个。
+speaker 1: 那这套架构里有没有单点？
+speaker 2: 有，就是Oracle数据库。两层节点冗余最终都收敛到同一个数据库实例，这也是README里特别提到生产环境要为Oracle单独设计HA、备份和时间点恢复方案的原因。
+speaker 1: docker-compose里healthcheck和depends_on的condition是干什么用的？
+speaker 2: 是为了控制启动顺序，比如gateway要等monitoring-app真正通过健康检查之后才启动，避免网关启动太早，把请求转发给还没准备好的后端实例，尤其是Flyway迁移还没跑完的时候。
+speaker 1: 所以整体思路就是尽量在每一层都做冗余，只在数据层保留一个权威副本？
+speaker 2: 对，这也是很多生产系统常见的设计模式，无状态的处理层可以水平扩展和容错，有状态的存储层则集中管理，用专门的高可用方案来兜底。
 speaker 1: 这一章的主要内容已经讲完了吗？
 speaker 2: 已经讲完了。接下来可以完成本章末尾的五道选择题，检查一下自己是否真正理解了这些内容。

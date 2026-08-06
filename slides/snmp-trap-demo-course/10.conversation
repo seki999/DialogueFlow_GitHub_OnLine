@@ -1,12 +1,14 @@
-speaker 1: 前两章讲的两个字典文件，万一有人手写的时候打错了怎么办？
-speaker 2: 项目专门有一个脚本处理这个问题，叫 validate-dictionary.sh，它在镜像构建阶段就会运行，而不是等运行时才发现。
-speaker 1: 它具体检查哪些内容？
-speaker 2: 三方面：字典的列格式对不对、有没有重复的键，还有最重要的一点，用 snmptranslate 去解析字典里的每条记录，看它和 MIB 里定义的数值 OID 是不是完全一致。
-speaker 1: 为什么 OID 一致性这么重要？
-speaker 2: 因为字典和 MIB 本质上是两份独立维护的文件，时间久了很容易出现"漂移"，比如 MIB 改了但字典没跟着改，这时候如果不校验，运行时就会出现莫名其妙的解析错误。
-speaker 1: 如果校验没通过会怎样？
-speaker 2: 直接导致整个 Docker 镜像构建失败，构建不出来，自然也就不会被部署到任何环境里，从源头堵住了问题。
-speaker 1: 这种做法是不是比等出问题了再去查日志要好很多？
-speaker 2: 对，这就是所谓的"提前失败"策略，宁可在构建阶段麻烦一点，也不要让错误配置流到线上影响真实流量。
+speaker 1: 前面讲的都是UDP这条线，那HTTP这一侧的nginx配置有什么讲究？
+speaker 2: HTTP这一块主要是给两个Spring Boot实例做负载均衡，upstream配置用的是least_conn策略。
+speaker 1: least_conn具体是怎么工作的？
+speaker 2: 它会把新请求发给当前活跃连接数最少的那个后端实例，尽量让monitoring-app-a和monitoring-app-b的负载保持均衡。
+speaker 1: 转发的时候有没有做什么额外处理？
+speaker 2: 会设置X-Forwarded-For和X-Forwarded-Proto这些头，让后端能拿到客户端真实的IP和协议，不然后端看到的请求来源都会显示成nginx自己。
+speaker 1: 我看配置里还有个/gateway-health，这是干什么的？
+speaker 2: 这是专门给Docker健康检查用的探测端点，直接返回200 ok，不经过后端，也不记录访问日志，用来判断nginx自己是不是还活着。
+speaker 1: 这个nginx容器本身安全性上有什么特别设计吗？
+speaker 2: 有，它用非root用户101运行，文件系统是只读的，还加了no-new-privileges，并且把所有Linux capability都丢弃了，只保留监听低位端口需要的NET_BIND_SERVICE。
+speaker 1: 只读文件系统的话，nginx运行时需要写的临时文件怎么办？
+speaker 2: 通过tmpfs挂载几个内存文件系统，比如缓存目录、pid文件目录和/tmp，这样既满足了运行时的写入需求，又不破坏容器整体只读带来的安全边界。
 speaker 1: 这一章的主要内容已经讲完了吗？
 speaker 2: 已经讲完了。接下来可以完成本章末尾的五道选择题，检查一下自己是否真正理解了这些内容。
