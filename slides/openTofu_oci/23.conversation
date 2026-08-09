@@ -1,0 +1,14 @@
+speaker 1: Monitoring 具体是怎么运作的？听起来跟前面讲的 Events 有点像。
+speaker 2: 核心机制其实很简单：Monitoring 会以时间序列的形式保存 Metric 数据，你可以对这些数据做查询，一旦查询结果满足你设定的阈值条件，就会触发 Alarm。跟 Events 的区别在于，Monitoring 关注的是持续的量化指标，而不是某个瞬间发生的事件。
+speaker 1: 这个项目里具体监控的是什么？
+speaker 2: 监控的是 CPU 使用率，具体的查询是在 oci_computeagent 这个命名空间下，取 CpuUtilization 这个指标五分钟的平均值，如果超过 80，就认为触发了报警条件。
+speaker 1: 触发之后，通知是怎么发出去的？
+speaker 2: 看这张图就很清楚：从 Compute 产生 Metric，经过 Query 判断，触发 Alarm，然后发送到 Notifications Topic，最后由 Topic 分发给真正的人，也就是最终的通知接收者。
+speaker 1: 如果我把 Compute 关掉了，这个 Alarm 还会继续报警吗？
+speaker 2: 不会，这个项目做了联动处理：当 Compute 处于禁用状态时，对应的 Alarm 也会同步设置成 is_enabled=false，避免对一个根本不存在的资源持续发出无意义的报警。
+speaker 1: 如果 Alarm 一直不触发，是不是说明配置有问题？
+speaker 2: 有可能，需要排查几个方向：首先确认这个资源是不是真的在发布 Metric 数据，如果压根没有数据，Alarm 自然不会触发；然后要检查 Namespace、Compartment、Dimension、Interval 这些参数是不是都对上了，任何一个不匹配都可能导致查询拿不到预期的数据。
+speaker 1: 有什么工具可以帮我确认 Metric 的实际情况？
+speaker 2: 可以用控制台的 Metric Explorer，去看具体的维度和数据点，这样能直观地确认数据到底有没有产生，以及数值是不是符合预期。另外也要留意 Metric、Alarm、通知量都有各自的最新价格和上限，用完记得按顺序先删 Alarm 再删 Topic。
+speaker 1: 这一章的主要内容已经讲完了吗？
+speaker 2: 已经讲完了。接下来可以完成本章末尾的五道选择题，检查一下自己是否真正理解了这些内容。

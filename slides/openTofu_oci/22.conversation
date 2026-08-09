@@ -1,0 +1,12 @@
+speaker 1: 前面讲了 Load Balancer 用的是 HTTP，那如果要用 HTTPS，证书这块要怎么弄？
+speaker 2: 这正是我们这一章要讲的内容。OCI 有专门的 Certificates 服务来管理 TLS 证书和 CA 的生命周期，概念上类似 AWS 的 Certificate Manager，或者 Azure 的 Key Vault Certificates。
+speaker 1: 那这个项目里有没有真的创建证书资源？
+speaker 2: 没有，这是刻意的选择。证书相关的操作存在比较明显的安全风险，所以这个项目只在文档层面做概念讲解，并没有生成真实的证书资源。
+speaker 1: 具体是什么风险呢？
+speaker 2: 如果采用导入证书的方式，你需要提供 certificate_pem、证书链、还有私钥本身，这些敏感内容一旦写进代码里执行 apply，就有可能残留在 State 文件当中，一旦 State 泄露，私钥也就跟着泄露了。
+speaker 1: 那如果不用导入方式，用内部 CA 自己签发呢？
+speaker 2: 那种方式虽然避开了导入外部私钥的问题，但又需要额外准备一整套的 CA、Vault、Key、IAM 权限，还涉及相应的费用，复杂度和成本都会明显上升。
+speaker 1: 所以这个项目对证书的态度是什么？
+speaker 2: 态度很明确：不为了演示而承担这个风险，只做概念讲解，把真正动手实践的部分作为一个扩展课题留给你，前提是你要先确认自己拥有真实的域名，并且准备好一个安全的 Secret Backend 来存放这些敏感信息。
+speaker 1: 这一章的主要内容已经讲完了吗？
+speaker 2: 已经讲完了。接下来可以完成本章末尾的五道选择题，检查一下自己是否真正理解了这些内容。

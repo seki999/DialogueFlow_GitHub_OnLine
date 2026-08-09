@@ -1,0 +1,14 @@
+speaker 1: OpenTofu 里有好多关键字，resource、data、variable，它们到底分别是干什么的？
+speaker 2: 先说最核心的两个：resource 是用来创建、更新、删除资源的，比如创建一个 VCN 或者一台 Compute 实例；data 则完全不同，它只是用来读取已经存在的信息，不会创建任何东西。
+speaker 1: 那如果我想查一下当前账户下有哪些可用区，是用 resource 还是 data？
+speaker 2: 用 data。因为可用区是 OCI 已经存在的信息，你只是在“查询”，不是在“创建”，所以这种场景一定用 data。
+speaker 1: 那 variable 和 locals 又是什么关系？我总是分不清。
+speaker 2: 可以这样理解：variable 是从外部传进来、会变化的输入，比如项目名称、CIDR 地址段；locals 是在模块内部定义、用来复用的计算值，比如把项目名和环境名拼接成一个统一的前缀，避免在多个地方重复写同样的字符串。
+speaker 1: 那 output 呢，它是不是就是最后打印出来的结果？
+speaker 2: 可以这么理解，但更准确地说，output 是把重要的资源属性对外暴露出来，供使用者查看，或者供其他模块引用。比如 Network 模块创建了一个 Subnet，它的 ID 就可以通过 output 暴露出来，让 Compute 模块去引用。
+speaker 1: 那 Root Module 和 Child Module 又是怎么分工的？
+speaker 2: Root Module 就是你执行命令的那个目录，它负责统筹 Provider 配置、接收输入，以及把各个 Child Module 连接起来。Child Module 则是把一组关联的资源打包成一个可复用的单元，比如整个网络相关的资源可以打包成一个 network 模块。
+speaker 1: 是不是模块拆得越细越好？
+speaker 2: 不是的，这是一个常见误区。模块应该按照“变更理由是否一致”来划分。如果把只用一次的代码强行抽象成模块，或者把所有资源都拆成极小的模块，反而会让你在学习和排查问题时很难追踪清楚。
+speaker 1: 这一章的主要内容已经讲完了吗？
+speaker 2: 已经讲完了。接下来可以完成本章末尾的五道选择题，检查一下自己是否真正理解了这些内容。

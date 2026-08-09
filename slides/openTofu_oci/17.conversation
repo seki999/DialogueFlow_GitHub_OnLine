@@ -1,0 +1,12 @@
+speaker 1: Container Registry 在这套架构里是干什么用的？
+speaker 2: 它是用来保存容器镜像的仓库，之后可以被 Functions、OKE、或者 Compute 这些服务拉取使用。你可以把它理解成专门给容器镜像准备的存储和分发中心，跟前面讲的 Object Storage 定位不太一样。
+speaker 1: 有没有类似的 AWS 或 Azure 服务可以对照？
+speaker 2: 有，它大致对应 AWS 的 ECR 和 Azure 的 Container Registry，都是同一类容器镜像仓库服务。
+speaker 1: 创建这个仓库需要什么资源类型和参数？
+speaker 2: 资源类型是 oci_artifacts_container_repository，主要参数包括 display_name 显示名称，is_public 决定是不是公开仓库，is_immutable 决定镜像标签能不能被覆盖。
+speaker 1: 这个项目里的仓库是怎么配置的？
+speaker 2: 配置成了 private 私有仓库，并且是 mutable 可变的，也就是允许标签被覆盖更新。不过要注意，这个项目并不会真的往里面推送任何镜像，主要是让你了解资源怎么创建，而不是搭建一套完整的镜像发布流程。
+speaker 1: 使用这个服务需要注意什么费用？
+speaker 2: 主要是存储空间的费用、数据传输的费用，如果开启了漏洞扫描功能，还会涉及扫描相关的费用，这些都需要在实际使用前确认最新价格。
+speaker 1: 这一章的主要内容已经讲完了吗？
+speaker 2: 已经讲完了。接下来可以完成本章末尾的五道选择题，检查一下自己是否真正理解了这些内容。

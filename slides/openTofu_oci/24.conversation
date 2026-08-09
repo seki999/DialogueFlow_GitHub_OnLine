@@ -1,0 +1,16 @@
+speaker 1: Logging 和前面讲的 Monitoring 有什么本质区别？
+speaker 2: Monitoring 关注的是量化的时间序列指标，比如 CPU 用了多少百分比；Logging 关注的是具体的日志内容，比如某条请求的详细记录、某次操作的具体信息。两者关注的数据形态不一样。
+speaker 1: OCI Logging 是怎么组织日志的？
+speaker 2: 核心概念是 Log Group，所有的日志都放在某个 Log Group 里面统一管理，Log Group 下面又可以有多个具体的 Log，每个 Log 有自己的来源和保留策略。这跟 AWS 的 CloudWatch Logs、Azure 的 Log Analytics 是类似的思路。
+speaker 1: 这个项目具体创建了哪些资源？
+speaker 2: 创建了 oci_logging_log_group 和 oci_logging_log，主要参数包括显示名称、Log 类型、来源、是否启用、还有保留时长。
+speaker 1: 是不是只要创建了这些资源，Compute 上的所有日志就会自动被收集进来？
+speaker 2: 不是的，这是一个很容易理解错的地方。仅仅创建 Log 资源，不代表 Compute 的全部日志会自动被收集，还需要配合 Unified Monitoring Agent，或者对应的 Service Log 集成，或者通过 Logging Ingestion API 主动推送日志，才能真正把数据送进来。
+speaker 1: 怎么确认日志真的被正确收集了？
+speaker 2: 可以去控制台的 Log Search 里查看，但要注意把时间范围和 Compartment 设置对，不然明明日志已经产生了，但因为筛选条件不对，也搜不到。
+speaker 1: 常见的排查方向有哪些？
+speaker 2: 比如 Agent 的 IAM 权限不够、Source 配置和实际情况不一致、机器时间有偏差导致时间范围对不上、还有填错了 Log Group 的 OCID，这些都是比较典型的错误原因。
+speaker 1: 用完了要怎么处理？
+speaker 2: 因为 Ingestion、Storage、Search，以及较长的保留时长都会增加费用，学习完之后建议把 Log 和 Log Group 都删除掉，避免持续产生不必要的费用。
+speaker 1: 这一章的主要内容已经讲完了吗？
+speaker 2: 已经讲完了。接下来可以完成本章末尾的五道选择题，检查一下自己是否真正理解了这些内容。

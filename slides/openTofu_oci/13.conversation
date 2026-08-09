@@ -1,0 +1,16 @@
+speaker 1: 上一章讲了整体网络架构，那 Route Table 具体是怎么工作的？
+speaker 2: Route Table 本质上是一张“目的地对应下一跳”的表。比如目的地是 0.0.0.0/0，也就是所有流量，对应的下一跳可能是 Internet Gateway，这样这个 Subnet 里的流量遇到未知目的地，就知道该往哪走出去。
+speaker 1: 创建 Route Table 需要哪些主要参数？
+speaker 2: 主要是 compartment_id、vcn_id、cidr_block、route_table_id，还有 Gateway 那边的 network_entity_id，这几个组合起来才能完整描述“从哪到哪，经过谁”。
+speaker 1: 那 NSG 呢，它和 Route Table 是同一类东西吗？
+speaker 2: 不是一回事。NSG 是绑定在 VNIC 上的有状态防火墙，管的是“允许哪些端口、哪些协议的流量进出”，而 Route Table 管的是“流量该走哪条路径出去”，两者关注点不同，配合起来才能构成完整的网络控制。
+speaker 1: 项目里给 80 端口和 443 端口分别开规则，是怎么写的？
+speaker 2: 用的是 for_each，遍历一个包含 80 和 443 的集合，为每个端口单独生成一条 NSG 规则。这样以后如果要加一个新端口，只需要往集合里加一个值就行，不用重复写整段规则代码。
+speaker 1: 如果 Route 需要根据是否启用 Service Gateway 来动态生成，是不是就用 dynamic？
+speaker 2: 对，思路和前面讲的语法完全一致，用 dynamic 根据是否有可选的 Service Gateway 路由输入，动态生成对应的嵌套 route_rules 块。
+speaker 1: 配置这些网络规则的时候，容易踩什么坑？
+speaker 2: 常见的错误包括 CIDR 地址段重叠、Subnet 范围超出了所属 VCN 的地址空间、Route 目的地重复定义、Service CIDR 和当前 Region 不匹配，还有删除的时候依赖的 VNIC 还没清理干净。
+speaker 1: 怎么排查这些问题？
+speaker 2: 可以用控制台的 Networking 页面确认实际状态，或者用 tofu output vcn_ocid、tofu state show module.network.oci_core_subnet.public 这类命令去看 State 里记录的实际属性，跟你预期的做对比。
+speaker 1: 这一章的主要内容已经讲完了吗？
+speaker 2: 已经讲完了。接下来可以完成本章末尾的五道选择题，检查一下自己是否真正理解了这些内容。

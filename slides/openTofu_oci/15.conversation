@@ -1,0 +1,12 @@
+speaker 1: Block Volume 具体是什么？跟 Compute 自带的那块硬盘有什么不一样？
+speaker 2: Block Volume 是一种独立于实例存在的块存储，即使你把 Compute 实例删掉，这块存储也可以单独保留下来，不会跟着一起消失。它大致对应 AWS 的 EBS 或者 Azure 的 Managed Disks。
+speaker 1: 创建和挂载分别用什么资源类型？
+speaker 2: 创建用 oci_core_volume，主要参数是可用区、容量大小、VPU 也就是性能等级；挂载用 oci_core_volume_attachment，需要指定要挂到哪个实例的 OCID，以及挂载类型。
+speaker 1: 挂载完成之后，是不是就可以直接往里面写数据了？
+speaker 2: 还不行。OpenTofu 只负责把 Volume 挂到实例上，但不会帮你在操作系统层面做格式化和挂载文件系统这些事情。你需要登录到这台机器里，自己确认设备识别出来了，创建文件系统，然后手动挂载，之后才能真正存数据。
+speaker 1: 这个资源默认是开启的吗？
+speaker 2: 默认是关闭的，跟 Compute 一样。因为它会根据你分配的容量和性能等级产生费用，所以本项目把它列入了默认禁用的资源清单。
+speaker 1: 如果以后想删除这个 Volume，会不会遇到什么问题？
+speaker 2: 有可能。如果删除失败，通常要先检查 Attachment 有没有正确解除，还有操作系统层面是不是还有 I/O 操作正在进行，这些都可能阻止删除顺利完成。
+speaker 1: 这一章的主要内容已经讲完了吗？
+speaker 2: 已经讲完了。接下来可以完成本章末尾的五道选择题，检查一下自己是否真正理解了这些内容。

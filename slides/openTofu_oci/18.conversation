@@ -1,0 +1,16 @@
+speaker 1: Autonomous Database 这个名字听起来很厉害，它自动到什么程度？
+speaker 2: 确实自动化程度很高，打补丁、备份、性能调优这些运维工作它都会自动完成，你不需要像传统数据库那样手动维护。它位于应用的私有数据层，目的上跟 AWS 的 RDS、Aurora，或者 Azure SQL 有点像。
+speaker 1: 那是不是说，我把 RDS 的经验直接搬过来就行了？
+speaker 2: 目的类似，但不能直接照搬。底层 Engine 和运维模型并不是同一回事，具体的参数、行为、限制还是要按 OCI 自己的文档来。
+speaker 1: 创建它需要哪些主要参数？
+speaker 2: 资源类型是 oci_database_autonomous_database，主要参数包括 db_name 数据库名、db_workload 工作负载类型、CPU 和 Storage 资源配置、admin_password 管理员密码，还有是否指定使用 Free Tier。
+speaker 1: 这个项目具体是怎么配置的？
+speaker 2: 配置成 1 个 OCPU、1 TB 存储、关闭 Auto Scaling，并且希望使用 Free Tier。但要特别提醒一句：指定希望用 Free Tier，并不等于就一定免费，具体还要看你账户的 Always Free 额度、所在区域、已经有的数据库数量、配额这些条件。
+speaker 1: admin_password 这种敏感信息应该怎么处理？
+speaker 2: 一定要放在不会被提交到 Git 的 terraform.tfvars 文件里，绝对不能直接写进会被提交的模块代码里，这一点跟前面讲密钥安全的章节道理是一样的。
+speaker 1: 为什么这个资源默认是关闭的？
+speaker 2: 因为费用和配额的风险比较高，需要你自己去确认账户的免费额度、区域是否支持、已有数据库数量、配额情况，所以本项目把它列为默认禁用，需要显式开启才会创建。
+speaker 1: 创建成功之后怎么确认能正常使用？
+speaker 2: 需要确认它的生命周期状态，拿到 Connection String，再配合 Wallet 完成 TLS 连接测试，用 SQL 客户端实际连一下，才能确认数据库真的可用。删除之前也要先确认 Backup 和保留期的要求。
+speaker 1: 这一章的主要内容已经讲完了吗？
+speaker 2: 已经讲完了。接下来可以完成本章末尾的五道选择题，检查一下自己是否真正理解了这些内容。

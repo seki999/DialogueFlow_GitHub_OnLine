@@ -1,0 +1,14 @@
+speaker 1: OpenTofu 是怎么证明自己有权限去操作我账户下的 OCI 资源的？
+speaker 2: 核心机制是 API Signing Key。Provider 会用你的私钥对每一个请求进行签名，然后 OCI 那边用你事先注册好的公钥和指纹来验证这个签名是不是真的来自你。
+speaker 1: 那我需要准备哪些信息才能配置好这个认证？
+speaker 2: 一共五项：tenancy_ocid、user_ocid、fingerprint、private_key_path，还有 region。这些通常会写在 ~/.oci/config 这个配置文件里。
+speaker 1: 如果我不小心把私钥文件传到了公开的 GitHub 仓库，会有什么后果？
+speaker 2: 后果非常严重，因为任何拿到这个私钥的人，都可以冒充你去调用 OCI API，相当于拿到了你账户的操作权限。
+speaker 1: 那万一真的发生了泄露，应该怎么补救？
+speaker 2: 第一时间要从 User 上删除对应的公钥，让泄露的密钥立刻失效；然后重新生成一对新的密钥；最后一定要去检查 Audit Log，看看这段时间有没有异常操作发生。
+speaker 1: 除了私钥，还有哪些文件也需要小心？
+speaker 2: terraform.tfvars 经常会包含密码、OCID 这些敏感值，State 文件也可能保存 Provider 返回的完整属性，包括一些敏感数据。这些都不应该提交到版本控制系统里。
+speaker 1: 如果是在 CI 流水线里跑 OpenTofu，密钥应该怎么处理？
+speaker 2: 不要把密钥文件直接存进代码仓库。更推荐的做法是用短期凭证、专门的 Vault 或 Secret Store，或者 CI 平台自带的受保护 Secret 机制。另外要注意，环境变量也可能被意外打印到日志或调试输出里，这一点也得留心。
+speaker 1: 这一章的主要内容已经讲完了吗？
+speaker 2: 已经讲完了。接下来可以完成本章末尾的五道选择题，检查一下自己是否真正理解了这些内容。

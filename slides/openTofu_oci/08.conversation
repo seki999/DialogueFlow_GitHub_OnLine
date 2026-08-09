@@ -1,0 +1,12 @@
+speaker 1: 我之前一直在用 AWS，现在要学 OCI，是不是可以直接把 AWS 的知识套过来？
+speaker 2: 可以借助概念对照来加速理解，但不能完全照搬。比如 OCI 的 VCN 对应 AWS 的 VPC 和 Azure 的 VNet，这是同一类“虚拟网络边界”的概念，理解起来会很快。
+speaker 1: 那 Compute 呢？
+speaker 2: OCI 的 Compute Instance 对应 AWS 的 EC2 和 Azure 的 Virtual Machines，都是运行虚拟机的服务。存储方面，Object Storage 对应 S3 和 Blob Storage，逻辑也是相通的。
+speaker 1: 数据库呢？我在 AWS 上一直用 RDS。
+speaker 2: OCI 有 Autonomous Database，目的和 RDS、Aurora 类似，都是托管数据库服务。但要特别注意，这里说的是“目的类似”，不是说底层 Engine 或者运维模型完全一样，不能直接把 RDS 的参数配置照搬过来。
+speaker 1: 那是不是说，这份对照表更多是帮我快速建立心理地图，而不是操作手册？
+speaker 2: 说得很好，就是这个意思。它能帮你更快理解“这个 OCI 服务大概解决什么问题”，但具体的功能细节、价格结构、限制条件、一致性模型、IAM 权限模型，都需要单独去查 OCI 自己的文档确认。
+speaker 1: 还有哪些常见的对应关系？
+speaker 2: 比如 KMS 对应 OCI 的 Vault 和 Key Management，CloudWatch 对应 Monitoring 和 Logging，SNS/EventBridge 对应 Notifications 和 Events，ECR 对应 Container Registry，Route 53 对应 DNS。这些我们在后面具体的服务章节里都会详细展开。
+speaker 1: 这一章的主要内容已经讲完了吗？
+speaker 2: 已经讲完了。接下来可以完成本章末尾的五道选择题，检查一下自己是否真正理解了这些内容。

@@ -1,0 +1,16 @@
+speaker 1: Bastion 是干什么用的？听名字感觉跟安全有关。
+speaker 2: 对，它就是给 Private Subnet 里的目标提供一个安全的、限时的访问入口。因为 Private Subnet 本身不直接暴露在公网，你不能直接连进去，Bastion 就是专门为这种场景设计的跳板机制。
+speaker 1: 配置的时候要注意什么？
+speaker 2: 资源类型是 oci_bastion_bastion，需要指定 Target Subnet、允许连接的 Client CIDR，以及 Session 的 TTL 时长。这里特别要注意，Client CIDR 千万不能设置成 0.0.0.0/0，那样等于对全世界开放，完全失去了安全意义。
+speaker 1: 创建了 Bastion 之后，是不是就能直接连进去了？
+speaker 2: 还不行，Session 是另外创建的资源，是你真正要发起连接的时候才建立的，Bastion 本身只是那个入口和框架。
+speaker 1: 连接的时候常见的问题有哪些？
+speaker 2: 比较常见的是 Bastion 需要的 Plugin 或者 Agent 没装好、NSG 没放开对应端口、目标 IP 填错了、IAM 权限不够，或者 Session 已经超过了 TTL 时间失效。
+speaker 1: 那我们换个话题，DNS 又是怎么工作的？
+speaker 2: DNS 用 oci_dns_zone 来定义一个权威 Zone，负责把域名解析到对应的地址或服务上。但要注意，光是创建了这个 Zone，并不代表互联网上的委任就完成了。
+speaker 1: 还需要做什么？
+speaker 2: 还需要去你的域名注册商那边，把 Name Server 设置指向 OCI 提供的地址，这个步骤叫做委任。如果没做这一步，即使 Zone 创建成功了，全球的 DNS 查询也不会真正走到你这里来。
+speaker 1: 如果我用一个自己根本不拥有的域名去测试呢？
+speaker 2: 那是行不通的，因为域名的所有权不在你手上，注册商那边也不可能允许你去设置 Name Server 指向 OCI，这一点在做练习的时候要用真正拥有的域名，或者用明确标注为示例、不会真正解析的域名。
+speaker 1: 这一章的主要内容已经讲完了吗？
+speaker 2: 已经讲完了。接下来可以完成本章末尾的五道选择题，检查一下自己是否真正理解了这些内容。

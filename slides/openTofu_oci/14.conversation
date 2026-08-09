@@ -1,0 +1,16 @@
+speaker 1: 创建一台 Compute 实例，需要哪些主要的东西拼在一起？
+speaker 2: 看这张图就很清楚：需要一个操作系统镜像，比如 Oracle Linux 的 Image 数据；需要一个 Subnet 提供网络位置，中间通过 VNIC 连接；如果配置了 NSG，也会挂在 VNIC 上做流量控制；还需要一个 SSH 公钥，通过 metadata 传给实例，用来做后续的登录认证。
+speaker 1: 对应到代码里，用的是什么资源类型，需要哪些参数？
+speaker 2: 资源类型是 oci_core_instance。主要参数包括 availability_domain 指定放在哪个可用区，shape 和 shape_config 指定实例规格，source_details 指定用哪个镜像启动，create_vnic_details 配置网卡，metadata 里通常放 SSH 公钥这类初始化信息。
+speaker 1: 创建 Compute 实例会产生费用吗？
+speaker 2: 会的，而且要特别小心。Compute 本身、Boot Volume、公网 IPv4、出站流量都可能产生费用。即使某个 Shape 属于 Free Tier 范围，也不代表一定完全免费，还要看你账户的剩余免费额度、当前区域的容量、镜像是否兼容这个 Shape。
+speaker 1: 所以这个项目里，Compute 是默认开启的还是关闭的？
+speaker 2: 默认是关闭的。要启用的话，需要显式把 enable_compute 设为 true，并且配置好 SSH 公钥。启用之后一定要仔细看 plan 里显示的 Shape、Boot Volume、公网 IP 这些内容，确认符合预期再 apply。
+speaker 1: 创建成功之后怎么确认它真的跑起来了？
+speaker 2: 可以用 tofu output compute_public_ip 拿到公网 IP，然后在控制台看它的生命周期状态，或者直接用 HTTP、SSH 尝试连接，验证服务是不是真的可用。
+speaker 1: 如果实例挂了一个额外的 Block Volume，想删除实例该怎么办？
+speaker 2: 要先把额外挂载的 Volume Attachment 解除，也就是先 Detach，再去删除实例，不然会因为还有依赖关系而删除失败。
+speaker 1: 创建过程中常见的错误有哪些？
+speaker 2: 比如某个可用区暂时没有容量、选的 Shape 在这个可用区并没有提供、镜像和 Shape 不兼容、账户配额超限，还有 SSH 公钥格式或者内容填错了，这些都是比较典型的报错原因。
+speaker 1: 这一章的主要内容已经讲完了吗？
+speaker 2: 已经讲完了。接下来可以完成本章末尾的五道选择题，检查一下自己是否真正理解了这些内容。

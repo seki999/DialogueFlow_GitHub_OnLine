@@ -1,0 +1,14 @@
+speaker 1: Events 和 Notifications 听起来很像，它们各自负责什么？
+speaker 2: 分工是这样的：Events 负责检测 OCI 资源的状态变化，一旦满足设定的条件就触发一个 Action；Notifications 则负责把消息发布到一个 Topic 上，再由 Topic 分发给具体的 Subscription，比如某个邮箱地址。两者是配合使用的，一个负责“发现变化”，一个负责“通知出去”。
+speaker 1: 这个项目里具体是怎么串起来的？看这个时序图。
+speaker 2: 流程是这样的：用户在 Object Storage 里创建了一个 Object，这个动作会产生一个 createobject 事件，Events Rule 检测到这个事件之后，会把消息 Publish 到 Notifications Topic，最后 Topic 再把消息分发给 Email 之类的订阅者。
+speaker 1: 如果我没配邮箱地址，会怎么样？
+speaker 2: 如果 notification_email 这个变量是空的，相关的订阅资源就不会被创建，也就是 count 会是 0，因为邮件订阅这种方式需要收件人主动确认才能生效，配置一个空的邮箱地址是没有意义的。
+speaker 1: 这个“确认”具体指什么？
+speaker 2: 就是说光创建了订阅资源还不够，系统会给那个邮箱发一封确认邮件，收件人必须点击确认，这个订阅才算真正生效。如果一直没确认，即使订阅资源存在，实际上也收不到后续的通知。
+speaker 1: 创建这两类资源分别需要哪些主要参数？
+speaker 2: Events 主要参数是 condition 触发条件、Action Type 动作类型、Topic ID 目标主题、还有 Enabled 是否启用；Notifications 主要参数是 Topic 的名称、协议、以及 Endpoint 具体的接收地址。
+speaker 1: 如果配置完之后一直没收到通知，怎么排查？
+speaker 2: 首先确认 Event Type 是不是完全匹配，任何细微差别都可能导致规则不触发；然后检查 Rule 所在的 Compartment 是不是对的；接着确认触发 Action 需要的 IAM 权限是不是齐全；最后别忘了检查订阅是不是还处在未确认的状态。
+speaker 1: 这一章的主要内容已经讲完了吗？
+speaker 2: 已经讲完了。接下来可以完成本章末尾的五道选择题，检查一下自己是否真正理解了这些内容。

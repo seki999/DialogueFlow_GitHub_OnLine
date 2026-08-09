@@ -1,0 +1,14 @@
+speaker 1: 这个项目的代码目录结构看起来有点复杂，能不能先说说整体是怎么分层的？
+speaker 2: 可以。核心思路是两层：environments/dev 目录是 Root Module，它负责整体统筹；modules 目录下的各个子目录，比如 network、compute、database，都是 Child Module，各自负责一类具体资源。
+speaker 1: 那 Root Module 具体要做哪些事情？
+speaker 2: 主要有三件事：第一，统一管理公共标签，比如项目名、环境名这些会重复用到的标签；第二，通过 Data Source 查询一些已经存在的信息，比如可用区列表；第三，也是最关键的，在各个 Child Module 之间传递 OCID，把一个模块的输出接到另一个模块的输入上。
+speaker 1: 能举个具体例子吗？
+speaker 2: 比如代码里有一行 subnet_id = module.network.public_subnet_id，这就是把 Network 模块创建出来的 Subnet ID，作为输入传给 Compute 模块，告诉它应该把虚拟机放到哪个子网里。
+speaker 1: 这种写法是不是也会形成前面讲过的那种依赖图？
+speaker 2: 完全正确，逻辑是一致的。因为这是一个值引用，OpenTofu 会自动识别出“Network 必须先创建完成，Compute 才能引用它的输出”，所以这里同样不需要手写 depends_on。
+speaker 1: 看架构图里，好多模块都指向 Compartment，这是为什么？
+speaker 2: 因为 Compartment 是管理边界，几乎所有资源在创建之前都需要先确定自己属于哪个 Compartment。你可以看到 Network、Object Storage、Observability、Registry、Database、Vault、DNS 这些模块全都以 Compartment 作为共同的上游依赖。
+speaker 1: 这样设计的好处是什么？
+speaker 2: 好处是关注点分离。你在修改 Compute 相关配置时，不需要关心 Database 或者 DNS 的实现细节；而 Root Module 作为总控，负责把这些分散的模块正确地拼接在一起。这也让整个项目更容易维护和学习。
+speaker 1: 这一章的主要内容已经讲完了吗？
+speaker 2: 已经讲完了。接下来可以完成本章末尾的五道选择题，检查一下自己是否真正理解了这些内容。

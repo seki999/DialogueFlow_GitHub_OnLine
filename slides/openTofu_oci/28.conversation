@@ -1,0 +1,14 @@
+speaker 1: 遇到报错的时候，是不是应该先把错误信息完整地记录下来？
+speaker 2: 对，这是排查的第一步。要记录执行的命令、完整的错误信息、出问题的资源地址、当前的 Region，还有 Provider 的版本号，同时一定要把里面的敏感值隐去，尤其是如果开了 TF_LOG=DEBUG，这种调试日志可能包含凭证和请求的详细内容，分享给别人之前一定要先脱敏处理。
+speaker 1: 常见的报错里，401 和 403 有什么区别？
+speaker 2: 401 是 NotAuthenticated，通常跟密钥、指纹、User、Profile、或者本地时间偏差这些认证层面的问题有关；403 是 NotAuthorizedOrNotFound，通常是 IAM Policy 权限不够，或者引用的父级 Compartment 填错了，两者原因不太一样，排查方向也不同。
+speaker 1: 还有哪些比较典型的错误？
+speaker 2: 比如 QuotaExceeded 是配额超限，需要去 Limits/Quotas 页面确认；LimitExceeded 是服务限制到达上限；还有 CIDR 重复导致子网创建失败、容量暂时不足、镜像和 Shape 不兼容这些，都是比较常见的类型。
+speaker 1: 如果不知道从哪里下手排查，有没有一个建议的顺序？
+speaker 2: 有，可以按这个顺序来：第一步先用 tofu fmt -check -recursive 确认语法之前的格式问题；第二步用 tofu init 和 tofu validate 确认模块和 Schema 没问题；第三步单独用 OCI CLI 确认认证是通的；第四步集中解决 plan 输出里的第一个错误，因为后面的错误很可能是这个连锁反应出来的；最后再去控制台看 Work Request 和 Audit Log，进一步确认 Region、Quota、Service Availability、还有 OCI 自身的服务状态。
+speaker 1: 为什么要强调“先解决第一个错误”？
+speaker 2: 因为很多时候后面的错误只是第一个问题引发的连锁反应。如果你一上来就试图同时修复所有报错，反而容易把注意力分散，效率更低。先把最前面的问题解决掉，再看看后面的错误是不是自然就消失了。
+speaker 1: 有没有绝对不应该做的操作？
+speaker 2: 有几条红线：不要手动编辑 State 文件、不要把密钥直接贴到 Issue 里、不要在原因不明的情况下随便执行 state rm、也不要无差别地给账户添加宽泛的 IAM Admin 权限来图省事，这些操作风险都很高。
+speaker 1: 这一章的主要内容已经讲完了吗？
+speaker 2: 已经讲完了。接下来可以完成本章末尾的五道选择题，检查一下自己是否真正理解了这些内容。

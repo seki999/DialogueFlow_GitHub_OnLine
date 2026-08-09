@@ -1,0 +1,16 @@
+speaker 1: 这套网络架构图看起来元素挺多的，能不能先讲讲最基本的 VCN 是干什么的？
+speaker 2: VCN 是整个私有网络的边界，你可以理解成一个属于你自己的私有 IP 空间。在这个空间里面，再通过 Subnet 把它划分成 Public 和 Private 两部分。
+speaker 1: Public 和 Private Subnet 分别对应图里的什么流量路径？
+speaker 2: 看图的话，从 Internet 进来，经过 Internet Gateway，到达 Public Subnet，再经过 Load Balancer 到 Compute；这是公网可以直接触达的路径。而 Compute 再往内，连到 Private Subnet，比如后面挂着的数据库，这部分是不直接暴露在公网上的。
+speaker 1: 那 NAT Gateway 和 Internet Gateway 有什么区别？
+speaker 2: Internet Gateway 提供的是 Public Subnet 的双向公网出入口，既能进也能出。而 NAT Gateway 专门给 Private Subnet 用，只允许它单向对外发起访问，比如去下载软件更新，但外部没法主动连进来。
+speaker 1: 图里还有个 Service Gateway，指向 Object Storage，这是干嘛的？
+speaker 2: Service Gateway 解决的是 Private Subnet 访问 OCI 内部服务的问题，比如访问 Object Storage 的时候，可以走内网路径，不用绕一圈公网出去再回来，既更安全也更高效。
+speaker 1: NSG 又是做什么的？
+speaker 2: NSG 是端口层面的访问控制，图里用虚线连到 Compute，表示它在控制哪些端口、哪些流量可以进出这台机器，是一种更细粒度的防火墙。
+speaker 1: 创建这些资源的时候，有没有固定的先后顺序？
+speaker 2: 有的，一般是 Compartment 先创建，然后是 VCN，接着是 Gateway 和 Route Table，再往后是 Subnet，最后是 NSG 和 VNIC。这个顺序其实也是符合依赖关系的，前面章节讲的引用表达式会自然而然地把这个顺序体现出来。
+speaker 1: 那删除的时候呢？
+speaker 2: 删除要反过来，而且要格外小心。得先把挂在 Subnet 上的 VNIC、Load Balancer、Bastion 这些东西先断开或删掉，然后才能依次删除 Subnet、Gateway，最后是 VCN 本身，不然会因为还有依赖而删除失败。
+speaker 1: 这一章的主要内容已经讲完了吗？
+speaker 2: 已经讲完了。接下来可以完成本章末尾的五道选择题，检查一下自己是否真正理解了这些内容。

@@ -1,0 +1,14 @@
+speaker 1: 这个项目里这么多资源，哪些是相对安全、不太会花钱的？
+speaker 2: 文档把风险分成了几档。最安全的一档，也就是“通常低风险”，包括 Compartment、VCN、Subnet、Route Table、NSG，还有空的 Notifications Topic、Events Rule、Container Repository。但要注意，“低风险”不等于“绝对免费”，具体还是要看当前的价格政策。
+speaker 1: 那中间那一档呢？
+speaker 2: 中间这一档是“可能产生费用”，包括 Object Storage 的容量和流量、Logging 的摄取和存储、Monitoring/Notifications/Events 相关的用量、NAT Gateway 的网关费用和数据传输、还有 DNS、Bastion、Container Registry 涉及的一些操作费用。
+speaker 1: NAT Gateway 我记得默认网络里就有，这个要特别注意吗？
+speaker 2: 对，这一点文档特别强调了，因为 NAT Gateway 是包含在默认网络配置里的，不是一个需要你额外开启的可选资源，所以更容易被忽视，做 Plan 的时候一定要留意它的费用条件。
+speaker 1: 那最危险的一档是什么？
+speaker 2: 是“高费用注意、且默认禁用”这一档，包括 Load Balancer、Autonomous Database、Compute、Block Volume、Vault/Key。这些资源的共同点是：主要费用驱动因素比较明显，而且都默认关闭，需要你显式开启才会创建。
+speaker 1: 每个资源具体的费用驱动因素是什么？
+speaker 2: 举几个例子：Load Balancer 主要看时间和带宽；Autonomous Database 主要看 ECPU 或 OCPU、存储、备份；Compute 主要看 Shape、Boot Volume、公网 IPv4；Block Volume 主要看容量大小、VPU 性能等级、备份；Vault/Key 主要看版本和操作次数。
+speaker 1: 学完之后应该怎么收尾，确保不会一直被扣费？
+speaker 2: 先执行 tofu plan -destroy，仔细看一遍要删除的内容，确认没问题之后执行 tofu destroy。然后一定要去控制台，按各个区域确认有没有残留的资源，比如 Boot Volume、Block Volume、公网 IP、备份、日志、Bucket 里的对象，还有 Vault 的删除预约状态是不是也处理好了。
+speaker 1: 这一章的主要内容已经讲完了吗？
+speaker 2: 已经讲完了。接下来可以完成本章末尾的五道选择题，检查一下自己是否真正理解了这些内容。

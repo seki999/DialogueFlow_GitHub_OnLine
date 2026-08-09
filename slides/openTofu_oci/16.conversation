@@ -1,0 +1,14 @@
+speaker 1: Object Storage 是用来干什么的？跟前面讲的 Block Volume 有什么区别？
+speaker 2: Object Storage 是以 Bucket 和 Key 的形式保存对象的存储服务，跟操作系统层面的磁盘完全不是一回事，它更像是 AWS 的 S3 或者 Azure 的 Blob Storage，主要用来存文件、备份、静态资源这些内容，而不是给应用直接当文件系统挂载。
+speaker 1: 创建 Bucket 需要哪些主要配置？
+speaker 2: 资源类型是 oci_objectstorage_bucket，主要参数包括 Namespace、Bucket 名称、存储层级、访问类型，还有是否开启版本控制。在创建 Bucket 之前，通常要先通过 Data Source 查询到这个账户对应的 Namespace。
+speaker 1: 这个项目对 Bucket 的安全设置是怎么配置的？
+speaker 2: 采用的是 NoPublicAccess，也就是不允许公开访问，版本控制是关闭的，但开启了 Object Event，也就是对象发生变化时会产生事件，这个后面讲 Events 章节的时候会用到。
+speaker 1: 使用 Object Storage 主要要注意哪些费用？
+speaker 2: 不是 Bucket 本身的费用，而是实际使用产生的费用，包括存储的容量大小、请求次数、下载流量，还有如果开启了版本控制，历史版本会不断累积增加存储量。
+speaker 1: 如果我想删除一个 Bucket，是不是直接删就行？
+speaker 2: 不是的，如果 Bucket 里还有对象，直接删除会失败。需要先把所有 Object 清空，包括还没完成的分段上传，以及所有历史版本，全部清理干净之后才能删除 Bucket 本身。
+speaker 1: 有没有命令行操作 Object 的例子？
+speaker 2: 有的，比如用 oci os object put 上传一个文件，用 oci os object list 列出 Bucket 里的对象，用 oci os object delete 删除某个对象，这些命令都是通过 OCI CLI 来操作的，和 OpenTofu 管理 Bucket 本身是两个层面的事情。
+speaker 1: 这一章的主要内容已经讲完了吗？
+speaker 2: 已经讲完了。接下来可以完成本章末尾的五道选择题，检查一下自己是否真正理解了这些内容。

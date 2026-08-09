@@ -1,0 +1,14 @@
+speaker 1: 命令这么多，从头到尾一套安全的流程应该是怎样的？
+speaker 2: 看这张图从左到右走一遍：先 tofu init，获取需要的 Provider 和 Module，这一步不会影响 OCI 上的任何实际资源；然后用 tofu fmt -check -recursive 检查代码格式；接着 tofu validate，检查语法、类型、Provider Schema、模块连接是否正确。
+speaker 1: 验证通过之后呢？
+speaker 2: 接下来是 tofu plan -out=tfplan，把这次要做的变更计算出来并保存成一个文件。这里要特别注意，这个文件是二进制格式，而且可能包含敏感信息，处理的时候要像对待 State 文件一样谨慎。
+speaker 1: 为什么不直接 apply，还要先保存成文件？
+speaker 2: 因为保存下来之后，可以用 tofu show tfplan 把它转换成人类可读的形式，让你或者团队成员先仔细审查一遍，确认这些变更都是预期之内的，再执行 tofu apply tfplan，把这份已经审查过的计划真正应用到 OCI 上。
+speaker 1: 如果我在生成 Plan 之后又改了代码，还能直接用这份 Plan 吗？
+speaker 2: 不行，已保存的 Plan 是和它创建时刻的 State、配置绑定在一起的。只要代码或者 State 发生了变化，这份 Plan 就已经过时了，需要重新生成一份新的。
+speaker 1: apply 完成之后，还需要做什么？
+speaker 2: 可以用 tofu output 看看生成的关键属性，比如公网 IP 或者某个 OCID。学习结束准备清理的时候，先用 tofu plan -destroy 看清楚会删除哪些东西，确认没问题之后再执行 tofu destroy 正式删除。
+speaker 1: 有没有什么参数是学习阶段应该避免使用的？
+speaker 2: 有，就是 -auto-approve。它会跳过人工审查这一步，直接自动确认执行。学习阶段最重要的就是养成认真阅读差异的习惯，所以不建议图省事直接用这个参数。
+speaker 1: 这一章的主要内容已经讲完了吗？
+speaker 2: 已经讲完了。接下来可以完成本章末尾的五道选择题，检查一下自己是否真正理解了这些内容。

@@ -1,0 +1,12 @@
+speaker 1: Vault 和 Key 这两个词经常一起出现，它们是同一个东西吗？
+speaker 2: 不是同一个东西，但关系密切。Vault 是密钥的管理边界，你可以把它理解成一个存放和管理密钥的容器；而 Key，也就是 KMS Key，才是真正用于加密操作的密钥材料本身，它存在于某个 Vault 里面。
+speaker 1: 创建这两个资源分别用什么类型？
+speaker 2: Vault 用 oci_kms_vault，主要参数是 Vault Type；Key 用 oci_kms_key，主要参数是 Management Endpoint、算法、密钥长度、还有保护模式。这两个是分开创建的独立资源。
+speaker 1: 有没有对应的 AWS 或 Azure 服务？
+speaker 2: 有，大致对应 AWS 的 KMS 和 Azure 的 Key Vault，都是专门管理加密密钥的服务。
+speaker 1: 为什么这个资源也是默认关闭的？
+speaker 2: 因为它涉及计费，而且删除的时候会有等待期，不是你一按删除就立刻消失的，这种带有等待期和费用的资源，本项目统一把它设置为默认禁用，需要你明确知道成本之后再手动开启。
+speaker 1: 如果我想删除一个 Key，需要注意什么？
+speaker 2: 要先把 Key 禁用，或者提交删除预约，同时一定要确认没有其它资源还在引用这个 Key，比如某个 Storage 或者应用还在用它做加密。如果还有依赖没解除就贸然删除，会出问题。
+speaker 1: 这一章的主要内容已经讲完了吗？
+speaker 2: 已经讲完了。接下来可以完成本章末尾的五道选择题，检查一下自己是否真正理解了这些内容。

@@ -1,0 +1,16 @@
+speaker 1: Load Balancer 具体是怎么把流量分发出去的？
+speaker 2: 看这张图：客户端先连接到 Listener，也就是监听 HTTP 80 端口的入口，然后请求会被分发给 Backend Set，这里用的是 ROUND_ROBIN 轮询策略，同时会有 Health Check 定期检查后端是否健康，只有健康的后端才会继续接收流量，最后到达 Compute 实例。
+speaker 1: 这几个资源之间的创建顺序是怎样的？
+speaker 2: 先创建 LB 本身，然后是 Backend Set，接着才是 Listener 和 Backend。这个顺序也是遵循前面讲的依赖图逻辑，Backend Set 需要引用 LB，Listener 又需要引用 Backend Set。
+speaker 1: 有类似的 AWS 或 Azure 服务可以对照吗？
+speaker 2: 有，概念上对应 AWS 的 ALB、NLB，或者 Azure 的 Load Balancer、Application Gateway，都是做流量分发和健康检查的服务。
+speaker 1: 这个项目里用的是 HTTP，这样安全吗？
+speaker 2: 对于学习目的来说没问题，但一定要清楚这只是学习用的简化配置。真正到生产环境，还需要额外设计 Certificate 证书、HTTPS Listener、把 HTTP 请求重定向到 HTTPS，甚至考虑加上 WAF 做安全防护，这些在本项目里都没有涉及。
+speaker 1: 这个资源默认是开启的吗？
+speaker 2: 默认是关闭的。因为 Load Balancer 可能产生时间、带宽、数据传输相关的费用，所以和 Compute、Database 一样，被列为默认禁用，需要你显式开启才会创建。
+speaker 1: 创建成功之后要怎么验证？
+speaker 2: 可以对着 Output 拿到的 IP 地址发 HTTP 请求，看看能不能正常访问；也可以在控制台里查看 Backend 的健康状态，或者查看访问日志，来确认整个链路是不是通的。
+speaker 1: 配置这些资源常见的错误有哪些？
+speaker 2: 比如 Subnet 或 NSG 的端口没放开导致流量进不来，Backend 配置的却是公网 IP 而不是内网 IP，Health Check 的 URL 返回的不是 200 状态码，还有超出了服务限制，或者灵活带宽 Shape 的配置不符合要求。
+speaker 1: 这一章的主要内容已经讲完了吗？
+speaker 2: 已经讲完了。接下来可以完成本章末尾的五道选择题，检查一下自己是否真正理解了这些内容。
