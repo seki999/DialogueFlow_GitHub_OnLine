@@ -1,0 +1,12 @@
+speaker 1: 监控一个普通的软件系统，通常看 CPU、内存、日志、异常这些就够了，Agent 系统是不是也一样？
+speaker 2: 这些基础指标还是需要的，但 Agent 系统还要额外关注很多特有的维度，比如 Prompt 内容、使用的 Model、消耗的 Token、Tool Calls 工具调用记录、Retrieval 检索过程、Agent Trace 执行轨迹，还有 Latency 延迟、Cost 成本、Errors 错误信息。
+speaker 1: 为什么这些维度对 Agent 系统特别重要？
+speaker 2: 因为 Agent 系统的问题往往出在某个具体环节，比如可能是检索召回不准，也可能是某次 LLM 调用异常缓慢，如果没有细粒度的追踪数据，你根本不知道问题出在哪一步。
+speaker 1: 刚才这张时序图展示了一个具体的 Agent Trace 例子，能解释一下吗？
+speaker 2: 可以，这个例子里，用户请求先进入 Planner 耗时 600 毫秒，然后进入 Retriever 检索耗时 120 毫秒，接着 LLM 生成耗时 2.1 秒，中间还调用了 SQL 工具耗时 300 毫秒，最后再由 LLM 输出最终结果耗时 1.7 秒。
+speaker 1: 有了这样详细的耗时分解，能帮我们做什么？
+speaker 2: 能非常直观地看出整个流程里哪个环节最耗时，比如这个例子里 LLM 调用明显是最大的耗时来源，那优化方向就应该重点放在减少不必要的 LLM 调用次数，或者优化 Prompt 长度上。
+speaker 1: 有哪些常用的工具可以帮我们实现这种可观测性？
+speaker 2: 比较常见的有 LangSmith、OpenTelemetry、Phoenix、Langfuse，还有通用的监控平台 Datadog，它们都能帮你把 Agent 执行过程中的各种细节记录下来，方便后续排查和优化。
+speaker 1: 这一章的主要内容已经讲完了吗？
+speaker 2: 已经讲完了。接下来可以完成本章末尾的五道选择题，检查一下自己是否真正理解了这些内容。

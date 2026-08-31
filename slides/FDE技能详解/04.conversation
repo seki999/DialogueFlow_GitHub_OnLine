@@ -1,0 +1,14 @@
+speaker 1: 我一直好奇，做 AI 项目，是不是把 Prompt 写好、模型调好就差不多了？
+speaker 2: 完全不是。软件工程能力其实是很多“AI 工程师”最大的短板，企业不会因为你会写 Prompt，就让你直接接触生产系统。
+speaker 1: 那具体需要哪些基础能力？
+speaker 2: 至少要非常扎实地掌握 Python、REST API、HTTP、JSON、SQL、Git、Docker、Linux，还要懂身份认证、测试、日志和 CI/CD。这些是最底层、最不能省略的部分。
+speaker 1: 听起来这些都是很传统的后端工程师技能，跟 AI 好像没什么直接关系。
+speaker 2: 表面上看是这样，但实际上整个 Agent 生态几乎都围绕 Python 展开，比如 FastAPI、LangChain、LangGraph、LlamaIndex、PyTorch，这些库全部是 Python 生态里的核心工具。
+speaker 1: 所以如果 Python 基础不扎实，后面学 LangChain 或者 Agent 框架也会很吃力？
+speaker 2: 对，因为这些框架本质上还是在写软件工程代码，只是加入了模型调用和工具调用的部分。如果连异步编程、API 设计、测试和日志这些基本功都不熟，写出来的 Agent 系统很难稳定运行。
+speaker 1: 那进阶一点的技能呢，比如 FastAPI、Redis 这些？
+speaker 2: 这些属于进阶但很实用的部分，比如用 FastAPI 搭建服务接口，用 Pydantic 做数据校验，用 asyncio 处理并发，用 Redis 做缓存，用 PostgreSQL 存储业务数据，前端方面 React 或 Next.js 加 TypeScript 也很常见。
+speaker 1: 是不是只要精通 Python 就够了，不需要再学别的语言？
+speaker 2: 不是。像 OpenAI 在招聘 FDE 时，明确要求能够编写和审查生产级的前后端代码，并且提到 Python、JavaScript 或同类技术栈都可以，所以保持一定的技术广度也很重要。
+speaker 1: 这一章的主要内容已经讲完了吗？
+speaker 2: 已经讲完了。接下来可以完成本章末尾的五道选择题，检查一下自己是否真正理解了这些内容。

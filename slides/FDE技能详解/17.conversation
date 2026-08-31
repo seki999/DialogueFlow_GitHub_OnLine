@@ -1,0 +1,14 @@
+speaker 1: 如果一个企业里有很多个 Agent，每个 Agent 都要单独对接 Slack、GitHub、Jira、数据库这些系统的 API，会不会特别混乱？
+speaker 2: 会非常混乱，这也正是 MCP 出现要解决的问题。以前的做法是 Agent 各自写代码对接各种 API，形成一种典型的多对多集成关系，维护成本很高。
+speaker 1: MCP 具体是怎么解决这个问题的？
+speaker 2: MCP，也就是 Model Context Protocol，相当于定义了一套统一的协议。Agent 不再需要了解每个系统内部具体是怎么实现的，它只需要看到统一暴露出来的 Tools、Resources、Prompts 这几种标准化接口。
+speaker 1: 也就是说，各个系统只需要实现一个 MCP Server，Agent 那一端就可以统一接入？
+speaker 2: 对，比如 GitHub、数据库、Slack、文件系统、内部 API，各自实现自己的 MCP Server，Agent 那一侧只需要遵循 MCP 协议去调用，不用再为每个系统单独写一套定制化的集成逻辑。
+speaker 1: 这个协议现在发展到什么阶段了？
+speaker 2: 到 2026 年，MCP 已经明显朝企业生产场景发展，官方路线图重点在推进 agent communication、transport 的可扩展性、治理机制，还有 agent identity 和企业安全这几个方向。
+speaker 1: 企业身份授权这一块听起来也很重要？
+speaker 2: 非常重要，企业集中式的身份授权已经成为 MCP 发展的一个重要方向，这也说明 Agent 真正进入企业之后，“谁能用哪个工具、以什么身份调用”这个问题变得越来越核心。
+speaker 1: 所以现在学习 MCP，其实已经不只是追一个热点技术了？
+speaker 2: 完全正确，它正在成为 Agent 集成的重要基础设施，就像当年 HTTP 协议统一了 Web 应用之间的通信方式一样，MCP 有可能成为 Agent 生态里类似的统一标准。
+speaker 1: 这一章的主要内容已经讲完了吗？
+speaker 2: 已经讲完了。接下来可以完成本章末尾的五道选择题，检查一下自己是否真正理解了这些内容。

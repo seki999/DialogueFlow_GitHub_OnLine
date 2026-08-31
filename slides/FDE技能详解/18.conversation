@@ -1,0 +1,12 @@
+speaker 1: 如果我想学 Agent 开发，是不是把 LangChain 的各种 API 都背熟，就已经掌握核心能力了？
+speaker 2: 不建议这么理解。LangChain 主要解决的是 Model、Prompt、Retriever、Tool、Agent、Parser、Memory 这些组件之间怎么组合的问题，它确实能大幅加快开发速度，但它更像是一个“胶水框架”。
+speaker 1: “胶水框架”是什么意思？
+speaker 2: 意思是它主要负责把各个环节粘合在一起，比如把 Prompt、Model、Parser 串成一条链。真正重要的不是记住 LangChain 具体怎么调用，而是即使不用它，你也清楚这背后到底完成了什么逻辑。
+speaker 1: 那如果 LangChain 不是最核心的，什么才是更值得深入的？
+speaker 2: LangGraph 会更值得深入。因为现实中的 Agent 任务往往不是简单的“问题进来，答案出去”，而是包含各种判断分支、重试逻辑、多步骤协作的复杂流程，LangGraph 就是专门用来处理这种复杂 Agent Workflow 的框架。
+speaker 1: LangGraph 和 LangChain 之间是什么关系？
+speaker 2: 可以理解成，LangChain 更偏向组合基础组件，LangGraph 则更偏向编排复杂的、有状态的工作流，两者定位不完全相同，很多项目会同时用到。
+speaker 1: 那如果要系统学习这一整套技术，应该按什么顺序来？
+speaker 2: 一个比较合理的优先顺序是：先打好 Python 基础，然后学会调用 LLM API，再掌握 Tool Calling，接着深入 RAG，之后学习 LangGraph，再往后是 MCP，最后是 Eval 评估体系，这条路径会比较扎实。
+speaker 1: 这一章的主要内容已经讲完了吗？
+speaker 2: 已经讲完了。接下来可以完成本章末尾的五道选择题，检查一下自己是否真正理解了这些内容。

@@ -1,0 +1,14 @@
+speaker 1: 如果 FDE 不需要训练模型，为什么还要花时间理解 Attention、Hallucination 这些偏底层的概念？
+speaker 2: 因为如果不理解模型为什么这样工作，遇到问题的时候就很难判断到底是哪个环节出了问题，比如是检索不准，还是模型本身在瞎编。
+speaker 1: 那至少要理解哪些基础概念？
+speaker 2: 至少要清楚 Token、Context Window、Temperature、Top-p 这些参数的含义，还有 System Prompt、Tool Calling、Structured Output、Function Calling、Streaming、Embeddings、Attention、Hallucination、Reasoning、Latency、Token Cost。
+speaker 1: 这个清单看起来挺长的，是不是每个都要能讲清楚原理？
+speaker 2: 不需要讲清楚数学原理，但至少要知道它们在实际系统里意味着什么，比如 Temperature 高了输出会更随机，Hallucination 意味着模型可能编造不存在的事实，这些直接影响你怎么设计系统的容错和验证机制。
+speaker 1: 那不同模型之间的差异，FDE 也需要了解吗？
+speaker 2: 需要。比如 GPT、Claude、Gemini、Qwen、Llama、Mistral、DeepSeek，它们在推理能力、上下文长度、工具调用支持程度上都有差异，选错模型可能直接影响项目能不能落地。
+speaker 1: 还有 Cloud LLM 和 Local LLM 的区别，这个重要吗？
+speaker 2: 非常重要，因为很多企业客户对数据出境有严格限制，这时候你就需要清楚什么时候该用云端模型，什么时候必须考虑本地部署。
+speaker 1: 所以理解 LLM，其实是为了更好地做架构决策，而不是为了自己去训练模型。
+speaker 2: 完全正确，这也是为什么这一层被放在十层技术栈里，作为往上搭建 RAG 和 Agent 能力的基础认知。
+speaker 1: 这一章的主要内容已经讲完了吗？
+speaker 2: 已经讲完了。接下来可以完成本章末尾的五道选择题，检查一下自己是否真正理解了这些内容。

@@ -1,0 +1,12 @@
+speaker 1: 如果想让 Agent “记住”之前聊过的内容，是不是把所有历史对话记录都塞给 LLM 就可以了？
+speaker 2: 这是一种很常见但并不理想的做法。Agent Memory 其实应该分层设计，比如短期记忆专门处理当前这一次对话，长期记忆则用来保存用户偏好、历史行为、任务状态这些跨会话的信息。
+speaker 1: 除了短期和长期，还有更细分的记忆类型吗？
+speaker 2: 有，比如 Working Memory 工作记忆、Episodic Memory 情景记忆、Semantic Memory 语义记忆，这些概念更多来自认知科学，但在设计企业 Agent 系统时也有一定参考价值。
+speaker 1: 那为什么不建议简单粗暴地把所有聊天记录都塞给 LLM？
+speaker 2: 因为这样会导致上下文越来越长，成本越来越高，而且很多历史内容其实和当前任务无关，反而可能干扰模型的判断，更合理的做法是做记忆检索、摘要、加元数据、设置过期时间，并且要考虑隐私问题。
+speaker 1: 换个话题，Multi-Agent 架构听起来很酷，是不是 Agent 数量越多，系统就越强大？
+speaker 2: 恰恰相反，这是一个常见的误区。Multi-Agent 确实在某些场景下有价值，比如用一个 Supervisor Agent 去协调 Research、Coding、Data 这些子 Agent，或者按照 Planner、Researcher、Executor、Reviewer 这样的流程分工。
+speaker 1: 但你说这不是越多越好？
+speaker 2: 对，很多实际场景下，一个 Agent 配合好的工具和好的工作流设计，反而比复杂的多 Agent 架构更稳定，也更容易调试和维护。盲目堆叠 Agent 数量，往往只是增加了系统的复杂度和出错概率。
+speaker 1: 这一章的主要内容已经讲完了吗？
+speaker 2: 已经讲完了。接下来可以完成本章末尾的五道选择题，检查一下自己是否真正理解了这些内容。

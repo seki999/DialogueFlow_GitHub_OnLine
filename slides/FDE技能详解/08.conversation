@@ -1,0 +1,12 @@
+speaker 1: 很多人一提到 RAG 就想到向量数据库和大模型，但你之前说数据清洗才是最费时间的部分，为什么？
+speaker 2: 因为企业的数据来源实在太多样了，PDF、Word、Excel、PowerPoint、HTML、Markdown、CSV、Email，还有 Confluence、SharePoint、Google Drive、Slack、Teams，甚至各种数据库里的结构化数据。
+speaker 1: 光是格式多，会有那么大的处理难度吗？
+speaker 2: 格式多只是第一层难度，真正麻烦的是同一种格式内部也千差万别，比如 PDF，就有普通文字 PDF、扫描 PDF、两栏排版 PDF、表格 PDF、图像 PDF，还有各种复杂版式的 PDF。
+speaker 1: 这些不同类型的 PDF 处理方式一样吗？
+speaker 2: 完全不一样。普通文字 PDF 可以直接抽取文本；扫描 PDF 必须先做 OCR 识别；两栏排版和表格类文档需要专门的版式解析工具，否则文字顺序和表格结构很容易被打乱。
+speaker 1: 有没有一些常用的工具可以处理这些情况？
+speaker 2: 有的，比如 Unstructured、PyMuPDF、pdfplumber、Docling，涉及扫描文档时还需要 OCR 或者 Document AI 这类工具来辅助识别。
+speaker 1: 所以在真实项目里，可能一半以上的时间都花在数据处理这一步？
+speaker 2: 确实如此，很多企业项目最后发现，真正拖慢进度的不是模型效果不好，而是数据清洗和解析花费了远超预期的时间，这也是 FDE 必须重视的一个环节。
+speaker 1: 这一章的主要内容已经讲完了吗？
+speaker 2: 已经讲完了。接下来可以完成本章末尾的五道选择题，检查一下自己是否真正理解了这些内容。

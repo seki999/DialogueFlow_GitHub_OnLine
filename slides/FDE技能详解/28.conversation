@@ -1,0 +1,16 @@
+speaker 1: 学完前面这27章内容，如果要用一张图把 FDE 完整的能力画像总结出来，应该怎么画？
+speaker 2: 可以归纳成两大分支：一个是 Engineering 工程分支，另一个是 Business 业务分支。工程分支下面又分为软件工程基础、以 LLM、RAG、Agent、MCP、Eval 为核心的 AI 技术栈，还有 Cloud 云与基础设施能力。
+speaker 1: 那 Business 分支具体包含什么？
+speaker 2: Business 分支主要包含 Discovery 需求发现能力、ROI 投资回报计算能力，以及沟通、咨询、项目管理这些交付相关的软技能，这两大分支缺一不可，共同构成了完整的 FDE 能力画像。
+speaker 1: 如果一个人想按优先级安排学习顺序，应该先学什么？
+speaker 2: 优先级最高的一组是 Python、软件工程、LLM API、Tool Calling、RAG、Business Discovery、Agent Workflow，以及 Evaluation，这些是最核心、最不能跳过的部分。
+speaker 1: 那次一级的呢？
+speaker 2: 次一级包括 LangGraph、MCP、Security、Cloud、Docker、SQL、Vector DB，这些也很重要，但可以在打好核心基础之后再逐步补齐。
+speaker 1: 还有更靠后一点的吗？
+speaker 2: 再往后是 LangChain、本地大模型部署、Kubernetes、Terraform、Multi-Agent 架构，这些属于有价值但不必最先掌握的技能，至于模型训练和微调，优先级是最低的，因为大多数 FDE 工作并不需要亲自训练模型。
+speaker 1: 如果想通过一个实战项目，把这些能力真正串联起来练习，你会推荐做什么？
+speaker 2: 我会推荐搭建一个 Enterprise IT Operations Agent，让它可以读取公司知识库做检索，分析报警信息，查询云平台状态，必要时创建工单，经过人工审批之后再执行实际操作，这样一个项目几乎能覆盖前面27章讲到的大部分核心能力。
+speaker 1: 这一章聊完，其实也是给整个课程画上一个句号了。
+speaker 2: 对，希望通过这28章的梳理，能帮助你建立起一张清晰的 FDE 能力地图，接下来就可以根据自己已有的基础，比如软件工程、云平台或者监控系统的经验，有针对性地补齐这条链路上还欠缺的部分。
+speaker 1: 这一章的主要内容已经讲完了吗？
+speaker 2: 已经讲完了。这也是整个课程的最后一章，完成本章末尾的五道综合选择题，就算是给这门课画上一个完整的句号了。

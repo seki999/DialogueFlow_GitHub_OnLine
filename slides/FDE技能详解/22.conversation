@@ -1,0 +1,12 @@
+speaker 1: 做 Demo 的时候，大家常说“这个 AI 感觉挺聪明的”，这种评价在企业项目里也够用吗？
+speaker 2: 在企业项目里完全不够用。做企业 AI，你必须能够具体回答“这个 AI 到底有多好”，而不能只是一种模糊的主观感受。
+speaker 1: 那具体怎么衡量呢？以 RAG 系统为例？
+speaker 2: RAG 系统常用的评估指标包括 Retrieval Recall 检索召回率、Precision 精确率、MRR、NDCG，还有 Context Relevance 上下文相关性、Answer Correctness 答案正确性、Faithfulness 忠实度，以及 Citation Accuracy 引用准确性。
+speaker 1: 这些指标听起来挺专业的，那 Agent 系统的评估又是怎样的？
+speaker 2: Agent 系统更关注 Task Success Rate 任务成功率、Tool Selection Accuracy 工具选择准确率、Tool Execution Success 工具执行成功率、Steps per Task 每个任务的步骤数，还有 Latency 延迟、Token Cost 成本，以及 Failure Rate 失败率。
+speaker 1: 行业里对 Eval 的重视程度到底怎么样？
+speaker 2: 根据一份 2026 年的行业调研，质量问题已经成为 Agent 走向生产化的头号障碍之一，大约 89% 的受访者已经用上了 observability 可观测性工具，但真正采用系统化 Eval 评估流程的只有大约一半。
+speaker 1: 这个数据说明了什么？
+speaker 2: 说明很多团队已经知道要“看到”系统在做什么，但还没有建立起“衡量”系统做得好不好的能力，这中间的差距，恰恰就是 Eval 能够创造价值的地方。
+speaker 1: 这一章的主要内容已经讲完了吗？
+speaker 2: 已经讲完了。接下来可以完成本章末尾的五道选择题，检查一下自己是否真正理解了这些内容。
