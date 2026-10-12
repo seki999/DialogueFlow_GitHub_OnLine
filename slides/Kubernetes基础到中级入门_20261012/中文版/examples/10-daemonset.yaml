@@ -1,0 +1,18 @@
+apiVersion: apps/v1
+kind: DaemonSet
+metadata:
+  name: demo-agent
+  namespace: k8s-learn
+spec:
+  selector:
+    matchLabels:
+      app: demo-agent
+  template:
+    metadata:
+      labels:
+        app: demo-agent
+    spec:
+      containers:
+        - name: agent
+          image: busybox:1.37
+          command: ["sh", "-c", "while true; do echo agent-demo; sleep 60; done"]

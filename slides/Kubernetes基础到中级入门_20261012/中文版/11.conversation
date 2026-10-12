@@ -1,0 +1,20 @@
+speaker 1: 这一章是Service 的稳定入口与标签选择。我想先从图里的关系开始理解。
+speaker 2: 好，我们围绕这张图展开。理解 Service 为什么不会直接绑定 Deployment。
+speaker 1: Pod IP 会变化，客户端该找谁？
+speaker 2: 客户端通常访问 Service 提供的稳定入口。Service 表达后端访问抽象，后端 Pod 可以替换，客户端不用逐个记住 Pod IP。
+speaker 1: Service 是直接绑定一个 Deployment 吗？
+speaker 2: 通常不是。带 selector 的 Service 根据 Pod 标签寻找后端，即使 Pod 由不同控制器创建，只要条件符合也可能被选中。
+speaker 1: EndpointSlice 为什么在图中？
+speaker 2: 相关控制器维护后端端点信息，EndpointSlice 记录这些网络地址和条件。转发实现依据后端信息把请求送到合适实例。
+speaker 1: 标签匹配就说明马上能接收业务流量吗？
+speaker 2: 还需要考虑就绪状态等端点条件。默认场景中，应让准备好的后端接收流量，不要把标签匹配等同于业务服务已经正常。
+speaker 1: Service 能负责把少掉的 Pod 补回来吗？
+speaker 2: 不能。它负责访问抽象，工作负载控制器才负责创建和维护副本。入口存在，也可能暂时没有可用后端。
+speaker 1: 能结合一个具体场景，把这些关系串起来吗？
+speaker 2: 给 app=web 的 Pod 一个入口。创建 selector 为 app=web 的 web-service，再查询 Service 和 EndpointSlice。观察的是资源及后端对应关系，不是声称 Service 内有一个专门的业务进程。
+speaker 1: 我容易出现这样的理解：Service 就是运行 Web 程序的那个容器。
+speaker 2: Kubernetes Service 是网络资源；Web 程序运行在 Pod 容器里，两者不是同一个对象。
+speaker 1: 学完这部分以后，下一步应该怎么衔接？
+speaker 2: 下一章学习Service 端口与四种类型。先记住本章图里的职责分工，再看新的关系。
+speaker 1: 这一章的主要内容已经讲完了吗？
+speaker 2: 已经讲完了。接下来请完成本章末尾的五道选择题，检查自己是否理解了这些内容。

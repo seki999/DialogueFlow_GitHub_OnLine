@@ -1,0 +1,20 @@
+speaker 1: 这一章是kubeconfig、Context 与集群认证，图里不同层次的关系应该怎样读？
+speaker 2: 我们按图里的调用和管理关系展开。说明客户端如何选择 OKE API，而不把连接文件当成服务。
+speaker 1: kubeconfig 运行在 OKE 内吗？
+speaker 2: 它是客户端连接配置文件，保存集群地址、集群标识、认证方式和 Context 等信息，不是 Kubernetes Service。
+speaker 1: Context 帮助选择什么？
+speaker 2: 它组织要连接的集群、用户及相关客户端默认设置。操作前确认目标 Context，可以避免连到错误集群。
+speaker 1: OCI CLI 生成配置以后认证就永久有效吗？
+speaker 2: 不能保证。OKE 配置通常使用客户端认证机制获取令牌，仍依赖有效的 OCI 认证条件与相应访问权限。
+speaker 1: Provider 和 kubectl 用同一文件就一定同一 Context 吗？
+speaker 2: 如果显式或默认 Context 不同，目标也可能不同。本课完整实验要求两者同时指定相同路径与同一 Context。
+speaker 1: kubectl get nodes 成功说明什么？
+speaker 2: 说明当前客户端能够通过相应 API 获得节点数据。它不自动证明所有业务入口、镜像和存储都正常。
+speaker 1: 能用一个场景再串起来吗？
+speaker 2: 独立的 oke-learning.config。示例将 kubeconfig 写到单独文件，并让 Terraform 和 kubectl 明确使用它；避免不知不觉采用默认生产 Context。
+speaker 1: 我容易这样理解：只要文件存在，网络与认证就都正常。
+speaker 2: 配置内容、认证条件和 API 网络路径仍要分别满足。
+speaker 1: 下一章会把哪部分关系接上？
+speaker 2: 下一章是私有与公开 API Endpoint。先把本章对象的职责与边界记清，再继续展开。
+speaker 1: 这一章的主要内容已经讲完了吗？
+speaker 2: 已经讲完了。接下来请完成本章末尾的五道选择题，检查自己是否理解了这些关系。

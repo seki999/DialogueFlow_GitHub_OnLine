@@ -1,0 +1,20 @@
+speaker 1: 这一章是Namespace、Label 与 Selector。我想先从图里的关系开始理解。
+speaker 2: 好，我们围绕这张图展开。用逻辑空间和标签把资源组织起来，并避免选错后端。
+speaker 1: Namespace 最先解决什么问题？
+speaker 2: 它划分逻辑资源空间，便于按团队、项目或环境管理。两个不同 Namespace 中可以存在同名的 Service。
+speaker 1: 所有资源都有 Namespace 吗？
+speaker 2: 不是。Pod、Deployment、Service 和 PVC 是常见命名空间资源；Node、PV 和 StorageClass 是集群范围资源。
+speaker 1: Label 与资源名称有什么不同？
+speaker 2: Label 是键值标签，用于分类和选择，一个资源可以有多个标签。名称识别对象，标签让一组对象满足相同选择条件。
+speaker 1: selector 怎么判断是否匹配？
+speaker 2: 例如 app=web 只匹配带有这个键值标签的对象。主线例子中 Deployment 模板标签和 Service selector 都使用 app=web，才能形成预期关系。
+speaker 1: 不写 Namespace 时命令会到哪里？
+speaker 2: 通常使用当前 kubectl 上下文的 Namespace，默认常为 default。实验命令统一写 -n k8s-learn，以减少操作和查询位置不一致的问题。
+speaker 1: 能结合一个具体场景，把这些关系串起来吗？
+speaker 2: 查看一个 Namespace 中的标签。kubectl get pods -n k8s-learn --show-labels 显示标签；再用 -l app=web 筛选。修改查询条件不会自动修改 Pod 标签。
+speaker 1: 我容易出现这样的理解：Namespace 就是一套完全独立的集群。
+speaker 2: 它是集群内逻辑分组，不代表独立控制平面，也不天然阻止跨 Namespace 网络通信。
+speaker 1: 学完这部分以后，下一步应该怎么衔接？
+speaker 2: 下一章学习ConfigMap 与配置注入。先记住本章图里的职责分工，再看新的关系。
+speaker 1: 这一章的主要内容已经讲完了吗？
+speaker 2: 已经讲完了。接下来请完成本章末尾的五道选择题，检查自己是否理解了这些内容。

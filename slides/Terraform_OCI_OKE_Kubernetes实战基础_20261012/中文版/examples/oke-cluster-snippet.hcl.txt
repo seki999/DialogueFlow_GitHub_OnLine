@@ -1,0 +1,15 @@
+# 关键字段示意，不是完整模块，不能直接 apply。
+# 变量、VCN 和 Endpoint Subnet 需来自实际网络工程。
+resource "oci_containerengine_cluster" "demo" {
+  compartment_id     = var.compartment_ocid
+  name               = "learning-oke"
+  kubernetes_version = var.supported_kubernetes_version
+  vcn_id             = oci_core_vcn.demo.id
+  cluster_pod_network_options {
+    cni_type = "OCI_VCN_IP_NATIVE"
+  }
+  endpoint_config {
+    subnet_id            = oci_core_subnet.api.id
+    is_public_ip_enabled = false
+  }
+}

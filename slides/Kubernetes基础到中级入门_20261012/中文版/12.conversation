@@ -1,0 +1,20 @@
+speaker 1: 这一章是Service 端口与四种类型。我想先从图里的关系开始理解。
+speaker 2: 好，我们围绕这张图展开。区分服务端口、容器端口以及内部和外部入口。
+speaker 1: port 和 targetPort 为什么可以不同？
+speaker 2: port 是 Service 暴露的端口，targetPort 是后端接收请求的端口。例如 Service 的八十端口可以转到监听八零八零端口的应用。
+speaker 1: ClusterIP 用在什么场景？
+speaker 2: 它是默认 Service 类型，通常用于集群内部访问。Web 调 API、API 访问数据库，都可以使用这类入口。
+speaker 1: NodePort 从外部怎样访问？
+speaker 2: 通过可达的节点 IP 与分配的节点端口访问，前提是地址和网络端口确实可达。请求可以转发到其他节点上的合适 Pod。
+speaker 1: LoadBalancer 会自动给所有环境一个公网 IP 吗？
+speaker 2: 不会。它依赖云平台或负载均衡控制器的支持，入口是否公网还取决于实际配置，本地实验集群可能没有现成实现。
+speaker 1: ExternalName 和另外几种有什么不同？
+speaker 2: 它把服务名称映射到外部 DNS 名称，主要体现为 DNS 别名，不按普通 ClusterIP 的方式转发到选中的 Pod。
+speaker 1: 能结合一个具体场景，把这些关系串起来吗？
+speaker 2: 应用监听 8080，内部入口希望使用 80。Service 声明 port 为八十、targetPort 为八零八零；这要求后端程序真的监听八零八零。主线实验中的 nginx 仍监听八十，不要混用这两组配置。
+speaker 1: 我容易出现这样的理解：声明 LoadBalancer 就一定立即获得公网地址。
+speaker 2: 基础设施实现和入口配置决定结果。资源声明和入口可达性需要分别确认。
+speaker 1: 学完这部分以后，下一步应该怎么衔接？
+speaker 2: 下一章学习CoreDNS 与跨 Namespace 通信。先记住本章图里的职责分工，再看新的关系。
+speaker 1: 这一章的主要内容已经讲完了吗？
+speaker 2: 已经讲完了。接下来请完成本章末尾的五道选择题，检查自己是否理解了这些内容。

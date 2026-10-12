@@ -1,0 +1,20 @@
+speaker 1: 这一章是四层技术的职责全图，图里不同层次的关系应该怎样读？
+speaker 2: 我们按图里的调用和管理关系展开。先区分工具、云平台、托管集群与应用运行。
+speaker 1: Terraform、OCI、OKE 和 Kubernetes 是同一类产品吗？
+speaker 2: 不是。Terraform 是资源管理工具，OCI 提供云资源，OKE 提供托管 Kubernetes，Kubernetes 编排应用；按层次读图才不容易混淆。
+speaker 1: OKE 和普通 Kubernetes 有什么关系？
+speaker 2: OKE 是 OCI 提供的托管 Kubernetes 服务，不改变 Deployment、Pod 和 Service 的基本角色。它增加云网络、计算和存储集成。
+speaker 1: 云资源和集群资源怎样区分？
+speaker 2: VCN、OKE Cluster、Node Pool 是 OCI 资源；Namespace、Deployment、Service 是 Kubernetes API 资源。两者使用的管理接口不同。
+speaker 1: 两个 Provider 的箭头分别指向哪里？
+speaker 2: OCI Provider 调用 OCI API，Kubernetes Provider 调用 Kubernetes API。Terraform 可以跨层管理，但不能把两个 API 当成同一个接口。
+speaker 1: 该怎么判断项目里的一个对象归谁管理？
+speaker 2: 先问它属于 OCI 还是 Kubernetes，再看哪套配置声明它。应用部署在 OCI，并不表示所有对象都由 OCI Provider 直接创建。
+speaker 1: 能用一个场景再串起来吗？
+speaker 2: 先画管理边界。把 VCN 放在 OCI 一侧，把应用 Pod 放在 Kubernetes 一侧，再补上 Provider 的调用箭头。它表达接口分工，不是要求所有资源必须放在同一个 Compartment。
+speaker 1: 我容易这样理解：Terraform 永远只能管理云网络。
+speaker 2: 它也能经 Kubernetes Provider 管理集群内资源；边界由 Provider 和资源类型决定。
+speaker 1: 下一章会把哪部分关系接上？
+speaker 2: 下一章是声明式管理的两种节奏。先把本章对象的职责与边界记清，再继续展开。
+speaker 1: 这一章的主要内容已经讲完了吗？
+speaker 2: 已经讲完了。接下来请完成本章末尾的五道选择题，检查自己是否理解了这些关系。

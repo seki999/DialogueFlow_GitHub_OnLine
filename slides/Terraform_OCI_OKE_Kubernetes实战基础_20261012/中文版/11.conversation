@@ -1,0 +1,20 @@
+speaker 1: 这一章是Node Pool、Compute Instance 与 Node，图里不同层次的关系应该怎样读？
+speaker 2: 我们按图里的调用和管理关系展开。把节点组、云服务器和 Kubernetes 节点视角对应起来。
+speaker 1: Node Pool 是什么层次？
+speaker 2: 它是一组由 OKE 管理的工作节点配置，决定数量、机器类型、镜像与放置条件。本文以 Managed Nodes 为主。
+speaker 1: Managed Node 在 OCI 中看得到吗？
+speaker 2: 通常可以在 Compute 侧看到相应实例。在 Kubernetes 侧，它注册为提供运行资源的 Node，是同一节点的不同管理视角。
+speaker 1: Node Pool 配置会影响哪些东西？
+speaker 2: 例如节点数量、Shape、源镜像、AD 与 Subnet。Flex Shape 可能需要 OCPU 和内存配置，镜像要与所选 OKE 版本兼容。
+speaker 1: 两台 Node 是否只能运行两个 Pod？
+speaker 2: 不是。一台节点可以运行多个 Pod，具体受资源容量和调度条件影响；节点数量与应用副本数不是同一单位。
+speaker 1: Deployment 扩成五个是否自动创建五台 Compute？
+speaker 2: 不会仅凭这个副本声明就得到五台服务器。节点扩容是另一类能力和配置，不能把 Pod 扩容等同于节点扩容。
+speaker 1: 能用一个场景再串起来吗？
+speaker 2: 读 Node Pool 片段。先看它引用哪个 Cluster，再看节点数量、镜像、Shape 与放置。课程片段不包含当前区域可用镜像和完整网络配置。
+speaker 1: 我容易这样理解：Node Pool 数量、Node 数量、Pod 数量是同一个数字。
+speaker 2: 它们描述不同层次；应分别查询云节点配置和 Kubernetes 工作负载。
+speaker 1: 下一章会把哪部分关系接上？
+speaker 2: 下一章是从云节点到容器执行。先把本章对象的职责与边界记清，再继续展开。
+speaker 1: 这一章的主要内容已经讲完了吗？
+speaker 2: 已经讲完了。接下来请完成本章末尾的五道选择题，检查自己是否理解了这些关系。

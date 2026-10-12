@@ -1,0 +1,20 @@
+speaker 1: 这一章是OCI LB、NLB 与入口类型选择，图里不同层次的关系应该怎样读？
+speaker 2: 我们按图里的调用和管理关系展开。用 Service Annotation 说明类型选择与公网、私网的区别。
+speaker 1: LB 和 NLB 的基本差别怎样理解？
+speaker 2: OCI LB 提供代理型负载均衡能力，NLB 偏向网络层转发能力。选择要结合协议与实际服务要求，不按资源名字猜功能。
+speaker 1: 怎样声明 OCI 的负载均衡类型？
+speaker 2: Service metadata.annotations 可以使用 oci.oraclecloud.com/load-balancer-type，值 lb 或 nlb。它属于云集成配置，不是 Deployment 的副本字段。
+speaker 1: 没写类型是否默认都是 NLB？
+speaker 2: 官方集成以 lb 为默认类型，nlb 需明确指定。还要结合当前集群支持和文档，不把它混成 Ingress 自动决定的选择。
+speaker 1: LoadBalancer 类型是否一定是公网入口？
+speaker 2: 不是。LB 可以有内部或公开入口，具体取决于相应配置和网络。拿到地址后仍要从正确网络位置验证。
+speaker 1: 改为 NLB 后就无需网络规则了吗？
+speaker 2: 不能这样理解。仍要满足对应实现的网络和流量条件，类型选择本身不会解决全部可达性问题。
+speaker 1: 能用一个场景再串起来吗？
+speaker 2: 两份条件性 YAML。examples 中分别提供 lb 和 nlb Service 示例，仅供独立学习；不要覆盖 Terraform 主实验中的同名受管对象。
+speaker 1: 我容易这样理解：Ingress 规则会自动决定 OCI 是 LB 还是 NLB。
+speaker 2: 类型选择属于具体入口方案和集成配置，Ingress 的 HTTP 规则是另一个职责。
+speaker 1: 下一章会把哪部分关系接上？
+speaker 2: 下一章是Ingress、Controller、Service 与 OCI 入口。先把本章对象的职责与边界记清，再继续展开。
+speaker 1: 这一章的主要内容已经讲完了吗？
+speaker 2: 已经讲完了。接下来请完成本章末尾的五道选择题，检查自己是否理解了这些关系。

@@ -1,0 +1,22 @@
+speaker 1: 这一章是五种工作负载在 OKE 中的选择，图里不同层次的关系应该怎样读？
+speaker 2: 我们按图里的调用和管理关系展开。按副本可互换性、节点覆盖和任务完成方式选择资源。
+speaker 1: 部署到 OKE 会改变 Deployment 的职责吗？
+speaker 2: 不会。可互换的长期 Web 或 API 副本仍适合 Deployment，云上的节点供给与工作负载选择属于不同层次。
+speaker 1: StatefulSet 为什么适合稳定身份？
+speaker 2: 它管理序号、可预测网络身份与对应存储，适用于有这些需求的应用。但数据库复制和切换仍要应用系统自己实现。
+speaker 1: 节点日志代理用什么？
+speaker 2: DaemonSet 在符合条件的节点上运行代理，数量随节点覆盖需求变化。它与固定总副本目标的 Deployment 不同。
+speaker 1: 一次批处理与定时批处理怎样分？
+speaker 2: 一次直到完成用 Job，按时间表创建 Job 用 CronJob；实际任务仍需考虑重试和幂等。定时规则还应明确解释时区。
+speaker 1: 五种控制器有没有帮我选云机器类型？
+speaker 2: 它们表达应用生命周期，Node Pool 与云资源配置表达执行基础设施。实际运行结果还要同时满足容量、镜像、网络与存储条件。
+speaker 1: 能用一个场景再串起来吗？
+speaker 2: 同一 OKE 中混合应用。Web 用 Deployment，节点代理用 DaemonSet，批处理用 Job 或 CronJob；只有需要稳定身份时才引入 StatefulSet。
+speaker 1: 定时示例里的 Forbid 是保证只执行一次吗？
+speaker 2: 它限制同一 CronJob 的任务并发重叠，不提供严格单次执行保证。这个例子只输出文本，真实任务仍要考虑重试和幂等。
+speaker 1: 我容易这样理解：所有数据库都必须用 StatefulSet，且会自动高可用。
+speaker 2: 应根据架构选生命周期机制；数据库复制与高可用需要专门实现。
+speaker 1: 下一章会把哪部分关系接上？
+speaker 2: 下一章是完整实验：已有 OKE 上的 Terraform Nginx。先把本章对象的职责与边界记清，再继续展开。
+speaker 1: 这一章的主要内容已经讲完了吗？
+speaker 2: 已经讲完了。接下来请完成本章末尾的五道选择题，检查自己是否理解了这些关系。

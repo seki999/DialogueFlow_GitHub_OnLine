@@ -1,0 +1,7 @@
+kubeconfig_path    = "C:/REPLACE_WITH_ACTUAL_PATH/oke-learning.config"
+kubeconfig_context = "REPLACE_WITH_ACTUAL_CONTEXT"
+namespace          = "tf-oke-learn"
+replicas           = 2
+image              = "nginx:1.28"
+service_type       = "ClusterIP"
+lb_type            = "lb"

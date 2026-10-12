@@ -1,0 +1,20 @@
+speaker 1: 这一章是私有与公开 API Endpoint，图里不同层次的关系应该怎样读？
+speaker 2: 我们按图里的调用和管理关系展开。区分管理集群的地址与用户访问应用的入口。
+speaker 1: API Endpoint 和应用外部地址一样吗？
+speaker 2: 不是。前者服务 kubectl、Provider 等管理请求；后者服务用户的应用流量。一个可达不能代替另一个可达。
+speaker 1: 私有 Endpoint 怎样访问？
+speaker 2: 客户端必须具备通往 VCN 私有地址的网络路径，例如适当的 VCN 管理主机、VPN 或 Bastion 方案。生成配置不会建立这条网络。
+speaker 1: 在 Cloud Shell 运行就一定能连接私有 API 吗？
+speaker 2: 不一定。还需采用适当的网络连接方式和配置，不能把执行环境名称当成可达保证。
+speaker 1: 公开 Endpoint 又需哪些条件？
+speaker 2: 需要集群实际配置公开端点，并满足访问网络规则与认证权限。PUBLIC_ENDPOINT 参数本身不会把私有集群改造成公开集群。
+speaker 1: 连接超时该先怎样分层？
+speaker 2: 先区分连接文件目标、客户端网络路径与认证问题，再看请求是否进入 API。不要因为 Nginx 可访问就推断管理 API 必可达。
+speaker 1: 能用一个场景再串起来吗？
+speaker 2: 私有端点 kubeconfig 的命令示例。--kube-endpoint PRIVATE_ENDPOINT 选择私有端点；--region 和 --cluster-id 要替换为实际值，命令执行位置必须有网络路径。
+speaker 1: 我容易这样理解：PRIVATE_ENDPOINT 参数会自动配置 VPN 或跳板机。
+speaker 2: 它选择端点，不替代网络连接工程。
+speaker 1: 下一章会把哪部分关系接上？
+speaker 2: 下一章是OCI Provider 与 Kubernetes Provider 的分工。先把本章对象的职责与边界记清，再继续展开。
+speaker 1: 这一章的主要内容已经讲完了吗？
+speaker 2: 已经讲完了。接下来请完成本章末尾的五道选择题，检查自己是否理解了这些关系。

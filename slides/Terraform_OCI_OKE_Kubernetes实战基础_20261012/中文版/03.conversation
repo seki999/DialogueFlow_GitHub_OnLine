@@ -1,0 +1,20 @@
+speaker 1: 这一章是Provider 与资源地址，图里不同层次的关系应该怎样读？
+speaker 2: 我们按图里的调用和管理关系展开。读懂资源类型、配置名、远程 ID 和引用关系。
+speaker 1: Provider 是云账户本身吗？
+speaker 2: 不是。Provider 是 Terraform 与外部系统沟通的插件，认证配置告诉它怎样访问目标 API。账号和目标服务由配置决定。
+speaker 1: oci_core_vcn.demo 里两部分表示什么？
+speaker 2: 前面是资源类型，后面是本地配置名。这是 Terraform 资源地址，不是实际 VCN 的 OCID，也不要求和云显示名称一样。
+speaker 1: 远程 ID 从哪里来？
+speaker 2: Provider 创建或读取真实对象后得到 ID 和属性，并让它们参与 State 和引用。OCI 常使用 OCID 来标识远程资源。
+speaker 1: 写 oci_core_vcn.demo.id 有什么意义？
+speaker 2: 它取被管理 VCN 的 ID，并在表达式依赖中连接上下游资源。Terraform 可以据此安排创建顺序，而不是只看文件行序。
+speaker 1: 资源引用和 Service selector 容易混吗？
+speaker 2: 引用属于 Terraform 依赖图，selector 属于 Kubernetes 标签匹配。它们都体现关系，但执行时机与机制不同。
+speaker 1: 能用一个场景再串起来吗？
+speaker 2: VCN ID 被 Cluster 使用。Cluster 的 vcn_id 引用 VCN 的 id，表示使用这张网络；并不能据此推断完整子网、路由和节点配置已经齐全。
+speaker 1: 我容易这样理解：把 .tf 文件排好顺序就控制了资源创建顺序。
+speaker 2: Terraform 主要依据依赖图执行，文件名和文本顺序不是资源依赖机制。
+speaker 1: 下一章会把哪部分关系接上？
+speaker 2: 下一章是Terraform 工程与执行流程。先把本章对象的职责与边界记清，再继续展开。
+speaker 1: 这一章的主要内容已经讲完了吗？
+speaker 2: 已经讲完了。接下来请完成本章末尾的五道选择题，检查自己是否理解了这些关系。

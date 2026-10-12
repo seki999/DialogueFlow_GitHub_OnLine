@@ -1,0 +1,20 @@
+speaker 1: 这一章是Terraform 创建独立 VCN 示例，图里不同层次的关系应该怎样读？
+speaker 2: 我们按图里的调用和管理关系展开。把 OCI Provider、变量、VCN resource 与 output 串起来。
+speaker 1: 这个完整工程会创建哪些东西？
+speaker 2: terraform/oci-vcn 只声明一个 VCN，输出它的 OCID。它不创建 Subnet、Gateway、OKE 或 Node Pool。
+speaker 1: Provider 怎么获得认证？
+speaker 2: 示例使用 APIKey 和本机 OCI 配置里的 DEFAULT profile，并显式选择区域。前提是该 profile 已配置且具有相应权限，课程不包含真实凭据。
+speaker 1: Compartment OCID 应写什么？
+speaker 2: 填自己有权创建学习资源的实际 Compartment OCID。示例 tfvars 是占位文件，应复制并替换，而不是原样执行。
+speaker 1: VCN 创建成功以后就能运行 OKE 了吗？
+speaker 2: 不能。还需要满足所选模式的子网、路由、API Endpoint、节点与其他条件，单个 VCN 只是基础之一。
+speaker 1: 真正执行之前先看什么？
+speaker 2: 先 init 和 validate，再审阅 plan，确认只创建预期学习 VCN。输出 OCID 是资源标识，不代表业务接口地址。
+speaker 1: 能用一个场景再串起来吗？
+speaker 2: 从占位变量到真实学习 VCN。完整文件保存在独立工程目录。只有使用者填好环境并执行 apply 才会创建云资源，本次课件制作不创建 VCN。
+speaker 1: 我容易这样理解：完整 VCN 示例就是完整 OKE 网络工程。
+speaker 2: 它只演示一个资源及接口过程，完整集群网络还需要独立设计。
+speaker 1: 下一章会把哪部分关系接上？
+speaker 2: 下一章是OKE Cluster 的托管边界与依赖。先把本章对象的职责与边界记清，再继续展开。
+speaker 1: 这一章的主要内容已经讲完了吗？
+speaker 2: 已经讲完了。接下来请完成本章末尾的五道选择题，检查自己是否理解了这些关系。

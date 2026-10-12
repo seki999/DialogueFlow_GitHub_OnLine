@@ -1,0 +1,20 @@
+speaker 1: 这一章是CoreDNS 与跨 Namespace 通信。我想先从图里的关系开始理解。
+speaker 2: 好，我们围绕这张图展开。用名字寻找 Service，并理解逻辑分组和网络通信的区别。
+speaker 1: 这个时序图为什么先查询 DNS？
+speaker 2: 应用使用名称找入口时，需要名称解析。集群 DNS 常见实现是 CoreDNS，它把符合规则的 Service 名称解析成地址。
+speaker 1: 同一个 Namespace 里怎么写服务名？
+speaker 2: 通常直接使用短名，例如 web-service。完整名称还包含 Namespace、svc 和集群域名，便于理解解析结构。
+speaker 1: 完整名称长什么样？
+speaker 2: 例如 web-service.k8s-learn.svc.cluster.local。cluster.local 是常见集群域名，但并非所有集群都使用这个值。
+speaker 1: frontend 里的 Pod 怎样找 backend 的 API？
+speaker 2: 可以使用 api-service.backend，或采用实际集群域名的完整名称。图中先解析名字，再发送请求，这不是 DNS 在代理业务流量。
+speaker 1: Namespace 不同是不是天然不能通信？
+speaker 2: 不是。Namespace 划分逻辑资源空间，不自动阻止网络通信；网络是否允许还取决于其他网络控制配置。
+speaker 1: 能结合一个具体场景，把这些关系串起来吗？
+speaker 2: 在实验集群内访问 web-service。临时客户端 Pod 执行 wget，访问 http://web-service.k8s-learn.svc.cluster.local。示例假设集群域名为 cluster.local；如果集群改过域名，需要相应调整。
+speaker 1: 我容易出现这样的理解：CoreDNS 查出地址以后还替应用处理所有 HTTP 请求。
+speaker 2: DNS 负责名称解析，后续应用流量走服务访问路径。
+speaker 1: 学完这部分以后，下一步应该怎么衔接？
+speaker 2: 下一章学习Ingress 规则与 Controller。先记住本章图里的职责分工，再看新的关系。
+speaker 1: 这一章的主要内容已经讲完了吗？
+speaker 2: 已经讲完了。接下来请完成本章末尾的五道选择题，检查自己是否理解了这些内容。

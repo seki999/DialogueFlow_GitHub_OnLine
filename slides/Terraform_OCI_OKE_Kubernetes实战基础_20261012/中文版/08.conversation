@@ -1,0 +1,20 @@
+speaker 1: 这一章是Gateway、路由与私有节点出站，图里不同层次的关系应该怎样读？
+speaker 2: 我们按图里的调用和管理关系展开。理解 Internet、NAT、Service Gateway 与 Route Table 的分工。
+speaker 1: Internet Gateway 就是给任意节点发公网 IP 吗？
+speaker 2: 不是。它提供互联网路由能力；资源是否能访问还需要地址、路由和允许的网络规则等条件配合。
+speaker 1: 私有节点访问外部公开镜像仓库时，NAT 做什么？
+speaker 2: NAT Gateway 可让没有公网地址的私有资源主动访问互联网。它不把私有节点变成供互联网主动访问的入口。
+speaker 1: Service Gateway 能访问所有互联网网站吗？
+speaker 2: 不能这样理解。它提供到支持的 OCI 公共服务的网络路径，目标范围取决于服务支持和路由配置。
+speaker 1: Route Table 与允许流量的规则一样吗？
+speaker 2: 不是。路由表根据目标选择下一跳，网络规则决定允许哪些流量；有路线不等于流量一定允许通过。
+speaker 1: OCIR 的流量是不是固定走 NAT？
+speaker 2: 不能一概而论。应核实区域、镜像端点和网络路径，区分外部公开仓库与 OCI 服务的实际访问方式。
+speaker 1: 能用一个场景再串起来吗？
+speaker 2: 私有节点拉取镜像。从节点到目标仓库画出路线，再检查目标解析、下一跳和流量条件。它解释基础关系，不提供完整网络安全配置。
+speaker 1: 我容易这样理解：创建一个 Gateway 就能让所有资源互通。
+speaker 2: Gateway、路由、地址和流量许可是配合条件，不能只看某一个对象存在。
+speaker 1: 下一章会把哪部分关系接上？
+speaker 2: 下一章是Terraform 创建独立 VCN 示例。先把本章对象的职责与边界记清，再继续展开。
+speaker 1: 这一章的主要内容已经讲完了吗？
+speaker 2: 已经讲完了。接下来请完成本章末尾的五道选择题，检查自己是否理解了这些关系。

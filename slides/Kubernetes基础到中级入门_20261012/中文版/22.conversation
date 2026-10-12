@@ -1,0 +1,20 @@
+speaker 1: 这一章是DaemonSet 与节点级任务。我想先从图里的关系开始理解。
+speaker 2: 好，我们围绕这张图展开。理解副本随符合条件的节点变化，而不是随 replicas 变化。
+speaker 1: DaemonSet 为什么适合日志代理？
+speaker 2: 节点级代理需要在符合条件的每个节点运行一份。DaemonSet 围绕节点覆盖维护 Pod，而不是要求任意位置总共运行某个数量。
+speaker 1: 增加一个 Node 会怎样？
+speaker 2: 如果新增节点符合条件，DaemonSet 通常会为它创建相应 Pod。节点条件、选择规则与调度限制仍然影响覆盖范围。
+speaker 1: 和 Deployment 最大的区别是什么？
+speaker 2: Deployment 主要根据 replicas 管理总副本目标；DaemonSet 主要根据符合条件的节点管理覆盖，两者不是相同的数量模型。
+speaker 1: 普通 Web 服务应该默认使用它吗？
+speaker 2: 通常不是。Web 副本更常根据业务负载独立扩缩容，不需要在每台节点固定一份，应选择合适的工作负载。
+speaker 1: 示例运行的代理真的收集系统日志了吗？
+speaker 2: 没有。教学 YAML 只运行一个周期输出文本的容器，用来观察节点覆盖；真正日志代理还需要具体软件和日志来源配置。
+speaker 1: 能结合一个具体场景，把这些关系串起来吗？
+speaker 2: 观察 demo-agent 的节点分布。apply 后用 get daemonset 和 get pods -o wide 查看状态。演示容器输出节点代理的概念文本，不将它宣传为已经配置的监控系统。
+speaker 1: 我容易出现这样的理解：DaemonSet 无条件覆盖所有节点。
+speaker 2: 它覆盖符合条件的节点，节点选择与调度限制仍然有效。
+speaker 1: 学完这部分以后，下一步应该怎么衔接？
+speaker 2: 下一章学习Job 与 CronJob 的完成语义。先记住本章图里的职责分工，再看新的关系。
+speaker 1: 这一章的主要内容已经讲完了吗？
+speaker 2: 已经讲完了。接下来请完成本章末尾的五道选择题，检查自己是否理解了这些内容。

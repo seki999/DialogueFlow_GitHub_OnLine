@@ -1,0 +1,20 @@
+speaker 1: 这一章是完整实验：已有 OKE 上的 Terraform Nginx，图里不同层次的关系应该怎样读？
+speaker 2: 我们按图里的调用和管理关系展开。用可审阅工程验证 Provider、应用配置与本地访问。
+speaker 1: 这个完整实验是否从零创建 OKE？
+speaker 2: 不是。它要求已有可用 OKE 和工作节点，用 Kubernetes Provider 管理应用。独立 VCN 示例不负责提供实验集群。
+speaker 1: Terraform 显式创建哪四种资源？
+speaker 2: Namespace、ConfigMap、Deployment、Service。ReplicaSet 和 Pod 由 Kubernetes 控制器创建，默认 Service 为 ClusterIP。
+speaker 1: 实验步骤为什么先做上下文检查？
+speaker 2: Terraform 与 kubectl 使用相同 kubeconfig 和 Context，先确认能够查询学习集群，再 init、validate、plan 和 apply。不要无意识采用默认目标。
+speaker 1: 怎样验证实验真正到达用户请求？
+speaker 2: 先确认两个 Pod 就绪，再保持 port-forward 终端运行，浏览器访问 localhost:8080。预期网页来自 ConfigMap 中的 index.html，但需要实际请求确认。
+speaker 1: 最后怎样清理？
+speaker 2: 先审阅应用工程的删除计划，确认 Namespace 仅有自己的实验对象，再执行清理。若做过 LoadBalancer 扩展，还要确认关联 OCI LB 已正确清理。
+speaker 1: 能用一个场景再串起来吗？
+speaker 2: 一个可自行执行的完整应用工程。terraform/oke-nginx 保存版本、变量、Provider、主资源与输出；实验步骤.md 给出 PowerShell 命令和检查点。本次制作只做本地验证，不访问真实集群。
+speaker 1: 我容易这样理解：这个实验成功就证明完整基础设施工程已经部署。
+speaker 2: 它只验证已有集群上的应用交付，不能替代从零 OKE 网络和节点验证。
+speaker 1: 下一章会把哪部分关系接上？
+speaker 2: 下一章是全系统回顾：创建链、访问链与所有权。先把本章对象的职责与边界记清，再继续展开。
+speaker 1: 这一章的主要内容已经讲完了吗？
+speaker 2: 已经讲完了。接下来请完成本章末尾的五道选择题，检查自己是否理解了这些关系。

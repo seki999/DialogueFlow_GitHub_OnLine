@@ -1,0 +1,20 @@
+speaker 1: 这一章是Job 与 CronJob 的完成语义。我想先从图里的关系开始理解。
+speaker 2: 好，我们围绕这张图展开。为一次性和定时任务选择资源，并明确时区与重复执行边界。
+speaker 1: 一次导入任务为什么不优先用 Deployment？
+speaker 2: 导入执行完成后需要结束，而 Deployment 面向持续维持运行副本。Job 用于执行直到完成，更符合一次性批处理需求。
+speaker 1: CronJob 和 Job 是什么关系？
+speaker 2: CronJob 按时间表创建 Job，Job 再管理任务 Pod。定时规则和任务执行是不同层次。
+speaker 1: 每天日本时间凌晨两点应该怎么声明？
+speaker 2: schedule 使用零、二、星号、星号、星号的 Cron 表达式，并明确 timeZone 为 Asia/Tokyo。只写表达式不能自动说明它是日本时间。
+speaker 1: 一次任务是否保证应用逻辑严格只执行一次？
+speaker 2: 不能。任务可能重试或出现重复执行，业务处理需要支持幂等，即重复执行也不会产生重复的最终业务效果。
+speaker 1: 示例 echo completed 能证明数据整理成功吗？
+speaker 2: 只能证明教学命令完成。真实任务需要自己的处理程序和业务验证；concurrencyPolicy: Forbid 可以避免同一 CronJob 的任务并发重叠，但不等于严格只执行一次。
+speaker 1: 能结合一个具体场景，把这些关系串起来吗？
+speaker 2: 一次性与每天定时输出。Job 示例输出 completed 后退出；CronJob 用日本时区每天两点创建相似 Job。查看 Job 完成状态与日志，不把定时创建资源等同于真实数据处理完成。
+speaker 1: 我容易出现这样的理解：CronJob 天然保证每个计划点精确执行一次。
+speaker 2: 调度与重试存在执行边界；应显式设置时区，并让重要业务具备幂等性。
+speaker 1: 学完这部分以后，下一步应该怎么衔接？
+speaker 2: 下一章学习kubectl 与 Helm 的分工。先记住本章图里的职责分工，再看新的关系。
+speaker 1: 这一章的主要内容已经讲完了吗？
+speaker 2: 已经讲完了。接下来请完成本章末尾的五道选择题，检查自己是否理解了这些内容。

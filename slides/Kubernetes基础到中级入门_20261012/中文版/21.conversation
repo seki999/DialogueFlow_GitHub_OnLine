@@ -1,0 +1,20 @@
+speaker 1: 这一章是StatefulSet 的身份与独立存储。我想先从图里的关系开始理解。
+speaker 2: 好，我们围绕这张图展开。把稳定 Pod 身份、Headless Service 与每副本 PVC 联系起来。
+speaker 1: 什么时候需要稳定身份？
+speaker 2: 数据库节点等有状态系统可能需要固定序号、对应存储和可预测名称。StatefulSet 管理这些 Kubernetes 身份和生命周期需求。
+speaker 1: web-stateful-0 被替换以后会怎样？
+speaker 2: 它可以重新创建同名 Pod，并关联该序号对应的原 PVC。稳定身份不等于原容器内存状态被恢复，也不表示地址永远不变。
+speaker 1: Headless Service 为什么写 clusterIP: None？
+speaker 2: 它不提供普通的统一虚拟 ClusterIP，而可以通过集群 DNS 暴露对应 Pod 地址。StatefulSet 的 serviceName 引用它，组成可预测的 Pod 网络名称。
+speaker 1: volumeClaimTemplates 的作用是什么？
+speaker 2: 为每个 Pod 创建各自的 PVC；示例中 claim 模板名为 data，Pod 名为 web-stateful-0，对应 PVC 名为 data-web-stateful-0。
+speaker 1: 三个数据库 Pod 就会自动同步数据吗？
+speaker 2: 不会。StatefulSet 提供身份和存储管理，数据库复制、主从切换和数据一致性仍需要数据库系统自身配置。缩减 StatefulSet 时，PVC 默认也不会简单随 Pod 一起删除。
+speaker 1: 能结合一个具体场景，把这些关系串起来吗？
+speaker 2: 用 Nginx 展示 StatefulSet 结构。两个带序号的 Nginx Pod 各自挂载独立 PVC，通过 Headless Service 形成网络名称。它只演示 Kubernetes 资源结构，不演示数据库复制。
+speaker 1: 我容易出现这样的理解：StatefulSet 是数据库自动高可用方案。
+speaker 2: 它是资源身份与生命周期机制，业务复制和故障切换不是仅凭资源类型就能获得的能力。
+speaker 1: 学完这部分以后，下一步应该怎么衔接？
+speaker 2: 下一章学习DaemonSet 与节点级任务。先记住本章图里的职责分工，再看新的关系。
+speaker 1: 这一章的主要内容已经讲完了吗？
+speaker 2: 已经讲完了。接下来请完成本章末尾的五道选择题，检查自己是否理解了这些内容。

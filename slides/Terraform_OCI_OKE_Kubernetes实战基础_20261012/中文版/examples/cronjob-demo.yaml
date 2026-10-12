@@ -1,0 +1,18 @@
+apiVersion: batch/v1
+kind: CronJob
+metadata:
+  name: daily-demo
+  namespace: oke-cloud-examples
+spec:
+  schedule: "0 2 * * *"
+  timeZone: "Asia/Tokyo"
+  concurrencyPolicy: Forbid
+  jobTemplate:
+    spec:
+      template:
+        spec:
+          restartPolicy: Never
+          containers:
+            - name: task
+              image: busybox:1.37
+              command: ["sh", "-c", "echo scheduled-demo"]

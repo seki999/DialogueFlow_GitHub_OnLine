@@ -1,0 +1,20 @@
+speaker 1: 这一章是Ingress 规则与 Controller。我想先从图里的关系开始理解。
+speaker 2: 好，我们围绕这张图展开。区分 HTTP 路由规则和真正实现入口的程序。
+speaker 1: 多个域名为什么可以共用一个入口？
+speaker 2: Ingress 描述基于域名或路径的 HTTP 路由规则。Controller 读取规则，把不同请求交给对应 Service，Service 再提供后端访问关系。
+speaker 1: 只 apply Ingress YAML 可以吗？
+speaker 2: 通常不够。必须有可用的 Controller，并让资源匹配它提供的 IngressClass；还要让外部地址和域名解析指向可访问入口。
+speaker 1: 示例应该填哪个 ingressClassName？
+speaker 2: 填写自己集群实际提供的类名，先用 get ingressclass 确认。示例用 learn-class 演示字段关系，不指定你安装某个实现，也不能直接假定该类已经存在。
+speaker 1: SNMP 或任意 UDP 流量能套用这个例子吗？
+speaker 2: 基础 Ingress API 主要面向 HTTP 和 HTTPS 路由。其他协议通常要选合适的 Service 暴露方式，不能把 HTTP 域名规则当成通用协议转发。
+speaker 1: Gateway API 是什么关系？
+speaker 2: 它是另一个入口路由 API 体系。Ingress API 已冻结但仍可使用，后续新入口设计可以继续学习 Gateway API；本章先掌握规则与实现的区别。
+speaker 1: 能结合一个具体场景，把这些关系串起来吗？
+speaker 2: www.example.com 交给 web-service。示例使用 networking.k8s.io/v1、Prefix 路径和 Service 端口八十。域名是占位示例，Controller、IngressClass 与外部解析都需要预先配置。
+speaker 1: 我容易出现这样的理解：Ingress 资源本身就是一个已运行的反向代理。
+speaker 2: Ingress 是规则对象；转发由 Controller 及其相关数据路径实现。
+speaker 1: 学完这部分以后，下一步应该怎么衔接？
+speaker 2: 下一章学习Namespace、Label 与 Selector。先记住本章图里的职责分工，再看新的关系。
+speaker 1: 这一章的主要内容已经讲完了吗？
+speaker 2: 已经讲完了。接下来请完成本章末尾的五道选择题，检查自己是否理解了这些内容。

@@ -1,0 +1,20 @@
+speaker 1: 这一章是kubectl 与 Helm 的分工。我想先从图里的关系开始理解。
+speaker 2: 好，我们围绕这张图展开。理解查询、声明管理与模板打包，避免把安装包当成运行时。
+speaker 1: kubectl 是直接 SSH 到每台 Node 吗？
+speaker 2: 不是。它主要与 API Server 交互，查询和修改资源，也能通过 API 请求读取日志、在容器中执行命令。
+speaker 1: get、describe、logs 和 exec 怎么选？
+speaker 2: get 看列表和简要状态，describe 看对象细节，logs 看容器输出，exec 在指定容器中执行命令。查询资源与进入容器是不同操作。
+speaker 1: create、apply 和 delete 有什么不同？
+speaker 2: create 创建新对象，apply 按声明创建或更新对象，delete 删除对象。主线示例优先 apply，便于持续维护同一份资源文件。
+speaker 1: Helm 解决什么重复工作？
+speaker 2: 它把多个资源模板整理为 Chart，用 values 提供参数，再形成一组资源声明。不同环境可以调整副本数和镜像等参数，而不复制整套 YAML。
+speaker 1: Chart、values 和 release 怎么区分？
+speaker 2: Chart 是包和模板，values 是参数，release 是一次安装的实例。Helm 不是容器运行时，安装成功后仍要观察实际工作负载是否可用。
+speaker 1: 能结合一个具体场景，把这些关系串起来吗？
+speaker 2: 先看模板输出，再安装已有 Chart。helm template 用于查看渲染出的声明；helm install 创建一次安装，helm list 查看安装实例。本章命令中的路径是占位的本地 Chart，课程包不伪称包含它。
+speaker 1: 我容易出现这样的理解：Helm 安装成功就等于全部业务启动成功。
+speaker 2: 安装资源和业务就绪需要分别观察，最终执行仍依赖 Kubernetes 与节点组件。
+speaker 1: 学完这部分以后，下一步应该怎么衔接？
+speaker 2: 下一章学习完整 Web 系统的资源与请求链路。先记住本章图里的职责分工，再看新的关系。
+speaker 1: 这一章的主要内容已经讲完了吗？
+speaker 2: 已经讲完了。接下来请完成本章末尾的五道选择题，检查自己是否理解了这些内容。

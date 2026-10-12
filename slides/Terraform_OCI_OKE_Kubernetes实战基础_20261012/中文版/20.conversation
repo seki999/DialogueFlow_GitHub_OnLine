@@ -1,0 +1,20 @@
+speaker 1: 这一章是LoadBalancer Service 如何创建 OCI LB，图里不同层次的关系应该怎样读？
+speaker 2: 我们按图里的调用和管理关系展开。区分 Kubernetes 声明、云控制器和实际负载均衡器。
+speaker 1: 没有写 Terraform OCI LB resource，怎么会出现 LB？
+speaker 2: OKE 云控制器集成可以观察 LoadBalancer 类型的 Service，经 OCI API 创建或配置云入口。创建者不一定是 Terraform OCI Provider。
+speaker 1: Service 与 OCI LB 是一个对象吗？
+speaker 2: 不是。一个属于 Kubernetes API，一个是 OCI 云网络资源；它们通过云集成关联，不能互相代替查询与管理。
+speaker 1: 什么时候必须看集成前提？
+speaker 2: 集群、子网、网络和访问 OCI API 的条件都影响供给。声明有效不意味着入口立即出现，状态更新也需要时间。
+speaker 1: LB 后端一定是 Node 吗？
+speaker 2: 不应一概而论。后端和流量路径取决于 CNI、LB 类型和配置，可能涉及不同的节点或 Pod 路径。
+speaker 1: 删除或变更 Service 后应怎样追踪？
+speaker 2: 仍沿 Kubernetes 与 OCI 两侧查看资源状态。关联 LB 不会因未在当前 Terraform State 显式列出就不存在或无需清理。
+speaker 1: 能用一个场景再串起来吗？
+speaker 2: 从 ClusterIP 改为 LoadBalancer。改本课应用工程 service_type 变量再 plan，会改变 Service；实际 LB 由云集成处理，可能产生云资源费用。
+speaker 1: 我容易这样理解：所有云资源都必须在当前 Terraform State 中显式声明。
+speaker 2: 控制器也能通过云 API 供给资源，应区别直接管理与间接创建。
+speaker 1: 下一章会把哪部分关系接上？
+speaker 2: 下一章是OCI LB、NLB 与入口类型选择。先把本章对象的职责与边界记清，再继续展开。
+speaker 1: 这一章的主要内容已经讲完了吗？
+speaker 2: 已经讲完了。接下来请完成本章末尾的五道选择题，检查自己是否理解了这些关系。

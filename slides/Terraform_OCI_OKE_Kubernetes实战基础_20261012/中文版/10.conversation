@@ -1,0 +1,20 @@
+speaker 1: 这一章是OKE Cluster 的托管边界与依赖，图里不同层次的关系应该怎样读？
+speaker 2: 我们按图里的调用和管理关系展开。阅读 Cluster 字段示意，理解网络和版本前提。
+speaker 1: OKE 托管了哪一层？
+speaker 2: 它托管 Kubernetes 控制平面基础设施，并集成 OCI 服务。应用配置、发布和副本目标仍由使用者及 Kubernetes 资源管理。
+speaker 1: oci_containerengine_cluster 主要表示什么？
+speaker 2: 它是 OCI Provider 中的集群资源。compartment_id、vcn_id、name 和 kubernetes_version 等字段描述云侧集群声明。
+speaker 1: 版本为什么没有写死一个数字？
+speaker 2: 需要选择当前区域支持的 OKE Kubernetes 版本。教材不把示例版本当成所有区域长期都可创建的版本。
+speaker 1: 图中 VCN 和 Endpoint Subnet 是怎样连接的？
+speaker 2: Terraform 的属性引用可以表达依赖，Cluster 使用已有网络 ID。完整环境仍需相应子网、网络模式及节点条件。
+speaker 1: 看到 Cluster 资源已经存在，下一步看什么？
+speaker 2: 确认集群状态、API 访问路径与工作节点供给。集群存在并不保证已经有可运行应用的 Node 或可达的客户端连接。
+speaker 1: 能用一个场景再串起来吗？
+speaker 2: 阅读而非直接执行集群片段。examples/oke-cluster-snippet.hcl.txt 只说明主要字段，缺少完整变量与网络工程；它不是一键创建 OKE 的部署包。
+speaker 1: 我容易这样理解：一个 Cluster resource 就自动包含全部网络和应用。
+speaker 2: 托管集群、节点供给和应用部署有各自的声明与准备过程。
+speaker 1: 下一章会把哪部分关系接上？
+speaker 2: 下一章是Node Pool、Compute Instance 与 Node。先把本章对象的职责与边界记清，再继续展开。
+speaker 1: 这一章的主要内容已经讲完了吗？
+speaker 2: 已经讲完了。接下来请完成本章末尾的五道选择题，检查自己是否理解了这些关系。

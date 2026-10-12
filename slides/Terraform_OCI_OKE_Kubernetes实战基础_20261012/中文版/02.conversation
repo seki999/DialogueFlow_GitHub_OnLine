@@ -1,0 +1,20 @@
+speaker 1: 这一章是声明式管理的两种节奏，图里不同层次的关系应该怎样读？
+speaker 2: 我们按图里的调用和管理关系展开。比较 Terraform 按执行规划与 Kubernetes 持续协调。
+speaker 1: 它们为什么都被称为声明式？
+speaker 2: 都可以声明想要的状态，而不必手工写每一步操作。但相似的输入思想不代表运行机制相同。
+speaker 1: Terraform 平时会一直守着资源吗？
+speaker 2: 通常不会。它在执行 plan、apply 等命令时读取、规划和变更，不是默认持续后台维护所有云对象的控制器。
+speaker 1: Kubernetes 的控制器怎样不同？
+speaker 2: 它持续观察期望与实际的差异，维护应用副本等目标。删除受管 Pod 后，即使不再运行 Terraform，也可能创建替代实例。
+speaker 1: State 和 etcd 记录的是一样的东西吗？
+speaker 2: State 记录 Terraform 管理对象与远程资源的关系，etcd 支撑 Kubernetes API 对象状态。它们不是彼此可交换的数据库。
+speaker 1: 手工改了云资源，Terraform 会立刻改回吗？
+speaker 2: 通常不会立即发生。后续需要刷新与规划，判断配置和远程状态差异，再决定是否应用变更。
+speaker 1: 能用一个场景再串起来吗？
+speaker 2: 同样声明两个副本。Terraform Kubernetes Provider 可以提交 Deployment，但实际维护两个 Pod 的循环仍由 Kubernetes 控制器执行。
+speaker 1: 我容易这样理解：terraform apply 和 kubectl apply 的效果完全相同。
+speaker 2: 它们调用接口、管理边界和状态记录不同；同名 apply 不等于同一种控制过程。
+speaker 1: 下一章会把哪部分关系接上？
+speaker 2: 下一章是Provider 与资源地址。先把本章对象的职责与边界记清，再继续展开。
+speaker 1: 这一章的主要内容已经讲完了吗？
+speaker 2: 已经讲完了。接下来请完成本章末尾的五道选择题，检查自己是否理解了这些关系。

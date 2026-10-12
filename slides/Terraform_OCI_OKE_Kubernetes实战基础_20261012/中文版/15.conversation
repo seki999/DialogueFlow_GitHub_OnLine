@@ -1,0 +1,20 @@
+speaker 1: 这一章是OCI Provider 与 Kubernetes Provider 的分工，图里不同层次的关系应该怎样读？
+speaker 2: 我们按图里的调用和管理关系展开。明确两个工程的状态边界与单一声明来源。
+speaker 1: 两个 Provider 操作相同 API 吗？
+speaker 2: 不是。OCI Provider 管理云侧对象，Kubernetes Provider 操作集群资源；它们需要各自适合的认证和网络条件。
+speaker 1: 应用虽然跑在 OCI，Deployment 属于谁？
+speaker 2: 它仍属于 Kubernetes API。创建 Namespace 或 Deployment 可以用 Kubernetes Provider，也可以用 kubectl 或 Helm，但要明确声明管理者。
+speaker 1: 基础学习阶段该怎么安排？
+speaker 2: 先用 Terraform OCI Provider 管理基础设施，用 kubectl 和 YAML 管理应用。本课后面的完整实验再单独展示 Kubernetes Provider 管应用的做法。
+speaker 1: 能同时用 Terraform 和手工命令长期改同一个对象吗？
+speaker 2: 容易导致两边期望状态不一致。临时观察可用 kubectl，但长期变更应回到该对象的声明来源，避免下次 apply 覆盖手工变化。
+speaker 1: 为什么完整实验放在独立应用目录？
+speaker 2: 已有集群的应用工程只管理四种 Kubernetes 资源。清理时才容易看懂它的 State 范围，而不误认为会删除完整 OKE。
+speaker 1: 能用一个场景再串起来吗？
+speaker 2: 同一个 Service 的管理来源。如果它由 Terraform 应用工程声明，修改类型就改变量并 plan；不要另外 apply 一个同名 YAML 当成独立资源。
+speaker 1: 我容易这样理解：统一工具意味着可以忽略资源所有权。
+speaker 2: 即使工具相同，也要区分 Provider、State 和每个对象的声明来源。
+speaker 1: 下一章会把哪部分关系接上？
+speaker 2: 下一章是Terraform State、Backend 与真实资源。先把本章对象的职责与边界记清，再继续展开。
+speaker 1: 这一章的主要内容已经讲完了吗？
+speaker 2: 已经讲完了。接下来请完成本章末尾的五道选择题，检查自己是否理解了这些关系。

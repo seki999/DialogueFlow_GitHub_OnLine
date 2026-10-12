@@ -1,0 +1,20 @@
+speaker 1: 这一章是节点组件与 Pod 启动流程。我想先从图里的关系开始理解。
+speaker 2: 好，我们围绕这张图展开。跟随一个 Pod 从 API 对象到运行容器的完整路径。
+speaker 1: 时序图从哪里开始？
+speaker 2: 从 kubectl 提交 Pod 声明开始。API Server 接收并保存对象，后续组件通过 API 观察对象变化，而不是客户端逐个登录节点启动程序。
+speaker 1: Scheduler 完成以后，谁继续执行？
+speaker 2: 被选中节点上的 kubelet 获取分配给本节点的 Pod 配置。它是节点代理，负责与容器运行时协作维护 Pod 运行状态。
+speaker 1: 运行时具体做什么？
+speaker 2: 它准备镜像，创建并启动容器，管理容器生命周期。运行时不负责为整个集群选择 Pod 应该运行在哪个节点。
+speaker 1: 为什么时序图最后还要报告状态？
+speaker 2: 启动不是一次性终点。kubelet 持续观察并报告状态，让控制平面能够知道实际情况，协调循环才有观察依据。
+speaker 1: kube-proxy 是否负责创建 Pod 网络？
+speaker 2: 采用 kube-proxy 的实现中，它维护 Service 转发规则；Pod 网络连接通常由 CNI 网络方案提供。某些网络方案会使用其他机制实现 Service 转发，因此不一定运行 kube-proxy。
+speaker 1: 能结合一个具体场景，把这些关系串起来吗？
+speaker 2: 观察新建 Pod。kubectl get pods -o wide 可以查看 Pod 状态及节点信息。先看到对象，不代表容器已经运行；应继续观察状态变化。
+speaker 1: 我容易出现这样的理解：把 kubelet、运行时、网络转发组件混成一个职责。
+speaker 2: kubelet 维护节点上的 Pod，运行时执行容器生命周期，Service 转发与 Pod 网络连接还有各自的实现。
+speaker 1: 学完这部分以后，下一步应该怎么衔接？
+speaker 2: 下一章学习Pod 与多容器协作。先记住本章图里的职责分工，再看新的关系。
+speaker 1: 这一章的主要内容已经讲完了吗？
+speaker 2: 已经讲完了。接下来请完成本章末尾的五道选择题，检查自己是否理解了这些内容。

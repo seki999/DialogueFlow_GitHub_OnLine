@@ -1,0 +1,24 @@
+speaker 1: 这一章是课程总结与下一步学习。我想先从图里的关系开始理解。
+speaker 2: 好，我们围绕这张图展开。用职责和关系重建全图，再选择适合的后续方向。
+speaker 1: 学完以后可以怎样复述主线？
+speaker 2: 声明资源目标，经 API 保存，控制器协调，Scheduler 分配节点，kubelet 与运行时执行。系统继续报告状态，因此管理是持续过程。
+speaker 1: 怎样选择常见工作负载？
+speaker 2: 可互换长期副本用 Deployment，稳定身份用 StatefulSet，节点覆盖用 DaemonSet，一次任务用 Job，定时创建任务用 CronJob。先看生命周期，再选资源名。
+speaker 1: 访问链路的三个关键词是什么？
+speaker 2: Service 提供访问抽象，DNS 解析名称，Ingress 与 Controller 处理 HTTP 入口规则。Service 的 selector 选择 Pod，不是直接绑定 Deployment。
+speaker 1: 哪些误区应该特别记住？
+speaker 2: 运行不等于就绪，base64 不等于加密，Namespace 不天然禁止网络通信，PVC 不等于备份，StatefulSet 不自动配置数据库复制。
+speaker 1: 接下来研究什么能帮助真正应用？
+speaker 2: 可以继续学习探针与资源请求、Gateway API、存储回收与备份、Helm 模板。权限和高级运维属于后续方向，本课程不把它们当作已经完成的配置。
+speaker 1: 能结合一个具体场景，把这些关系串起来吗？
+speaker 2: 用三个启发式问题自检。问自己：实例可互换吗？地址变化后调用方怎样找到它？容器或 Pod 消失后哪些数据必须保留？这些问题分别帮助选择工作负载、访问机制和存储方案。
+speaker 1: 我容易出现这样的理解：记住资源名称就等于能设计系统。
+speaker 2: 还应说明每个资源何时工作、与谁协作、能保证什么，以及保证依赖哪些条件。
+speaker 1: 如果设计一个新应用，我应该先问自己：这些实例可以互换吗？
+speaker 2: 对，先判断生命周期和身份需求，再选择合适工作负载。
+speaker 1: 如果实例地址变化，调用方怎样继续找到它？
+speaker 2: 再梳理 Service、DNS 和外部入口的关系，不把 Pod 地址当成永久入口。
+speaker 1: 如果容器或 Pod 消失，哪些数据必须保留？
+speaker 2: 最后梳理 PVC、PV 和真实存储，同时考虑回收行为与独立备份。
+speaker 1: 这一章的主要内容已经讲完了吗？
+speaker 2: 已经讲完了。接下来请完成本章末尾的五道选择题，检查自己是否理解了这些内容。

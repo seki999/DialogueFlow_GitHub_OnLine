@@ -1,0 +1,20 @@
+speaker 1: 这一章是VCN、Subnet 与 Pod 网络模式，图里不同层次的关系应该怎样读？
+speaker 2: 我们按图里的调用和管理关系展开。先看底层地址规划，再理解 CNI 决定的 Pod 地址来源。
+speaker 1: VCN 先解决什么？
+speaker 2: 它提供 OCI 的虚拟云网络和地址空间。Subnet 在其中划分不重叠地址段，供相应网络接口和资源使用。
+speaker 1: 为什么示例把 API、Node 和 LB 放在不同子网？
+speaker 2: 是为了看清不同角色的网络需求；真实布局需要结合集群模式设计。图中不是能直接照搬的完整网络工程。
+speaker 1: Pod 一定从 OCI Subnet 拿地址吗？
+speaker 2: 不一定。VCN-Native Pod Networking 可以让 Pod 从 Pod Subnet 获得地址；其他网络模式可能采用不同方式。
+speaker 1: 为何不能把旧集群网络图原样套过来？
+speaker 2: 节点、Pod 和 Service 地址的关系会随网络模式变化。选择模式之后，才应确认所需子网和地址容量。
+speaker 1: 同 VCN 的子网地址重叠有什么问题？
+speaker 2: 地址规划应避免重叠，否则会破坏清晰的网络范围设计。还要结合已连接网络地址，不能只看当前项目的一个 CIDR。
+speaker 1: 能用一个场景再串起来吗？
+speaker 2: 一个 VCN 分担多个网络角色。API Endpoint、节点、LB 和可选 Pod 子网分别说明管理访问、运行、外部入口及 Pod 地址需求；并不意味着每个对象都处于公网。
+speaker 1: 我容易这样理解：所有 Kubernetes Pod 网络就是 OCI VCN 子网。
+speaker 2: 这是依赖 CNI 的条件性关系，不能跨所有集群一概而论。
+speaker 1: 下一章会把哪部分关系接上？
+speaker 2: 下一章是Gateway、路由与私有节点出站。先把本章对象的职责与边界记清，再继续展开。
+speaker 1: 这一章的主要内容已经讲完了吗？
+speaker 2: 已经讲完了。接下来请完成本章末尾的五道选择题，检查自己是否理解了这些关系。

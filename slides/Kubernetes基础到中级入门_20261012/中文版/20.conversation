@@ -1,0 +1,20 @@
+speaker 1: 这一章是StorageClass 与动态供给。我想先从图里的关系开始理解。
+speaker 2: 好，我们围绕这张图展开。理解 PVC 请求如何转化为实际存储，以及延迟绑定的意义。
+speaker 1: 为什么需要 StorageClass？
+speaker 2: 它描述一类存储及供给参数，让应用按需求申请，而不必在每个 PVC 中写底层磁盘细节。不同存储类的性能与能力可能不同。
+speaker 1: 动态供给的过程是什么？
+speaker 2: PVC 请求使用某个 StorageClass，对应供给器和存储驱动创建实际卷并登记 PV，随后建立绑定，让 Pod 可以使用。不是 PVC 自己创建磁盘。
+speaker 1: 不写 storageClassName 会怎样？
+speaker 2: 常见情况是使用默认 StorageClass；没有默认类时，需要已有匹配 PV 等条件。应先查询集群能力，而不是假设每个集群都有相同类名。
+speaker 1: 为什么有时要等 Pod 使用后才绑定？
+speaker 2: WaitForFirstConsumer 会等待使用者的调度上下文，便于结合节点和存储拓扑选择位置。这种 Pending 不一定是配置错误。
+speaker 1: 云环境与本地存储是否行为完全一样？
+speaker 2: 不是。云磁盘、共享文件存储和本地卷对跨节点使用有不同条件；实际能力取决于存储驱动、存储类参数和底层系统。
+speaker 1: 能结合一个具体场景，把这些关系串起来吗？
+speaker 2: 查询而不是猜测存储类名。先 get storageclass，再 get pvc 和 get pv。若集群使用延迟绑定，应创建相应消费者后继续观察；示例不提供可通用于所有云平台的 StorageClass 配置。
+speaker 1: 我容易出现这样的理解：看到 Pending 就立即认定动态供给失败。
+speaker 2: 需要区分没有供给条件与等待使用者调度等正常阶段，先检查绑定模式和实际资源。
+speaker 1: 学完这部分以后，下一步应该怎么衔接？
+speaker 2: 下一章学习StatefulSet 的身份与独立存储。先记住本章图里的职责分工，再看新的关系。
+speaker 1: 这一章的主要内容已经讲完了吗？
+speaker 2: 已经讲完了。接下来请完成本章末尾的五道选择题，检查自己是否理解了这些内容。

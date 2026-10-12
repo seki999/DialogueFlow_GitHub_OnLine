@@ -1,0 +1,20 @@
+speaker 1: 这一章是控制平面的四个核心组件。我想先从图里的关系开始理解。
+speaker 2: 好，我们围绕这张图展开。分清 API 入口、状态数据库、调度器和控制器的职责。
+speaker 1: 所有箭头为什么围绕 API Server？
+speaker 2: API Server 是 Kubernetes API 入口，接受客户端和其他组件的请求。创建、查询和修改资源对象，都通过这套 API 协作。
+speaker 1: etcd 保存应用数据库里的订单吗？
+speaker 2: 这里的 etcd 保存集群 API 对象与状态，例如 Deployment 声明和 Service 定义。应用订单应由应用自己的数据库负责。
+speaker 1: Scheduler 在什么时候工作？
+speaker 2: 新 Pod 已创建但尚未分配节点时，Scheduler 根据资源请求和调度约束选择合适节点，并通过 API 记录分配结果。
+speaker 1: Controller Manager 又管理什么？
+speaker 2: 它运行多种控制器，持续比较目标与实际状态。Deployment 相关控制器、ReplicaSet 控制器等各自维护对应资源关系。
+speaker 1: 云平台集成由谁处理？
+speaker 2: 一些集群使用 cloud-controller-manager 对接云节点和负载均衡等基础设施。它是云环境集成组件，不是每个本地集群都要独立部署的服务。
+speaker 1: 能结合一个具体场景，把这些关系串起来吗？
+speaker 2: 提交 Deployment 声明。kubectl 将声明交给 API Server，状态被保存后，相关控制器继续协调；调度器随后处理尚未分配节点的 Pod。
+speaker 1: 我容易出现这样的理解：调度器选择节点后直接启动容器。
+speaker 2: 调度器负责分配节点，容器启动由节点上的 kubelet 与运行时执行。
+speaker 1: 学完这部分以后，下一步应该怎么衔接？
+speaker 2: 下一章学习节点组件与 Pod 启动流程。先记住本章图里的职责分工，再看新的关系。
+speaker 1: 这一章的主要内容已经讲完了吗？
+speaker 2: 已经讲完了。接下来请完成本章末尾的五道选择题，检查自己是否理解了这些内容。

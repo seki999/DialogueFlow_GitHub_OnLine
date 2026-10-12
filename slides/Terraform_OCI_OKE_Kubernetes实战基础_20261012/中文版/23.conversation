@@ -1,0 +1,20 @@
+speaker 1: 这一章是OCIR 镜像与私有拉取，图里不同层次的关系应该怎样读？
+speaker 2: 我们按图里的调用和管理关系展开。串起源码、镜像仓库、节点运行时和拉取认证。
+speaker 1: OKE 可以直接运行源码目录吗？
+speaker 2: Kubernetes 通常部署镜像，源码需要先构建为容器镜像，再推送到可访问仓库。构建与云集群创建是不同步骤。
+speaker 1: OCIR 负责运行容器吗？
+speaker 2: 它保存镜像等仓库对象；运行镜像的是 Node 上的容器运行时。镜像在仓库里存在不等于应用已经部署。
+speaker 1: 镜像地址由哪些部分组成？
+speaker 2: 通常包括实际区域 Registry 域名、Tenancy 的仓库命名空间、仓库路径与标签。仓库命名空间不是 Kubernetes Namespace，也不总是 Tenancy 显示名。
+speaker 1: 私有仓库怎样提供拉取能力？
+speaker 2: 可按环境配置相应认证；常见做法是在 Pod 所在 Namespace 创建 registry Secret，再用 imagePullSecrets 引用。Secret 存在还不替代到仓库的网络路径。
+speaker 1: 拉取失败时能只盯着 Deployment 名字吗？
+speaker 2: 不够。要核对实际镜像地址、标签、拉取凭据、目标架构与网络可达条件；本课程示意地址不能原样运行。
+speaker 1: 能用一个场景再串起来吗？
+speaker 2: 部署自己的 FastAPI 镜像。先推送真实镜像，再在 Deployment 中写实际地址；示例故意使用占位域名，并明确需要预先创建 ocir-pull Secret。
+speaker 1: 我容易这样理解：OCIR namespace 与 Kubernetes Namespace 是同一个对象。
+speaker 2: 它们属于不同系统，镜像路径和集群资源空间不能互相替代。
+speaker 1: 下一章会把哪部分关系接上？
+speaker 2: 下一章是ConfigMap、Secret 与云上应用参数。先把本章对象的职责与边界记清，再继续展开。
+speaker 1: 这一章的主要内容已经讲完了吗？
+speaker 2: 已经讲完了。接下来请完成本章末尾的五道选择题，检查自己是否理解了这些关系。

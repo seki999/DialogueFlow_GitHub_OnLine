@@ -1,0 +1,20 @@
+speaker 1: 这一章是Region、AD 与 Fault Domain，图里不同层次的关系应该怎样读？
+speaker 2: 我们按图里的调用和管理关系展开。理解地域、基础设施域和硬件故障分组。
+speaker 1: Region 首先决定什么？
+speaker 2: 它决定云服务所在的地理区域，例如东京区域。选择区域后，还需要确认服务、版本和资源能力是否可用。
+speaker 1: AD 是 Region 内的什么？
+speaker 2: Availability Domain 是区域内相对独立的基础设施域。不同 Region 的 AD 数量不同，不能把一个区域的布局直接套到所有区域。
+speaker 1: Fault Domain 的作用是什么？
+speaker 2: 它在 AD 内用于分散硬件故障影响。它与 AD 和 Region 是不同层次，不能仅凭不同 Pod 名称判断跨故障域。
+speaker 1: Node Pool 的放置需要哪些信息？
+speaker 2: 节点放置可以指定 AD 与 Subnet，实际可用机器类型和镜像还要兼容选择。云节点位置不等于每个 Pod 都固定独占一个域。
+speaker 1: 要跨故障域设计，应先检查什么？
+speaker 2: 先查询自己租户和区域的可用资源布局，再结合节点和应用调度需求。不要只增加 Pod 副本而忽略底层节点位置。
+speaker 1: 能用一个场景再串起来吗？
+speaker 2: 在东京区域规划节点。Region 名称只是选择的一部分，还应核实当前可用 AD、Shape 和 OKE 版本，不把示例名称当成固定部署值。
+speaker 1: 我容易这样理解：三个 Pod 自动代表三个可用性域。
+speaker 2: Pod 数量与云基础设施位置是不同维度，需要查看真实节点布局。
+speaker 1: 下一章会把哪部分关系接上？
+speaker 2: 下一章是VCN、Subnet 与 Pod 网络模式。先把本章对象的职责与边界记清，再继续展开。
+speaker 1: 这一章的主要内容已经讲完了吗？
+speaker 2: 已经讲完了。接下来请完成本章末尾的五道选择题，检查自己是否理解了这些关系。

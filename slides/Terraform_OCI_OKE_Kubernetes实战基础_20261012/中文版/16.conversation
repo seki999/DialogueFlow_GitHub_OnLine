@@ -1,0 +1,20 @@
+speaker 1: 这一章是Terraform State、Backend 与真实资源，图里不同层次的关系应该怎样读？
+speaker 2: 我们按图里的调用和管理关系展开。说明映射、状态保存与外部变更，不把 State 当成云数据库。
+speaker 1: State 主要保存什么？
+speaker 2: 它记录 Terraform 管理对象与远程资源的对应关系及相关属性，支撑后续规划。它不是整个 OCI 的资源数据库。
+speaker 1: Backend 又是什么？
+speaker 2: 它决定 State 等数据的保存位置和访问机制，可是本地或远端。选远端并不把 Kubernetes 的 etcd 转成 State。
+speaker 1: State 会实时知道所有手工修改吗？
+speaker 2: 不会默认实时同步所有变化。后续刷新或 plan 会读取相应远程状态并计算与配置的差异。
+speaker 1: 把 State 文件删掉，是不是资源就删了？
+speaker 2: 不是。远程资源可能仍存在，但 Terraform 失去原有管理映射；删除状态文件不等同于执行资源删除计划。
+speaker 1: 为什么本课工程忽略 State 文件？
+speaker 2: State 和计划可能含敏感信息，不作为普通课件提交。真正团队管理应设计合适 Backend 和协作流程，本章不包含真实远端配置。
+speaker 1: 能用一个场景再串起来吗？
+speaker 2: 两个独立工程各有 State。VCN 工程的映射不包含完整 OKE；应用工程的映射不自动包含云控制器创建的 LB 或 CSI 创建的磁盘。
+speaker 1: 我容易这样理解：State 里没写的资源就一定不存在。
+speaker 2: 它只覆盖当前 Terraform 管理范围，其他工具与控制器可以创建额外资源。
+speaker 1: 下一章会把哪部分关系接上？
+speaker 2: 下一章是Plan、Apply、Destroy 与删除范围。先把本章对象的职责与边界记清，再继续展开。
+speaker 1: 这一章的主要内容已经讲完了吗？
+speaker 2: 已经讲完了。接下来请完成本章末尾的五道选择题，检查自己是否理解了这些关系。

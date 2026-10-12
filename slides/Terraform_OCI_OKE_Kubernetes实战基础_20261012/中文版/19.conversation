@@ -1,0 +1,20 @@
+speaker 1: 这一章是Service、EndpointSlice 与 CoreDNS，图里不同层次的关系应该怎样读？
+speaker 2: 我们按图里的调用和管理关系展开。跟随稳定服务名到可用应用后端的关系。
+speaker 1: Pod 地址变了怎样访问？
+speaker 2: 客户端使用 Service 的稳定访问抽象和服务名称，而不是记住所有 Pod IP。DNS 负责解析，转发机制负责后续流量。
+speaker 1: 它是找到 Deployment 还是 Pod？
+speaker 2: 带 selector 的 Service 通常按 Pod 标签匹配后端。匹配条件与对象归属是不同关系，Service 不负责创建 Pod。
+speaker 1: EndpointSlice 和 DNS 做一样的事吗？
+speaker 2: EndpointSlice 保存后端端点信息，DNS 把服务名称解析为地址。相关控制器维护端点，流量按相应转发实现进入后端。
+speaker 1: 在同 Namespace 用什么名称？
+speaker 2: 通常可以直接用服务短名。跨 Namespace 可以用 service.namespace，完整名还包含 svc 与实际集群域名。
+speaker 1: Service 存在却没有就绪后端怎么办？
+speaker 2: 先核对标签和实际 Pod 就绪状态，入口对象存在不保证业务成功。不要让 Service 承担补副本或运行应用的职责。
+speaker 1: 能用一个场景再串起来吗？
+speaker 2: 内部访问 oke-nginx。实验默认 ClusterIP，用 port-forward 临时提供本地验证；它并不创建 OCI 公网负载均衡器。
+speaker 1: 我容易这样理解：CoreDNS 会代替 Service 转发全部 HTTP 流量。
+speaker 2: 它解析名称，业务请求仍走应用访问路径。
+speaker 1: 下一章会把哪部分关系接上？
+speaker 2: 下一章是LoadBalancer Service 如何创建 OCI LB。先把本章对象的职责与边界记清，再继续展开。
+speaker 1: 这一章的主要内容已经讲完了吗？
+speaker 2: 已经讲完了。接下来请完成本章末尾的五道选择题，检查自己是否理解了这些关系。

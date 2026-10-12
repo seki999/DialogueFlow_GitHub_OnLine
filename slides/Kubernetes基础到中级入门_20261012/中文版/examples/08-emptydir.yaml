@@ -1,0 +1,16 @@
+apiVersion: v1
+kind: Pod
+metadata:
+  name: cache-demo
+  namespace: k8s-learn
+spec:
+  containers:
+    - name: worker
+      image: busybox:1.37
+      command: ["sh", "-c", "sleep 86400"]
+      volumeMounts:
+        - name: cache
+          mountPath: /cache
+  volumes:
+    - name: cache
+      emptyDir: {}

@@ -1,0 +1,22 @@
+speaker 1: 这一章是Deployment 的云上运行与配置关系，图里不同层次的关系应该怎样读？
+speaker 2: 我们按图里的调用和管理关系展开。OCI 环境中仍由 Kubernetes 控制器管理应用副本。
+speaker 1: Terraform 需要写两个 Pod resource 吗？
+speaker 2: 不需要。本课声明一个 Deployment 和两个副本，Kubernetes 创建对应 ReplicaSet 与 Pod。显式资源与自动派生资源要分开统计。
+speaker 1: 两个副本运行在哪里？
+speaker 2: Scheduler 在满足条件的 Node 上安排 Pod。可以分散，也可能同节点，replicas 本身不保证跨节点分布。
+speaker 1: selector 和 template 标签有什么要求？
+speaker 2: Deployment 的匹配条件要与模板 Pod 标签对应。本实验统一 app=oke-nginx，Service 也按相同标签选择后端。
+speaker 1: ConfigMap 怎样变成 Nginx 页面？
+speaker 2: 它保存 index.html，再作为 Volume 挂载到网页目录。Nginx 读取文件响应页面，不是 ConfigMap 自己运行 Web 服务器。
+speaker 1: 部署显示成功还要看什么？
+speaker 2: 要观察两个 Pod 就绪和实际 HTTP 页面。应用文件挂载、镜像与探针都参与运行结果，资源提交成功只是过程的一部分。
+speaker 1: 能用一个场景再串起来吗？
+speaker 2: 两个 Nginx 副本与一份网页配置。完整实验把 ConfigMap 挂在 /usr/share/nginx/html，网页显示 Terraform、OCI、OKE 和 Kubernetes 的协作主线。
+speaker 1: 示例中的就绪探针具体看什么？
+speaker 2: 它检查根路径 HTTP 响应，帮助判断容器是否准备接收流量。这是 Nginx 教学检查，不代表已验证真实业务的全部健康条件。
+speaker 1: 我容易这样理解：Terraform State 显式包含全部 ReplicaSet 与 Pod。
+speaker 2: 未单独声明的派生对象由控制器维护，不自动成为 Terraform 独立管理资源。
+speaker 1: 下一章会把哪部分关系接上？
+speaker 2: 下一章是Service、EndpointSlice 与 CoreDNS。先把本章对象的职责与边界记清，再继续展开。
+speaker 1: 这一章的主要内容已经讲完了吗？
+speaker 2: 已经讲完了。接下来请完成本章末尾的五道选择题，检查自己是否理解了这些关系。

@@ -1,0 +1,20 @@
+speaker 1: 这一章是Terraform 工程与执行流程，图里不同层次的关系应该怎样读？
+speaker 2: 我们按图里的调用和管理关系展开。用文件职责理解 init、validate、plan 与 apply。
+speaker 1: 工程为什么常拆成几个 tf 文件？
+speaker 2: 便于阅读版本、Provider、变量、资源和输出。同目录文件共同构成一个模块，不是每个文件都独立执行。
+speaker 1: required_providers 负责什么？
+speaker 2: 它声明 Provider 来源和版本约束；provider 块提供连接与认证配置。两者是安装选择与运行配置的不同职责。
+speaker 1: init 和 validate 先后怎样理解？
+speaker 2: init 准备工作目录与 Provider；validate 检查配置一致性和 Provider 结构。validate 成功不等于账号有权限或远程资源能创建。
+speaker 1: plan 能拿来确认什么？
+speaker 2: 它计算预计创建、更新、删除的资源变化，供审阅。需要远程信息时可能访问 API；它不等于已经执行资源变更。
+speaker 1: 怎么让执行针对我审阅过的计划？
+speaker 2: 可以将 plan 保存为文件，再 apply 这个文件。计划和 State 可能包含敏感信息，不应随课程源码或真实凭据一起公开提交。
+speaker 1: 能用一个场景再串起来吗？
+speaker 2: 一个最小工程。terraform/oci-vcn 与 terraform/oke-nginx 是两个独立工程，分别管理云网络和集群内应用；它们不共用一份 State。
+speaker 1: 我容易这样理解：validate 成功就是云部署成功。
+speaker 2: 它只证明配置层面通过检查，远程权限、网络和服务支持仍要满足。
+speaker 1: 下一章会把哪部分关系接上？
+speaker 2: 下一章是Tenancy、Compartment 与 Namespace。先把本章对象的职责与边界记清，再继续展开。
+speaker 1: 这一章的主要内容已经讲完了吗？
+speaker 2: 已经讲完了。接下来请完成本章末尾的五道选择题，检查自己是否理解了这些关系。

@@ -1,0 +1,20 @@
+speaker 1: 这一章是Tenancy、Compartment 与 Namespace，图里不同层次的关系应该怎样读？
+speaker 2: 我们按图里的调用和管理关系展开。区分云资源管理范围和集群内资源空间。
+speaker 1: Tenancy 是一个 Kubernetes Namespace 吗？
+speaker 2: 不是。Tenancy 是 OCI 顶层租户环境，Namespace 是单个 Kubernetes 集群里的逻辑资源空间。
+speaker 1: Compartment 用来分什么？
+speaker 2: 它对 OCI 资源进行逻辑分组，例如项目网络、计算和 OKE 资源。示意分组不要求所有关联资源都在同一个 Compartment。
+speaker 1: OKE Cluster 放在哪里？
+speaker 2: 它作为 OCI 资源归属某个 Compartment，在其 Kubernetes API 内又可以创建多个 Namespace。两个归属层次同时存在。
+speaker 1: 把 Namespace 改名能移动 OCI 网络吗？
+speaker 2: 不能。集群内资源空间变化不等于改变云资源的 Compartment 归属，更不会替你搬迁 VCN。
+speaker 1: 项目拆分时怎么避免误读架构图？
+speaker 2: 先标明每个对象所属系统，再分开看逻辑分组和运行位置。相似的分组概念不能替换彼此的 API 或权限范围。
+speaker 1: 能用一个场景再串起来吗？
+speaker 2: 一个项目 Compartment 与两个环境 Namespace。云资源在 OCI 中按项目分组，集群内可以有开发和测试 Namespace；这并不意味着两种隔离的效果完全一样。
+speaker 1: 我容易这样理解：Compartment 就是 OCI 版 Namespace，可以互换。
+speaker 2: 它们所属系统、管理内容和权限边界不同，只能用作有限类比。
+speaker 1: 下一章会把哪部分关系接上？
+speaker 2: 下一章是Region、AD 与 Fault Domain。先把本章对象的职责与边界记清，再继续展开。
+speaker 1: 这一章的主要内容已经讲完了吗？
+speaker 2: 已经讲完了。接下来请完成本章末尾的五道选择题，检查自己是否理解了这些关系。

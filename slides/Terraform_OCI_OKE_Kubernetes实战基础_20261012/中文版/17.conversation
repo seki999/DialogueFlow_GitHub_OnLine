@@ -1,0 +1,20 @@
+speaker 1: 这一章是Plan、Apply、Destroy 与删除范围，图里不同层次的关系应该怎样读？
+speaker 2: 我们按图里的调用和管理关系展开。先读变化计划，再理解级联对象和资源归属。
+speaker 1: plan 里的创建、更新、删除分别代表什么？
+speaker 2: 它们是预计的资源变化，可能包括替换对象时的创建与删除。应结合资源地址和属性读，而不是只看最后一句数量。
+speaker 1: apply 会操作什么范围？
+speaker 2: 它执行当前计划涉及的对象，经过相关 Provider 调用目标接口。应用工程与基础设施工程的 API 和范围不同。
+speaker 1: destroy 是删除整个 OCI 吗？
+speaker 2: 不是。它面向当前工程 State 管理、符合删除计划的对象；但删除上层资源还可能影响相关依赖或控制器创建的对象。
+speaker 1: 删除一个 Service 为什么要继续看 OCI？
+speaker 2: 它可能由云控制器关联负载均衡器，删除时还需观察相应云侧清理。State 的直接列表和间接影响不总是一回事。
+speaker 1: 本课示例怎么提供清理命令？
+speaker 2: 先输出 plan -destroy 的可审阅计划，再由学习者决定执行。对不属于自己实验范围的资源不能照抄删除，也不能假定云侧清理同步完成。
+speaker 1: 能用一个场景再串起来吗？
+speaker 2: 已有 OKE 上的应用清理。应用工程只直接管理 Namespace、ConfigMap、Deployment、Service；若 Namespace 内又放了其他对象，它们也可能受命名空间删除影响。
+speaker 1: 我容易这样理解：应用工程 destroy 永远没有间接影响。
+speaker 2: 要考虑 Namespace 内对象、云集成和存储生命周期，不能只看显式声明数量。
+speaker 1: 下一章会把哪部分关系接上？
+speaker 2: 下一章是Deployment 的云上运行与配置关系。先把本章对象的职责与边界记清，再继续展开。
+speaker 1: 这一章的主要内容已经讲完了吗？
+speaker 2: 已经讲完了。接下来请完成本章末尾的五道选择题，检查自己是否理解了这些关系。

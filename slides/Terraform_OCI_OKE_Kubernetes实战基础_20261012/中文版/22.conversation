@@ -1,0 +1,20 @@
+speaker 1: 这一章是Ingress、Controller、Service 与 OCI 入口，图里不同层次的关系应该怎样读？
+speaker 2: 我们按图里的调用和管理关系展开。把四种对象放在一次外部 HTTP 请求中。
+speaker 1: 这张图是所有 OKE 的唯一架构吗？
+speaker 2: 不是。它展示一种常见组合：OCI LB 提供入口，Controller 执行 HTTP 路由，Service 对接应用后端。原生 Controller 或 Gateway API 方案可能不同。
+speaker 1: Ingress 资源负责什么？
+speaker 2: 它声明按域名或路径分流的 HTTP 规则。Controller 才是读取规则并实现路由的程序，不能只创建 YAML 就认为入口已经运行。
+speaker 1: OCI LB 与应用 Service 怎样不同？
+speaker 2: LB 属于实际云入口，应用 Service 属于集群内服务访问抽象。在组合里可以有多个 Service，不能把全部对象缩成一个名字。
+speaker 1: 要让两个域名分流到两个应用，先看什么？
+speaker 2: 确认可用 Controller、匹配的 IngressClass、路由后端与域名解析。不同控制器实现的注解和入口配置不能盲目混用。
+speaker 1: 为什么没有给出一键安装全部入口？
+speaker 2: 实现依赖使用者选择与现有环境。本课程给出规则片段与组合关系，不把未安装 Controller 的课件说成已可访问入口。
+speaker 1: 能用一个场景再串起来吗？
+speaker 2: www.example.com 指向一个应用。域名是示例值，IngressClass 也是占位值；实际 Controller、解析与后端须预先具备。
+speaker 1: 我容易这样理解：云 LB、Ingress、Controller 和 Service 是同一个组件。
+speaker 2: 它们分别代表云资源、规则、执行程序和服务访问抽象。
+speaker 1: 下一章会把哪部分关系接上？
+speaker 2: 下一章是OCIR 镜像与私有拉取。先把本章对象的职责与边界记清，再继续展开。
+speaker 1: 这一章的主要内容已经讲完了吗？
+speaker 2: 已经讲完了。接下来请完成本章末尾的五道选择题，检查自己是否理解了这些关系。

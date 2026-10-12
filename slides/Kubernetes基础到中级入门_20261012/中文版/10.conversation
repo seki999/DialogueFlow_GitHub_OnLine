@@ -1,0 +1,20 @@
+speaker 1: 这一章是扩缩容与滚动更新。我想先从图里的关系开始理解。
+speaker 2: 好，我们围绕这张图展开。把数量调整和版本替换区分开，并理解可用性的条件。
+speaker 1: 把副本数改为五，发生的是版本更新吗？
+speaker 2: 不是。扩缩容改变数量目标，控制器增加或减少 Pod；如果 Pod 模板没有变化，它们仍使用原来的版本配置。
+speaker 1: 什么时候会触发 Deployment 的新一轮版本发布？
+speaker 2: Pod 模板发生变化，例如容器镜像更新。Deployment 会创建新的 ReplicaSet，并按照滚动更新策略逐渐替换旧版本。
+speaker 1: 为什么新旧版本会短时间共存？
+speaker 2: 滚动更新需要逐步增加新副本，再逐步减少旧副本。图中展示的是概念过程，具体数量由更新策略和副本目标决定。
+speaker 1: 滚动更新一定没有中断吗？
+speaker 2: 不能保证。新版本必须正常启动并通过就绪检测，还要有适合的可用副本配置；“逐步替换”本身不是业务零中断承诺。
+speaker 1: 怎么确认更新进度？
+speaker 2: 使用 rollout status 查看发布是否完成；get pods 看实际实例。set image 和 scale 是临时修改声明的命令，后续仍要同步维护 YAML 文件。
+speaker 1: 能结合一个具体场景，把这些关系串起来吗？
+speaker 2: 先扩容再更换教学镜像。scale 将 web 的副本改为五；set image 将容器 web 的教学标签从 nginx:1.27 改为 nginx:1.28；rollout status 等待发布结果。示例标签不代表最新版。
+speaker 1: 我容易出现这样的理解：只要出现新 ReplicaSet，就证明全部新 Pod 已可用。
+speaker 2: ReplicaSet 创建和应用发布完成是两个阶段，要继续观察就绪与 rollout 状态。
+speaker 1: 学完这部分以后，下一步应该怎么衔接？
+speaker 2: 下一章学习Service 的稳定入口与标签选择。先记住本章图里的职责分工，再看新的关系。
+speaker 1: 这一章的主要内容已经讲完了吗？
+speaker 2: 已经讲完了。接下来请完成本章末尾的五道选择题，检查自己是否理解了这些内容。

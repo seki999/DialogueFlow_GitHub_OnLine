@@ -1,0 +1,20 @@
+speaker 1: 这一章是Volume 与 emptyDir 的生命周期。我想先从图里的关系开始理解。
+speaker 2: 好，我们围绕这张图展开。先理解挂载，再区分容器文件层与 Pod 临时存储。
+speaker 1: 数据写在容器可写层有什么问题？
+speaker 2: 容器重新创建时，原来的可写层数据可能丢失。需要明确的数据挂载关系，而不是假设容器文件就是长期存储。
+speaker 1: Volume 是什么？
+speaker 2: 它是 Pod 配置中的存储抽象；volumes 定义来源，volumeMounts 把同名卷挂载到容器路径。路径与卷名称分别描述位置和引用。
+speaker 1: emptyDir 能让两个容器共享文件吗？
+speaker 2: 可以。把同一个 emptyDir 卷挂载给两个容器，就能共享相应目录；两个容器挂载的内部路径可以不同。
+speaker 1: 容器重启与 Pod 删除对它有什么区别？
+speaker 2: 同一 Pod 中容器重启时，emptyDir 通常保留。Pod 被删除后，该 Pod 的 emptyDir 会清除，新 Pod 获得新的临时存储。
+speaker 1: 可以把数据库长期数据放这里吗？
+speaker 2: 不适合作为长期持久化。它适合缓存、临时文件和同 Pod 协作数据，长期数据要考虑独立于 Pod 生命周期的存储。
+speaker 1: 能结合一个具体场景，把这些关系串起来吗？
+speaker 2: 临时缓存目录 /cache。示例将名为 cache 的 emptyDir 挂载到 /cache。写入文件可以跨同一 Pod 的容器重启保留，但不要通过删除 Pod 测试长期保留。
+speaker 1: 我容易出现这样的理解：只要挂载了 Volume 就永远不会丢数据。
+speaker 2: Volume 有不同类型和生命周期，emptyDir 恰好是与 Pod 生命周期绑定的临时存储。
+speaker 1: 学完这部分以后，下一步应该怎么衔接？
+speaker 2: 下一章学习PV、PVC 与真实存储。先记住本章图里的职责分工，再看新的关系。
+speaker 1: 这一章的主要内容已经讲完了吗？
+speaker 2: 已经讲完了。接下来请完成本章末尾的五道选择题，检查自己是否理解了这些内容。

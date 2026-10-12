@@ -1,0 +1,20 @@
+speaker 1: 这一章是动手实验：副本、访问与持久化。我想先从图里的关系开始理解。
+speaker 2: 好，我们围绕这张图展开。在独立 Namespace 中观察实际变化，并用检查点确认结果。
+speaker 1: 这个实验有哪些前提？
+speaker 2: 已有可访问的学习集群和 kubectl，能够拉取示例镜像，并有合适 PV 或默认 StorageClass。实验只操作 k8s-learn，存储部分条件不足时不假设一定能完成。
+speaker 1: 为什么先做 Web 和 Service？
+speaker 2: 先验证无状态运行与稳定访问：三个 Web 副本通过 Service 提供入口，再用本地 port-forward 访问。扩容后要同步观察数量，地址入口不需要记住每个 Pod IP。
+speaker 1: 删除一个受管 Pod 应该观察什么？
+speaker 2: 记录原 Pod 名称，再只删除这个 Deployment 管理的实例，观察替代 Pod 和副本恢复。它与之前删除独立 Pod 的结果不同。
+speaker 1: 持久化部分怎样证明数据保留？
+speaker 2: 向 /data 写入一个标记文件，只删除 data-writer Pod，保留 PVC，再重新创建同一消费者并读取文件。成功的检查点是原标记仍可读取，不是仅看到 Pod 为 Running。
+speaker 1: 实验里也部署数据库吗？
+speaker 2: 不部署真实数据库。它用 nginx 和 busybox 分别验证运行、访问及存储关系，避免把文件保留实验说成数据库复制或备份测试。清理时要单独决定是否删除 PVC。
+speaker 1: 能结合一个具体场景，把这些关系串起来吗？
+speaker 2: 按实验步骤记录结果。实验说明包含命令、应观察的现象和清理边界。port-forward 终端需要保持运行，删除消费者前确认其名称，清理 Namespace 会包含其中的 PVC，可能触发底层卷删除。
+speaker 1: 我容易出现这样的理解：Pod 重建成功就能证明持久化正确。
+speaker 2: 还需要读取原标记文件；Pod 启动与数据保留是不同验证目标。
+speaker 1: 学完这部分以后，下一步应该怎么衔接？
+speaker 2: 下一章学习课程总结与下一步学习。先记住本章图里的职责分工，再看新的关系。
+speaker 1: 这一章的主要内容已经讲完了吗？
+speaker 2: 已经讲完了。接下来请完成本章末尾的五道选择题，检查自己是否理解了这些内容。

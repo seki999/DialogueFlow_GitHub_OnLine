@@ -1,0 +1,20 @@
+speaker 1: 这一章是Secret 与敏感配置边界。我想先从图里的关系开始理解。
+speaker 2: 好，我们围绕这张图展开。学会引用敏感配置，同时避免把编码误认为加密。
+speaker 1: Secret 和 ConfigMap 的使用角色有什么区别？
+speaker 2: Secret 用于密码、令牌等敏感配置；ConfigMap 用于普通配置。二者都能被容器引用，但用途和管理要求不同。
+speaker 1: data 和 stringData 怎么理解？
+speaker 2: data 的值使用 base64 表示，stringData 可以接受字符串，由 API 转换处理。字符串写法便于教学，但文件仍包含敏感信息。
+speaker 1: base64 是否已经把密码加密了？
+speaker 2: 不是。编码不是加密，Secret 默认也不是独立的加密保险箱；不能仅凭资源类型就认定密码被安全保护。
+speaker 1: 引用 Secret 时密码会自动变成应用配置吗？
+speaker 2: secretKeyRef 可以注入指定环境变量，例如 DB_PASSWORD。应用仍需读取并用于连接，引用本身不完成数据库连接或密码轮换。
+speaker 1: 修改 Secret 后原来的进程环境会变吗？
+speaker 2: 环境变量方式通常需要重新创建容器才能获得新值。教学示例使用演示密码，不应把它当成真实环境的口令。
+speaker 1: 能结合一个具体场景，把这些关系串起来吗？
+speaker 2: 注入 DB_PASSWORD。创建 db-secret，再通过 secretKeyRef 引用 password 键；示例只说明资源和环境变量关系，不执行真实数据库登录。
+speaker 1: 我容易出现这样的理解：Secret 的名字说明数据永远不可见。
+speaker 2: Secret 是敏感数据资源，实际保护还依赖集群配置与访问管理，base64 不提供保密性。
+speaker 1: 学完这部分以后，下一步应该怎么衔接？
+speaker 2: 下一章学习Volume 与 emptyDir 的生命周期。先记住本章图里的职责分工，再看新的关系。
+speaker 1: 这一章的主要内容已经讲完了吗？
+speaker 2: 已经讲完了。接下来请完成本章末尾的五道选择题，检查自己是否理解了这些内容。

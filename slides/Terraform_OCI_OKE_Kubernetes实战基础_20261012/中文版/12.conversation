@@ -1,0 +1,20 @@
+speaker 1: 这一章是从云节点到容器执行，图里不同层次的关系应该怎样读？
+speaker 2: 我们按图里的调用和管理关系展开。串起 Scheduler、kubelet、运行时和资源容量。
+speaker 1: 谁根据 Deployment 创建实际 Pod？
+speaker 2: 相关控制器维护 Deployment、ReplicaSet 和 Pod 的关系。Terraform 若只声明 Deployment，也不必逐个声明 Pod。
+speaker 1: Scheduler 能直接在 OCI 创建服务器吗？
+speaker 2: 本章调度器为待调度 Pod 选择已有合适 Node，不是负责创建 Compute 的 Terraform OCI Provider。
+speaker 1: 安排完成后谁执行容器？
+speaker 2: Node 上的 kubelet 与容器运行时协作拉取镜像、创建和运行容器，随后继续报告状态。
+speaker 1: Pod 长时间没运行就一定是 Terraform 出错吗？
+speaker 2: 不能这样判断。声明提交后仍要考虑节点资源、调度约束、镜像拉取与应用配置等运行条件。
+speaker 1: 增加 Pod 和增加 Node 该怎么比较？
+speaker 2: 前者增加工作负载目标，后者增加执行容量。先看实际资源请求与可用节点，再判断是否需要扩容哪一层。
+speaker 1: 能用一个场景再串起来吗？
+speaker 2: 五个目标副本与两台节点。先观察 Kubernetes 实际调度结果，再检查是否资源允许。只看期望副本不能证明已运行五个实例。
+speaker 1: 我容易这样理解：Terraform 提交 Deployment 成功就等于容器已经完成业务初始化。
+speaker 2: API 对象、调度、镜像和应用就绪是多个阶段，要分别确认。
+speaker 1: 下一章会把哪部分关系接上？
+speaker 2: 下一章是kubeconfig、Context 与集群认证。先把本章对象的职责与边界记清，再继续展开。
+speaker 1: 这一章的主要内容已经讲完了吗？
+speaker 2: 已经讲完了。接下来请完成本章末尾的五道选择题，检查自己是否理解了这些关系。

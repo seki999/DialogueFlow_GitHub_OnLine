@@ -1,0 +1,20 @@
+speaker 1: 这一章是ConfigMap、Secret 与云上应用参数，图里不同层次的关系应该怎样读？
+speaker 2: 我们按图里的调用和管理关系展开。OCI 上的数据库也可通过 Kubernetes 原生配置注入。
+speaker 1: 部署在 OCI 后还用 ConfigMap 吗？
+speaker 2: 可以。ConfigMap 与 Secret 仍是 Kubernetes 资源，云平台改变不意味着要放弃应用原生的配置方式。
+speaker 1: 数据库地址与口令分别放哪儿？
+speaker 2: 非敏感地址和日志级别适合 ConfigMap，密码等敏感值适合 Secret。注入参数与建立数据库服务是两件事。
+speaker 1: Secret 的 base64 表示加密吗？
+speaker 2: 不是。编码不等于加密，也不能仅凭 Secret 类型认定保护措施已经齐全；本课只说明基础引用关系。
+speaker 1: 配置一改，已有环境变量会立刻变吗？
+speaker 2: 通常不会。环境变量注入需要重新创建容器后获得新值；文件挂载更新也需考虑机制与应用重新读取。
+speaker 1: 地址和密码都注入，数据库就连通了吗？
+speaker 2: 仍需应用实现连接逻辑，并满足数据库访问和认证条件。课程没有真实数据库，不把配置示例当成业务连接成功证明。
+speaker 1: 能用一个场景再串起来吗？
+speaker 2: 主实验只挂载非敏感网页。Nginx 实验的 ConfigMap 保存网页；另提供参数与 Secret 的教学 YAML，不把真实口令纳入 Terraform 示例或课件。
+speaker 1: 我容易这样理解：使用 Terraform 的 sensitive 标记就一定让 State 不含数据。
+speaker 2: 标记与显示隐藏不同于不存储，实际 State 仍可能包含敏感信息。
+speaker 1: 下一章会把哪部分关系接上？
+speaker 2: 下一章是PVC、CSI、PV 与 OCI Block Volume。先把本章对象的职责与边界记清，再继续展开。
+speaker 1: 这一章的主要内容已经讲完了吗？
+speaker 2: 已经讲完了。接下来请完成本章末尾的五道选择题，检查自己是否理解了这些关系。

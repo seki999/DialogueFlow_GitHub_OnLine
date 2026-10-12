@@ -1,0 +1,15 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: standalone-nlb-demo
+  namespace: oke-cloud-examples
+  annotations:
+    oci.oraclecloud.com/load-balancer-type: "nlb"
+spec:
+  type: LoadBalancer
+  selector:
+    app: standalone-web
+  ports:
+    - port: 80
+      targetPort: 80
+      protocol: TCP

@@ -1,0 +1,20 @@
+speaker 1: 这一章是PVC、CSI、PV 与 OCI Block Volume，图里不同层次的关系应该怎样读？
+speaker 2: 我们按图里的调用和管理关系展开。把通用存储接口映射到 OCI 的实际持久卷。
+speaker 1: PVC 自己保存数据库文件吗？
+speaker 2: 不是。它表达存储申请并绑定 PV；真实数据保存在后端卷上。CSI 集成连接 Kubernetes 与 OCI 存储服务。
+speaker 1: 为什么有 CSI 这一层？
+speaker 2: Kubernetes 使用通用接口对接不同存储系统。OCI 实现把申请转化为相应 Block Volume 操作，而不要求 Kubernetes 只认识一家云。
+speaker 1: 示例为什么明确写 oci-bv？
+speaker 2: 它是条件性示例类名，必须在实际集群中存在且具备相应供给能力。应先查询 StorageClass，不保证每个 OKE 都有同一名称或配置。
+speaker 1: Bound 代表程序已经开始正常读写吗？
+speaker 2: 不是。它说明 PVC 已绑定 PV，后续还要挂载、容器启动和实际文件或数据库读写验证。
+speaker 1: 数据必须一直保留，除了绑定还看什么？
+speaker 2: 还要看访问模式、底层存储、回收策略与备份。本课程围绕 Managed Nodes 说明 Block Volume，不直接套到所有节点模式。
+speaker 1: 能用一个场景再串起来吗？
+speaker 2: 50Gi 的条件性存储申请。examples 中提供 database-pvc 和消费者，先具备实际 oci-bv 类，再创建；没有运行真实数据库，只用文件演示挂载关系。
+speaker 1: 我容易这样理解：Bound 就等于数据库已经健康。
+speaker 2: 绑定、挂载、应用就绪和业务读写属于连续但不同的检查点。
+speaker 1: 下一章会把哪部分关系接上？
+speaker 2: 下一章是Terraform 磁盘与 PVC 动态卷的所有权。先把本章对象的职责与边界记清，再继续展开。
+speaker 1: 这一章的主要内容已经讲完了吗？
+speaker 2: 已经讲完了。接下来请完成本章末尾的五道选择题，检查自己是否理解了这些关系。

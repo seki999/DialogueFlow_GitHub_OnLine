@@ -1,0 +1,7 @@
+.terraform/
+*.tfstate
+*.tfstate.*
+*.tfplan
+terraform.tfvars
+crash.log
+# 可按团队流程提交生成的 .terraform.lock.hcl；本教材制作时不包含运行缓存。

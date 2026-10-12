@@ -1,0 +1,20 @@
+speaker 1: 这一章是读懂 YAML 并创建第一个 Pod。我想先从图里的关系开始理解。
+speaker 2: 好，我们围绕这张图展开。用最小完整示例理解资源声明与查询命令。
+speaker 1: YAML 的四个入口字段怎么理解？
+speaker 2: apiVersion 选择 API 版本，kind 指定资源类型，metadata 写名称等元数据，spec 描述期望配置。系统维护的 status 通常不需要手写。
+speaker 1: 这个 Pod 实例的关键配置是什么？
+speaker 2: 例子名为 first-pod，容器名为 web，使用 nginx:1.28 镜像，声明容器端口为八十。镜像标签是教学示例，不表示最新版。
+speaker 1: containerPort 声明以后，外部用户就能访问了吗？
+speaker 2: 不能仅靠它实现外部访问。它描述容器使用的端口，程序自身仍需要监听，访问入口还需要其他机制。
+speaker 1: 提交文件以后看什么？
+speaker 2: apply 创建或更新对象；get 查看状态列表，describe 查看资源细节，logs 查看容器输出。命令使用同一个实验 Namespace，避免查错位置。
+speaker 1: READY 和 Running 表示一样的事情吗？
+speaker 2: 不一样。Running 是 Pod 阶段，READY 反映容器就绪数量，RESTARTS 是重启次数；运行阶段不能替代应用是否准备接收请求的判断。
+speaker 1: 能结合一个具体场景，把这些关系串起来吗？
+speaker 2: 最小 Pod 的创建步骤。先确认已有可访问的学习集群和 kubectl 上下文，再创建 k8s-learn 命名空间，将示例保存为 pod.yaml 并 apply。随后观察状态和日志。
+speaker 1: 我容易出现这样的理解：把 YAML 中声明的端口当成公网端口。
+speaker 2: containerPort 不是对外暴露命令；它也不会让没有监听端口的程序自动提供服务。
+speaker 1: 学完这部分以后，下一步应该怎么衔接？
+speaker 2: 下一章学习Pod 生命周期与替代实例。先记住本章图里的职责分工，再看新的关系。
+speaker 1: 这一章的主要内容已经讲完了吗？
+speaker 2: 已经讲完了。接下来请完成本章末尾的五道选择题，检查自己是否理解了这些内容。
